@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private bool isWalking = true;
     private bool canJump = false;
     private bool isGround;
+    private bool isJump;
     private int jumpCount = 2;
 
     private float moveX;
@@ -102,9 +103,7 @@ public class PlayerController : MonoBehaviour
                 canJump = true;
                 Jump();
             }
-            
         }
-        
     }
     //ÌøÔ¾
     private void Jump()

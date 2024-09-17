@@ -117,7 +117,8 @@ public class PlayerController : MonoBehaviour
     private void CheckSurroundings()
     {
         isGround = Physics2D.OverlapCircle(GroundCheck.position, groundCheckRadius, whatIsGround);
-        jumpCount = 2;
+        if(isGround)
+            jumpCount = 2;
     }
     //¶¯»­
     private void UpdateAnimation()

@@ -168,8 +168,7 @@ public class PlayerController : MonoBehaviour
             Derection();
         }
         else if ((isWallSliding || isTouchingWall) && moveX != 0 && canJump)
-        {
-            Debug.Log("Wall Jump Triggered");  // µ÷ÊÔÊä³ö
+        {            
             isWallSliding = false;
             jumpCount--;
             Vector2 forceToAdd = new Vector2(wallJumpForce * wallJumpDirection.x * moveX, wallJumpForce * wallHopDirection.y);

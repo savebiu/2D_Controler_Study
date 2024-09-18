@@ -23,8 +23,7 @@ public class PlayerController : MonoBehaviour
     private int jumpCount = 2;
     private float JumpHeightMultiplier = 0.5f;
     //蹬墙跳
-    public float wallHopForce;
-    public float wallJumpForce;
+    
     public Vector2 wallHopDirection;
     public Vector2 wallJumpDirection;
 
@@ -45,8 +44,9 @@ public class PlayerController : MonoBehaviour
     public float WallCheckDistance;
     public float WallSlidingSpeed;
     public Transform WallCheck;
-
-    
+    //蹬墙跳力度
+    public float wallHopForce;
+    public float wallJumpForce;
 
     // Start is called before the first frame update
     void Start()
@@ -54,8 +54,8 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         //蹬墙跳归一化
-        wallHopDirection.Normalize();
-        wallJumpDirection.Normalize();
+        //wallHopDirection.Normalize();
+        //wallJumpDirection.Normalize();
     }
 
     // Update is called once per frame
@@ -105,8 +105,14 @@ public class PlayerController : MonoBehaviour
     }
     private void ApplyMovement()
     {
-        rb.velocity = new Vector2(moveX * movementSpeed, rb.velocity.y);
-     
+        if(!isGround && !isWallSliding && moveX == 0)
+        {
+            rb.velocity = new Vector2 (rb.velocity.x * JumpHeightMultiplier, rb.velocity.y);
+        }
+        else
+        {
+            rb.velocity = new Vector2(moveX * movementSpeed, rb.velocity.y);
+        }
         if (isWallSliding)
         {            
             if (rb.velocity.y < -WallSlidingSpeed)
@@ -156,14 +162,18 @@ public class PlayerController : MonoBehaviour
         {
             isWallSliding = false;
             jumpCount--;
-            Vector2 forceToAdd = new Vector2(wallHopForce * wallHopDirection.x * -facingRight, wallHopForce * wallHopDirection.y);
+            Vector2 forceToAdd = new Vector2(wallHopForce * wallHopDirection.x * (facingRight ? -1: 1), wallHopForce * wallHopDirection.y);
+            rb.AddForce(forceToAdd, ForceMode2D.Impulse);   // 应用蹬墙跳力
+            //蹬墙时翻转角色
+            Derection();
         }
         else if ((isWallSliding || isTouchingWall) && moveX != 0 && canJump)
         {
+            Debug.Log("Wall Jump Triggered");  // 调试输出
             isWallSliding = false;
             jumpCount--;
             Vector2 forceToAdd = new Vector2(wallJumpForce * wallJumpDirection.x * moveX, wallJumpForce * wallHopDirection.y);
-
+            rb.AddForce(forceToAdd, ForceMode2D.Impulse);  // 应用蹬墙跳力
         }
     }
     //地面反馈
@@ -173,6 +183,10 @@ public class PlayerController : MonoBehaviour
         if (isGround)
         {
             jumpCount = 2;
+        }
+        if(isWallSliding)
+        {
+            jumpCount = 1;
         }
         isTouchingWall = Physics2D.Raycast(WallCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
     }

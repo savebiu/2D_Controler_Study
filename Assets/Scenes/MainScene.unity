@@ -360,16 +360,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e0deb175b2404438e45e8f0c071700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallHopDirection: {x: 1.4, y: 1.2}
+  wallJumpDirection: {x: 1.4, y: 2}
   movementSpeed: 7
-  jumpForce: 12
-  WallSlidingSpeed: 2
   groundCheckRadius: 0.3
   GroundCheck: {fileID: 2048006624}
-  WallCheckDistance: 0.5
-  WallCheck: {fileID: 811352837}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  jumpForce: 12
+  WallCheckDistance: 0.5
+  WallSlidingSpeed: 2
+  WallCheck: {fileID: 811352837}
+  wallHopForce: 10
+  wallJumpForce: 20
 --- !u!95 &117051501
 Animator:
   serializedVersion: 5

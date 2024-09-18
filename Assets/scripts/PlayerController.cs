@@ -11,26 +11,41 @@ public class PlayerController : MonoBehaviour
     
     //¶¯»­×´Ì¬
     private bool facingRight = true;
+    //Ç½±Ú¼ì²â
     private bool isWalking = true;
-    private bool canJump = false;
+    //µØÃæ¼ì²â
     private bool isGround;
-    private bool isJump;
-    private int jumpCount = 2;
+    //Ç½±Ú¼ì²â
     private bool isTouchingWall;
     private bool isWallSliding;
+    //ÌøÔ¾²ÎÊý
+    private bool canJump = false;
+    private int jumpCount = 2;
+    private float JumpHeightMultiplier = 0.5f;
+    //µÅÇ½Ìø
+    public float wallHopForce;
+    public float wallJumpForce;
+    public Vector2 wallHopDirection;
+    public Vector2 wallJumpDirection;
 
+       
     private float moveX;
     private float moveY;
 
     [Header("»ù±¾²ÎÊý")]
+    //ÒÆËÙ
     public float movementSpeed = 7.0f;
-    public float jumpForce = 12f;
-    public float WallSlidingSpeed;
+    //µØÃæ¼ì²â
     public float groundCheckRadius;
     public Transform GroundCheck;
-    public float WallCheckDistance;
-    public Transform WallCheck;
     public LayerMask whatIsGround;
+    //ÌøÔ¾¸ß¶È
+    public float jumpForce = 12f;
+    //Ç½±Ú¼ì²â
+    public float WallCheckDistance;
+    public float WallSlidingSpeed;
+    public Transform WallCheck;
+
     
 
     // Start is called before the first frame update
@@ -38,6 +53,9 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        //µÅÇ½Ìø¹éÒ»»¯
+        wallHopDirection.Normalize();
+        wallJumpDirection.Normalize();
     }
 
     // Update is called once per frame
@@ -47,7 +65,7 @@ public class PlayerController : MonoBehaviour
         Movement();
         CheckInput();
         UpdateAnimation();
-        CheckIfJump();
+        
         CheckIfWallSliding();
     }
     void FixedUpdate()
@@ -59,7 +77,8 @@ public class PlayerController : MonoBehaviour
     private void CheckInput()
     {
         moveX = Input.GetAxisRaw("Horizontal");
-        moveY = Input.GetAxisRaw("Vertical");        
+        moveY = Input.GetAxisRaw("Vertical");
+        CheckIfJump();
     }
  
     //ÒÆ¶¯
@@ -83,14 +102,13 @@ public class PlayerController : MonoBehaviour
         {
             Derection();
         }
-        //Ç½ÃæÏÂ»¬
     }
     private void ApplyMovement()
     {
         rb.velocity = new Vector2(moveX * movementSpeed, rb.velocity.y);
-        if(isWallSliding)
-        {
-            
+     
+        if (isWallSliding)
+        {            
             if (rb.velocity.y < -WallSlidingSpeed)
             {
                 rb.velocity = new Vector2(rb.velocity.x, -WallSlidingSpeed);                
@@ -109,7 +127,7 @@ public class PlayerController : MonoBehaviour
     private void CheckIfJump()
     {
         //ÌøÔ¾
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetButtonDown("Jump"))
         {
             if (jumpCount <= 0)
             {
@@ -121,15 +139,32 @@ public class PlayerController : MonoBehaviour
                 Jump();
             }
         }
+        if (Input.GetButtonUp("Jump"))
+        {
+            rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y * JumpHeightMultiplier);
+        }
     }
     //ÌøÔ¾
     private void Jump()
     {
-        if(canJump)
+        if (canJump && !isWallSliding)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             jumpCount--;
-        }   
+        }
+        else if (isWallSliding && moveX == 0 && canJump)
+        {
+            isWallSliding = false;
+            jumpCount--;
+            Vector2 forceToAdd = new Vector2(wallHopForce * wallHopDirection.x * -facingRight, wallHopForce * wallHopDirection.y);
+        }
+        else if ((isWallSliding || isTouchingWall) && moveX != 0 && canJump)
+        {
+            isWallSliding = false;
+            jumpCount--;
+            Vector2 forceToAdd = new Vector2(wallJumpForce * wallJumpDirection.x * moveX, wallJumpForce * wallHopDirection.y);
+
+        }
     }
     //µØÃæ·´À¡
     private void CheckSurroundings()
@@ -147,8 +182,7 @@ public class PlayerController : MonoBehaviour
         if(isTouchingWall && !isGround && rb.velocity.y < 0)
             isWallSliding = true;
         else
-            isWallSliding = false;
-        Debug.Log(isWallSliding);
+            isWallSliding = false;        
     }
     //¶¯»­
     private void UpdateAnimation()
@@ -156,6 +190,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("IsWalking", isWalking);
         anim.SetBool("IsGround", isGround);
         anim.SetFloat("IsJump", rb.velocity.y);
+        anim.SetBool ("IsWallSliding", isWallSliding);
     }
     private void OnDrawGizmos()
     {

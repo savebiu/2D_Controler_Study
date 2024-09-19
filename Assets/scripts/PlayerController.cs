@@ -22,12 +22,19 @@ public class PlayerController : MonoBehaviour
     private bool canJump = false;
     private int jumpCount = 2;
     private float JumpHeightMultiplier = 0.5f;
-    //蹬墙跳
-    
+    //蹬墙跳    
     public Vector2 wallHopDirection;
     public Vector2 wallJumpDirection;
+    //攀爬
+    private bool isClimb;
+    private bool canClimb = false;
+    private bool ledgeDetected;
+    private Vector2 ledgePosBot;
+    private Vector2 ledgePos1;
+    private Vector2 ledgePos2;
 
-       
+
+
     private float moveX;
     private float moveY;
 
@@ -47,6 +54,13 @@ public class PlayerController : MonoBehaviour
     //蹬墙跳力度
     public float wallHopForce;
     public float wallJumpForce;
+    //攀爬检测
+    public Transform ledgeCheck;
+    public float ledgeClimbXOffset1 = 0f;
+    public float ledgeClimbYOffset1 = 0f;
+    public float ledgeClimbXOffset2 = 0f;
+    public float ledgeClimbYOffset2 = 0f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -64,10 +78,12 @@ public class PlayerController : MonoBehaviour
         //移动输入
         Movement();
         CheckInput();
-        UpdateAnimation();
-        
+        UpdateAnimation();        
         CheckIfWallSliding();
+        CheckLedgeClimb();
+        HandleLedgeClimb();
     }
+
     void FixedUpdate()
     {
         ApplyMovement();
@@ -80,7 +96,30 @@ public class PlayerController : MonoBehaviour
         moveY = Input.GetAxisRaw("Vertical");
         CheckIfJump();
     }
- 
+
+    //环境反馈
+    private void CheckSurroundings()
+    {
+        //地面检测
+        isGround = Physics2D.OverlapCircle(GroundCheck.position, groundCheckRadius, whatIsGround);
+        if (isGround)
+        {
+            jumpCount = 2;
+        }
+        if (isWallSliding)
+        {
+            jumpCount = 1;
+        }
+        //墙面检测
+        isTouchingWall = Physics2D.Raycast(WallCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
+        //攀爬检测
+        isClimb = Physics2D.Raycast(ledgeCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
+        if (isTouchingWall && !ledgeDetected)
+        {
+            ledgeDetected = true;
+            ledgePosBot = ledgeCheck.position;
+        }
+    }
     //移动
     private void Movement()
     {
@@ -175,27 +214,61 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(forceToAdd, ForceMode2D.Impulse);  // 应用蹬墙跳力
         }
     }
-    //地面反馈
-    private void CheckSurroundings()
-    {
-        isGround = Physics2D.OverlapCircle(GroundCheck.position, groundCheckRadius, whatIsGround);
-        if (isGround)
-        {
-            jumpCount = 2;
-        }
-        if(isWallSliding)
-        {
-            jumpCount = 1;
-        }
-        isTouchingWall = Physics2D.Raycast(WallCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
-    }
+
     //墙面反馈
     private void CheckIfWallSliding()
     {
-        if(isTouchingWall && !isGround && rb.velocity.y < 0)
+        if(isTouchingWall && !isGround && rb.velocity.y < 0 && !canClimb)
             isWallSliding = true;
         else
             isWallSliding = false;        
+    }
+    private void HandleLedgeClimb()
+    {
+        if (canClimb)
+        {
+            // 使用 MoveTowards 来平滑移动角色到悬崖顶部
+            transform.position = Vector2.MoveTowards(transform.position, ledgePos1, movementSpeed * Time.deltaTime);
+
+            // 当角色到达 ledgePos1 位置，进入悬崖的最终位置 ledgePos2
+            if (Vector2.Distance(transform.position, ledgePos1) < 0.1f)
+            {
+                FinishClimb();
+            }
+        }
+    }
+
+    private void CheckLedgeClimb()
+    {
+        if (ledgeDetected && !canClimb)
+        {
+            if(Input.GetButtonDown("Jump")) {
+                canClimb = true;
+                rb.velocity = Vector2.zero;
+                anim.SetBool("IsClimb", canClimb);
+                if (facingRight)
+                {
+
+                    ledgePos1 = new Vector2(Mathf.Floor(ledgePosBot.x + WallCheckDistance) - ledgeClimbXOffset1, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset1);
+                    ledgePos1 = new Vector2(Mathf.Floor(ledgePosBot.x + WallCheckDistance) + ledgeClimbXOffset2, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset2);
+                }
+                else
+                {
+                    ledgePos1 = new Vector2(Mathf.Floor(ledgePosBot.x - WallCheckDistance) + ledgeClimbXOffset1, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset1);
+                    ledgePos1 = new Vector2(Mathf.Floor(ledgePosBot.x - WallCheckDistance) - ledgeClimbXOffset2, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset2);
+                }
+            }
+                                      
+        }        
+    }
+    private void FinishClimb()
+    {
+        
+        transform.position = Vector2.MoveTowards(transform.position, ledgePos2, movementSpeed * Time.deltaTime);
+        if(Vector2.Distance(rb.position, ledgePos2) < 0.1f)
+            ledgeDetected = false;
+            canClimb = false;
+            anim.SetBool("IsClimb", canClimb);
     }
     //动画
     private void UpdateAnimation()
@@ -209,7 +282,5 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.DrawWireSphere(GroundCheck.position, groundCheckRadius);
         Gizmos.DrawLine(WallCheck.position, new Vector3(WallCheck.position.x + WallCheckDistance, WallCheck.position.y, WallCheck.position.y));
-    }
-
-    
+    } 
 }

@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private bool isGround;
     //«Ω±⁄ºÏ≤‚
     private bool isTouchingWall;
+    private bool isTouchingLedge;
     private bool isWallSliding;
     //Ã¯‘æ≤Œ ˝
     private bool canJump = false;
@@ -25,15 +26,15 @@ public class PlayerController : MonoBehaviour
     //µ≈«ΩÃ¯    
     public Vector2 wallHopDirection;
     public Vector2 wallJumpDirection;
-    //≈ ≈¿
+    //run
+    public bool isRun;
+    /*//≈ ≈¿
     private bool isClimb;
     private bool canClimb = false;
     private bool ledgeDetected;
     private Vector2 ledgePosBot;
     private Vector2 ledgePos1;
-    private Vector2 ledgePos2;
-
-
+    private Vector2 ledgePos2;*/
 
     private float moveX;
     private float moveY;
@@ -54,19 +55,19 @@ public class PlayerController : MonoBehaviour
     //µ≈«ΩÃ¯¡¶∂»
     public float wallHopForce;
     public float wallJumpForce;
-    //≈ ≈¿ºÏ≤‚
+    /*//≈ ≈¿ºÏ≤‚
     public Transform ledgeCheck;
     public float ledgeClimbXOffset1 = 0f;
     public float ledgeClimbYOffset1 = 0f;
     public float ledgeClimbXOffset2 = 0f;
-    public float ledgeClimbYOffset2 = 0f;
+    public float ledgeClimbYOffset2 = 0f;*/
 
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        anim = GetComponent<Animator>();        
         //µ≈«ΩÃ¯πÈ“ªªØ
         //wallHopDirection.Normalize();
         //wallJumpDirection.Normalize();
@@ -80,8 +81,9 @@ public class PlayerController : MonoBehaviour
         CheckInput();
         UpdateAnimation();        
         CheckIfWallSliding();
-        CheckLedgeClimb();
-        HandleLedgeClimb();
+        CheckIfRun();
+        //CheckLedgeClimb();
+        //HandleLedgeClimb();
     }
 
     void FixedUpdate()
@@ -89,6 +91,7 @@ public class PlayerController : MonoBehaviour
         ApplyMovement();
         CheckSurroundings();
     }
+
     // ‰»ÎºÏ≤‚
     private void CheckInput()
     {
@@ -112,34 +115,49 @@ public class PlayerController : MonoBehaviour
         }
         //«Ω√ÊºÏ≤‚
         isTouchingWall = Physics2D.Raycast(WallCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
-        //≈ ≈¿ºÏ≤‚
+        //isTouchingLedge = Physics2D.Raycast(ledgeCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
+        /*//≈ ≈¿ºÏ≤‚
         isClimb = Physics2D.Raycast(ledgeCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
-        if (isTouchingWall && !ledgeDetected)
+        if (isTouchingWall && isTouchingLedge && !ledgeDetected)
         {
             ledgeDetected = true;
             ledgePosBot = ledgeCheck.position;
-        }
+        }*/
     }
     //“∆∂Ø
     private void Movement()
     {
         //“∆∂Ø
-        if(rb.velocity.x != 0)
-        {
-            isWalking = true;
-        }
-        else
-        {
-            isWalking = false;
-        }
+        isWalking = rb.velocity.x != 0;
         //∑≠◊™
         if (moveX > 0 && !facingRight)
         {
-            Derection();
+            Flip();
         }
         if (moveX < 0 && facingRight)
         {
-            Derection();
+            Flip();
+        }
+    }
+    //Run
+    private void CheckIfRun()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (!isRun)
+            {
+                isRun = true;
+                movementSpeed = movementSpeed * 1.5f;
+            }
+            
+        }
+        else
+        {
+            if(isRun)
+            {
+                isRun = false;
+                movementSpeed = movementSpeed / 1.5f;
+            }           
         }
     }
     private void ApplyMovement()
@@ -161,7 +179,7 @@ public class PlayerController : MonoBehaviour
         }        
     }
     //∑≠◊™
-    private void Derection()
+    private void Flip()
     {        
         facingRight = !facingRight;
         Vector3 scale = transform.localScale;
@@ -174,6 +192,11 @@ public class PlayerController : MonoBehaviour
         //Ã¯‘æ
         if (Input.GetButtonDown("Jump"))
         {
+            /*if (canClimb)
+            {               
+                canClimb = false;
+                anim.SetBool("IsClimb", false);
+            }*/
             if (jumpCount <= 0)
             {
                 canJump = false;
@@ -204,7 +227,7 @@ public class PlayerController : MonoBehaviour
             Vector2 forceToAdd = new Vector2(wallHopForce * wallHopDirection.x * (facingRight ? -1: 1), wallHopForce * wallHopDirection.y);
             rb.AddForce(forceToAdd, ForceMode2D.Impulse);   // ”¶”√µ≈«ΩÃ¯¡¶
             //µ≈«Ω ±∑≠◊™Ω«…´
-            Derection();
+            Flip();
         }
         else if ((isWallSliding || isTouchingWall) && moveX != 0 && canJump)
         {            
@@ -218,12 +241,12 @@ public class PlayerController : MonoBehaviour
     //«Ω√Ê∑¥¿°
     private void CheckIfWallSliding()
     {
-        if(isTouchingWall && !isGround && rb.velocity.y < 0 && !canClimb)
+        if(isTouchingWall && !isGround && rb.velocity.y < 0 /*&& !canClimb*/)
             isWallSliding = true;
         else
             isWallSliding = false;        
     }
-    private void HandleLedgeClimb()
+    /*private void HandleLedgeClimb()
     {
         if (canClimb)
         {
@@ -242,33 +265,31 @@ public class PlayerController : MonoBehaviour
     {
         if (ledgeDetected && !canClimb)
         {
-            if(Input.GetButtonDown("Jump")) {
-                canClimb = true;
-                rb.velocity = Vector2.zero;
-                anim.SetBool("IsClimb", canClimb);
-                if (facingRight)
-                {
+            canClimb = true;
+            rb.velocity = Vector2.zero;
+            anim.SetBool("IsClimb", true);
+            if (facingRight)
+            {
 
-                    ledgePos1 = new Vector2(Mathf.Floor(ledgePosBot.x + WallCheckDistance) - ledgeClimbXOffset1, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset1);
-                    ledgePos2 = new Vector2(Mathf.Floor(ledgePosBot.x + WallCheckDistance) + ledgeClimbXOffset2, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset2);
-                }
-                else
-                {
-                    ledgePos1 = new Vector2(Mathf.Floor(ledgePosBot.x - WallCheckDistance) + ledgeClimbXOffset1, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset1);
-                    ledgePos2 = new Vector2(Mathf.Floor(ledgePosBot.x - WallCheckDistance) - ledgeClimbXOffset2, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset2);
-                }
-            }                                      
-        }        
+                ledgePos1 = new Vector2(ledgePosBot.x + WallCheckDistance - ledgeClimbXOffset1, ledgePosBot.y + ledgeClimbYOffset1);
+                ledgePos2 = new Vector2(ledgePosBot.x + WallCheckDistance + ledgeClimbXOffset2, ledgePosBot.y + ledgeClimbYOffset2);
+            }
+            else
+            {
+                ledgePos1 = new Vector2(Mathf.Floor(ledgePosBot.x - WallCheckDistance) + ledgeClimbXOffset1, ledgePosBot.y + ledgeClimbYOffset1);
+                ledgePos2 = new Vector2(Mathf.Floor(ledgePosBot.x - WallCheckDistance) - ledgeClimbXOffset2, ledgePosBot.y + ledgeClimbYOffset2);
+            }
+
+        }
     }
     private void FinishClimb()
     {
-        
         transform.position = Vector2.MoveTowards(transform.position, ledgePos2, movementSpeed * Time.deltaTime);
-        if(Vector2.Distance(rb.position, ledgePos2) < 0.1f)
+        if (Vector2.Distance(rb.position, ledgePos2) < 0.1f)
             ledgeDetected = false;
-            canClimb = false;
-            anim.SetBool("IsClimb", canClimb);
-    }
+        canClimb = false;
+        anim.SetBool("IsClimb", false);
+    }*/
     //∂Øª≠
     private void UpdateAnimation()
     {
@@ -276,6 +297,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("IsGround", isGround);
         anim.SetFloat("IsJump", rb.velocity.y);
         anim.SetBool ("IsWallSliding", isWallSliding);
+        anim.SetBool("IsRun", isRun);
     }
     private void OnDrawGizmos()
     {

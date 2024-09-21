@@ -375,11 +375,6 @@ MonoBehaviour:
   WallCheck: {fileID: 811352837}
   wallHopForce: 10
   wallJumpForce: 20
-  ledgeCheck: {fileID: 1607755761}
-  ledgeClimbXOffset1: 0.3
-  ledgeClimbYOffset1: 0
-  ledgeClimbXOffset2: 0.5
-  ledgeClimbYOffset2: 2
 --- !u!95 &117051501
 Animator:
   serializedVersion: 5

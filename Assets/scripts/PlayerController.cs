@@ -250,15 +250,14 @@ public class PlayerController : MonoBehaviour
                 {
 
                     ledgePos1 = new Vector2(Mathf.Floor(ledgePosBot.x + WallCheckDistance) - ledgeClimbXOffset1, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset1);
-                    ledgePos1 = new Vector2(Mathf.Floor(ledgePosBot.x + WallCheckDistance) + ledgeClimbXOffset2, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset2);
+                    ledgePos2 = new Vector2(Mathf.Floor(ledgePosBot.x + WallCheckDistance) + ledgeClimbXOffset2, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset2);
                 }
                 else
                 {
                     ledgePos1 = new Vector2(Mathf.Floor(ledgePosBot.x - WallCheckDistance) + ledgeClimbXOffset1, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset1);
-                    ledgePos1 = new Vector2(Mathf.Floor(ledgePosBot.x - WallCheckDistance) - ledgeClimbXOffset2, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset2);
+                    ledgePos2 = new Vector2(Mathf.Floor(ledgePosBot.x - WallCheckDistance) - ledgeClimbXOffset2, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset2);
                 }
-            }
-                                      
+            }                                      
         }        
     }
     private void FinishClimb()

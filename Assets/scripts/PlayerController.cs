@@ -149,7 +149,6 @@ public class PlayerController : MonoBehaviour
                 isRun = true;
                 movementSpeed = movementSpeed * 1.5f;
             }
-            
         }
         else
         {

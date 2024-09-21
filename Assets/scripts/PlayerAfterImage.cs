@@ -7,7 +7,7 @@ public class PlayerAfterImage : MonoBehaviour
     //ªÒ»°æ´¡È‰÷»æ∆˜
     private Transform player;
     private SpriteRenderer SR;
-    private SpriteRenderer PlayerSR;
+    private SpriteRenderer playerSR;
 
     private Color color;
 
@@ -22,8 +22,14 @@ public class PlayerAfterImage : MonoBehaviour
     public float alphaMult = 0.8f;
     private void OnEnable()
     {
-        player = GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        playerSR = GetComponent<SpriteRenderer>();
         SR = GetComponent<SpriteRenderer>();
+
+        alpha = alphaset;
+        SR.sprite = playerSR.sprite;
+        transform.position = player.position;
+        transform.rotation = player.rotation;
+        timeActivated = Time.time;
     }
 }

@@ -16,6 +16,7 @@ public class PlayerAfterPol : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        GrowPool();
     }
     private void GrowPool()
     {
@@ -31,5 +32,16 @@ public class PlayerAfterPol : MonoBehaviour
     {
         instance.SetActive(false);
         availableobjects.Enqueue(instance);
+    }
+
+    public GameObject GetFromPool()
+    {
+        if(availableobjects.Count == 0)
+        {
+            GrowPool();
+        }
+        var instance = availableobjects.Dequeue();
+        instance.SetActive(true);
+        return instance;
     }
 }

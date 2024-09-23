@@ -28,6 +28,11 @@ public class PlayerController : MonoBehaviour
     public Vector2 wallJumpDirection;
     //run
     public bool isRun;
+    //³å´Ì
+    public bool isDash;
+    private float dashTimeLeft;
+    private float lastImageXpos;
+    private float lastDash = -100;
     /*//ÅÊÅÀ
     private bool isClimb;
     private bool canClimb = false;
@@ -55,14 +60,18 @@ public class PlayerController : MonoBehaviour
     //µÅÇ½ÌøÁ¦¶È
     public float wallHopForce;
     public float wallJumpForce;
+    //³å´Ì²ÎÊý
+    public float dashTime;
+    public float dashSpeed;
+    public float distanceBetweenImages;
+    public float dashCoolDown;
     /*//ÅÊÅÀ¼ì²â
     public Transform ledgeCheck;
     public float ledgeClimbXOffset1 = 0f;
     public float ledgeClimbYOffset1 = 0f;
     public float ledgeClimbXOffset2 = 0f;
     public float ledgeClimbYOffset2 = 0f;*/
-
-
+ 
     // Start is called before the first frame update
     void Start()
     {
@@ -81,7 +90,7 @@ public class PlayerController : MonoBehaviour
         CheckInput();
         UpdateAnimation();        
         CheckIfWallSliding();
-        CheckIfRun();
+        CheckIfRun();        
         //CheckLedgeClimb();
         //HandleLedgeClimb();
     }
@@ -90,14 +99,19 @@ public class PlayerController : MonoBehaviour
     {
         ApplyMovement();
         CheckSurroundings();
+        CheckDash();
     }
 
     //ÊäÈë¼ì²â
     private void CheckInput()
     {
-        moveX = Input.GetAxisRaw("Horizontal");
-        moveY = Input.GetAxisRaw("Vertical");
+        if (!isDash)
+        {
+            moveX = Input.GetAxisRaw("Horizontal");
+            moveY = Input.GetAxisRaw("Vertical");
+        }        
         CheckIfJump();
+        CheckDash();
     }
 
     //»·¾³·´À¡
@@ -244,6 +258,47 @@ public class PlayerController : MonoBehaviour
             isWallSliding = true;
         else
             isWallSliding = false;        
+    }
+    //³å´Ì
+    private void CheckDash()
+    {
+        if (Input.GetButtonDown("Dash"))
+        {
+            AttemptDash();
+        }
+        if (isDash)
+        {            
+            if(dashTimeLeft > 0)
+            {
+                rb.velocity = new Vector2(dashSpeed * (facingRight ? 1 : -1), rb.velocity.y);
+                dashTimeLeft -= Time.deltaTime;
+                //Éú³ÉÍÏÓ°
+                if (Mathf.Abs(transform.position.x - lastImageXpos) > distanceBetweenImages)
+                {
+                    PlayerAfterPol.Instance.GetFromPool();
+                    lastImageXpos = transform.position.x;
+                }
+            }
+            if(dashTimeLeft <= 0 || isTouchingWall)
+            {
+                isDash = false;
+            }
+            
+        }
+    }
+    private void AttemptDash()
+    {
+        //³å´ÌÊ±¼ä
+        if(Time.time >=(lastDash + dashCoolDown))
+        {
+            isDash = true;
+            dashTimeLeft = dashTime;
+            lastDash = Time.time;
+
+            PlayerAfterPol.Instance.GetFromPool();
+            lastImageXpos = transform.position.x;
+        }
+        
     }
     /*private void HandleLedgeClimb()
     {

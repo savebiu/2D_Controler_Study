@@ -326,7 +326,7 @@ Rigidbody2D:
   m_Material: {fileID: 6200000, guid: 3527ed96842ac7e4487d94b7deaf7c51, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &117051499
 BoxCollider2D:
@@ -369,7 +369,7 @@ MonoBehaviour:
   wallHopDirection: {x: 1.4, y: 1.2}
   wallJumpDirection: {x: 1.4, y: 2}
   isRun: 0
-  isDash: 0
+  isDash: 1
   movementSpeed: 7
   groundCheckRadius: 0.3
   GroundCheck: {fileID: 2048006624}
@@ -384,7 +384,7 @@ MonoBehaviour:
   wallJumpForce: 20
   dashTime: 0.2
   dashSpeed: 25
-  distanceBetweenImages: 1
+  distanceBetweenImages: 0.1
   dashCoolDown: 1
 --- !u!95 &117051501
 Animator:
@@ -19244,6 +19244,18 @@ PrefabInstance:
     - target: {fileID: 997880357880465651, guid: 2cfa7738b7470114889b4c0db58285ca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3056862968272423666, guid: 2cfa7738b7470114889b4c0db58285ca, type: 3}
+      propertyPath: m_Color.b
+      value: 0.21960786
+      objectReference: {fileID: 0}
+    - target: {fileID: 3056862968272423666, guid: 2cfa7738b7470114889b4c0db58285ca, type: 3}
+      propertyPath: m_Color.g
+      value: 0.21960786
+      objectReference: {fileID: 0}
+    - target: {fileID: 3056862968272423666, guid: 2cfa7738b7470114889b4c0db58285ca, type: 3}
+      propertyPath: m_Color.r
+      value: 0.21960786
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cfa7738b7470114889b4c0db58285ca, type: 3}

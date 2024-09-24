@@ -286,9 +286,9 @@ public class PlayerController : MonoBehaviour
             
         }
     }
+    //冲刺冷却时间
     private void AttemptDash()
-    {
-        //冲刺时间
+    {        
         if(Time.time >=(lastDash + dashCoolDown))
         {
             isDash = true;

@@ -142,7 +142,14 @@ public class PlayerController : MonoBehaviour
     private void Movement()
     {
         //移动
-        isWalking = rb.velocity.x != 0;
+        if (Mathf.Abs(rb.velocity.x) > 0.01f)
+        {
+            isWalking = true;
+        }
+        else
+        {
+            isWalking = false;
+        }
         //翻转
         if (moveX > 0 && !facingRight)
         {
@@ -151,7 +158,7 @@ public class PlayerController : MonoBehaviour
         if (moveX < 0 && facingRight)
         {
             Flip();
-        }
+        }       
     }
     //Run
     private void CheckIfRun()
@@ -190,6 +197,14 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, -WallSlidingSpeed);                
             }
         }        
+    }
+    public void DisableFlip()
+    {
+
+    }
+    public void EnableFlip()
+    {
+
     }
     //翻转
     private void Flip()
@@ -270,7 +285,7 @@ public class PlayerController : MonoBehaviour
         {            
             if(dashTimeLeft > 0)
             {
-                rb.velocity = new Vector2(dashSpeed * (facingRight ? 1 : -1), rb.velocity.y);
+                rb.velocity = new Vector2(dashSpeed * (facingRight ? 1 : -1), 0);
                 dashTimeLeft -= Time.deltaTime;
                 //生成拖影
                 if (Mathf.Abs(transform.position.x - lastImageXpos) > distanceBetweenImages)

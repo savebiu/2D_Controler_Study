@@ -12,7 +12,7 @@ public class PlayerCombatController : MonoBehaviour
     private float inputTimer, attack1Radius, attack1Damage;
     //检测被攻击者的位置
     [SerializeField]
-    private Transform attackHitBoxPos;
+    private Transform attack1HitBoxPos;
     //检测层级中可能损坏的东西
     [SerializeField]
     private LayerMask whatIsDamageable;
@@ -69,11 +69,25 @@ public class PlayerCombatController : MonoBehaviour
     private void CheckAttackHitBox()
     {
         //扫描对象
-        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attackHitBoxPos.position, attack1Radius, whatIsDamageable);
+        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attack1HitBoxPos.position, attack1Radius, whatIsDamageable);
         foreach(Collider2D collider in detectedObjects)
         {
             collider.transform.parent.SendMessage("Damage", attack1Damage);
             //启用粒子反馈伤害
         }
+    }
+    //结束攻击状态
+    private void FinishAttack1()
+    {
+        Debug.Log("Finish");
+        isAttacking = false;
+        anim.SetBool("IsAttacking", isAttacking);
+        anim.SetBool("Attack1", false);
+    }
+    //绘制命中框
+    private void OnDrawGizmos()
+    {
+        //线框球体
+        Gizmos.DrawWireSphere(attack1HitBoxPos.position, attack1Radius);
     }
 }

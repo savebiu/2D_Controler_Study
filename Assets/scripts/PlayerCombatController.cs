@@ -79,7 +79,6 @@ public class PlayerCombatController : MonoBehaviour
     //½áÊø¹¥»÷×´Ì¬
     private void FinishAttack1()
     {
-        Debug.Log("Finish");
         isAttacking = false;
         anim.SetBool("IsAttacking", isAttacking);
         anim.SetBool("Attack1", false);

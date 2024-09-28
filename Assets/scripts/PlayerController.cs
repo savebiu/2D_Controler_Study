@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
     public float dashSpeed;
     public float distanceBetweenImages;
     public float dashCoolDown;
+    
     /*//ÅÊÅÀ¼ì²â
     public Transform ledgeCheck;
     public float ledgeClimbXOffset1 = 0f;
@@ -285,7 +286,7 @@ public class PlayerController : MonoBehaviour
         {            
             if(dashTimeLeft > 0)
             {
-                rb.velocity = new Vector2(dashSpeed * (facingRight ? 1 : -1), 0);
+                rb.velocity = new Vector2(dashSpeed * (facingRight ? 1 : -1), 0 );
                 dashTimeLeft -= Time.deltaTime;
                 //Éú³ÉÍÏÓ°
                 if (Mathf.Abs(transform.position.x - lastImageXpos) > distanceBetweenImages)
@@ -314,6 +315,10 @@ public class PlayerController : MonoBehaviour
             lastImageXpos = transform.position.x;
         }
         
+    }
+    public int GetFacingDirection()
+    {
+        return facingRight ? 1 :-1 ;
     }
     /*private void HandleLedgeClimb()
     {

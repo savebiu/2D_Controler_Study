@@ -19,7 +19,10 @@ public class PlayerCombatController : MonoBehaviour
         
     private bool gotInput, isAttacking, isFirstAttack;
 
-   // public bool aa { get => isAttacking ? gotInput : isFirstAttack; set => isAttacking = value; }
+    //π•ª˜
+    float[] attackDetails = new float[2];
+
+    // public bool aa { get => isAttacking ? gotInput : isFirstAttack; set => isAttacking = value; }
     private Animator anim;
     private void Start()
     {
@@ -70,9 +73,13 @@ public class PlayerCombatController : MonoBehaviour
     {
         //…®√Ë∂‘œÛ
         Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attack1HitBoxPos.position, attack1Radius, whatIsDamageable);
+
+        attackDetails[0] = attack1Damage;
+        attackDetails[1] = transform.position.x;
+
         foreach(Collider2D collider in detectedObjects)
         {
-            collider.transform.parent.SendMessage("Damage", attack1Damage);
+            collider.transform.parent.SendMessage("Damage", attackDetails);
             //∆Ù”√¡£◊”∑¥¿°…À∫¶
         }
     }

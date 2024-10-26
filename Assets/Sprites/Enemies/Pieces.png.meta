@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e7e4c68b050a3854da867d86ccf1fb12
+guid: 1faf789098106ba42a191a24b36198c8
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -122,10 +122,10 @@ TextureImporter:
         serializedVersion: 2
         x: 221
         y: 94
-        width: 15
-        height: 7
+        width: 5
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -133,6 +133,27 @@ TextureImporter:
       bones: []
       spriteID: 712f29ce5adfbbb4484bb28301519f11
       internalID: -2060484710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pieces_0
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 81
+        width: 3
+        height: 2
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da09769130e144243b0af2891814d49b
+      internalID: 847997628
       vertices: []
       indices: 
       edges: []
@@ -149,6 +170,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Enemy 1.2_0: -2060484710
+      Pieces_0: 847997628
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

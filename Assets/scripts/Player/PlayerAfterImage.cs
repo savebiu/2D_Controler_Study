@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAfterImage : MonoBehaviour
@@ -20,7 +21,8 @@ public class PlayerAfterImage : MonoBehaviour
     [SerializeField]
     //透明度设定
     public float alphaSet = 0.8f;
-    public float alphaMult = 0.8f;
+    [SerializeField]
+    public float alphaDecay = 0.8f;
     private void OnEnable()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -35,7 +37,7 @@ public class PlayerAfterImage : MonoBehaviour
     }
     private void Update()
     {
-        alpha *= alphaMult;
+        alpha -= alphaDecay * Time.deltaTime;
         color = new Color(1f, 1f, 1f,alpha);
         SR.color = color;
         if(Time.time >=(timeActivated + activeTime))

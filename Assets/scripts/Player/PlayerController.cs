@@ -65,7 +65,15 @@ public class PlayerController : MonoBehaviour
     public float dashSpeed;
     public float distanceBetweenImages;
     public float dashCoolDown;
-    
+    float knockbackStartTime;   //被击打的开始时间
+    bool knockback;
+
+    [SerializeField]
+    float knockbackDuration;   //被击打持续时间
+
+    [SerializeField]
+    Vector2 knockbackSpeed;   //被击退的速度
+
     /*//攀爬检测
     public Transform ledgeCheck;
     public float ledgeClimbXOffset1 = 0f;
@@ -183,7 +191,7 @@ public class PlayerController : MonoBehaviour
     }
     private void ApplyMovement()
     {
-        if(!isGround && !isWallSliding && moveX == 0)
+        if(!isGround && !isWallSliding && moveX == 0 && !knockback)
         {
             rb.velocity = new Vector2 (rb.velocity.x * JumpHeightMultiplier, rb.velocity.y);
         }
@@ -191,7 +199,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector2(moveX * movementSpeed, rb.velocity.y);
         }
-        if (isWallSliding)
+        if (isWallSliding &&! knockback)
         {            
             if (rb.velocity.y < -WallSlidingSpeed)
             {
@@ -210,10 +218,14 @@ public class PlayerController : MonoBehaviour
     //翻转
     private void Flip()
     {        
-        facingRight = !facingRight;
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+        if(!isWallSliding && !knockback)
+        {
+            facingRight = !facingRight;
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+        }
+        
     }
     //跳跃
     private void CheckIfJump()
@@ -316,9 +328,33 @@ public class PlayerController : MonoBehaviour
         }
         
     }
+    //翻转角色
     public int GetFacingDirection()
     {
         return facingRight ? 1 :-1 ;
+    }
+
+    //被击打反馈
+    public void KnockBackle(int direction)
+    {
+        knockback = true;
+        knockbackStartTime = Time.time;
+        rb.velocity = new Vector2(knockbackSpeed.x * direction, knockbackSpeed.y);
+    }
+
+    private void CheckKnockBack()
+    {
+        if(Time.time >= knockbackStartTime + knockbackDuration)
+        {
+            knockback = false;
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
+    }
+
+    //冲刺状态检测
+    public bool GetDashStatus()
+    {
+        return isDash;
     }
     /*private void HandleLedgeClimb()
     {
@@ -378,4 +414,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(GroundCheck.position, groundCheckRadius);
         Gizmos.DrawLine(WallCheck.position, new Vector3(WallCheck.position.x + WallCheckDistance, WallCheck.position.y, WallCheck.position.y));
     } 
+
+
 }

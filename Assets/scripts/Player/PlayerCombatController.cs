@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerCombatController : MonoBehaviour
 {
+    private PlayerController PC;
+
     //攻击输入
     [SerializeField]
     private bool combatEnabled;    
@@ -28,6 +30,7 @@ public class PlayerCombatController : MonoBehaviour
     {
         anim = GetComponentInParent<Animator>();
         anim.SetBool("CanAttack", combatEnabled);
+        PC = GetComponent<PlayerController>();
     }
     private void Update()
     {
@@ -90,6 +93,25 @@ public class PlayerCombatController : MonoBehaviour
         anim.SetBool("IsAttacking", isAttacking);
         anim.SetBool("Attack1", false);
     }
+
+    //接收被击打消息
+    void Damage(float[] attackDetails)
+    {
+        //判断击退方向
+        int direction;   
+        if (attackDetails[1] < transform.position.x)
+        {
+            direction = 1;
+        }
+        else
+        {
+            direction = -1;
+        }
+        PC.KnockBackle(direction);
+
+        //死亡和重生待写使用attackDetalis[0]
+    }
+
     //绘制命中框
     private void OnDrawGizmos()
     {

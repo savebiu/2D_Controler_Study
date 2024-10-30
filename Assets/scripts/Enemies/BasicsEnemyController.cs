@@ -108,7 +108,6 @@ public class BasicsEnemyController : MonoBehaviour
         
     }
 
-
     //状态交换器------------------------------------------------------
     void SwitchState(State state)
     {
@@ -248,30 +247,31 @@ public class BasicsEnemyController : MonoBehaviour
     }
     private void CheckTouchDamage()
     {
-        //距离上次攻击已过很长时间
-        if (Time.time >= lastTouchDamageTime + touchDamageCooldown)
-        {
-            //检测是否有图层重叠区域
-            touchDamageBotLeft.Set(touchDamageCheck.position.x - (touchDamageWidth / 2), touchDamageCheck.position.y - (touchDamageHeight / 2));
-            touchDamageTopRight.Set(touchDamageCheck.position.x + (touchDamageWidth / 2), touchDamageCheck.position.y + (touchDamageHeight / 2));
-            Collider2D hit = Physics2D.OverlapArea(touchDamageBotLeft, touchDamageTopRight, whatIsPlayer);
+        ////距离上次攻击已过很长时间
+        //if (Time.time >= lastTouchDamageTime + touchDamageCooldown)
+        //{
+        //    //检测是否有图层重叠区域
+        //    touchDamageBotLeft.Set(touchDamageCheck.position.x - (touchDamageWidth / 2), touchDamageCheck.position.y - (touchDamageHeight / 2));
+        //    touchDamageTopRight.Set(touchDamageCheck.position.x + (touchDamageWidth / 2), touchDamageCheck.position.y + (touchDamageHeight / 2));
+        //    Collider2D hit = Physics2D.OverlapArea(touchDamageBotLeft, touchDamageTopRight, whatIsPlayer);
 
-            //检测敌人对攻击玩家哪个方向进行攻击
-            if (hit != null)
-            {
-                lastTouchDamageTime = Time.time;
-                attackDetails[0] = touchDamage;
-                attackDetails[1] = alive.transform.position.x;
-                hit.SendMessage("Damage", attackDetails);
-            }
-        }
+        //    //检测敌人对攻击玩家哪个方向进行攻击
+        //    if (hit != null)
+        //    {
+        //        lastTouchDamageTime = Time.time;
+        //        attackDetails[0] = touchDamage;
+        //        attackDetails[1] = alive.transform.position.x;
+        //        hit.SendMessage("Damage", attackDetails);
+        //    }
+        //}
     }
 
 
-    //遇到墙壁转换方向
+    //触墙转向
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x,groundCheck.position.y-groundCheckDistance));
-        Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x, groundCheck.position.y));
+        Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x, wallCheck.position.y));
+        
     }
 }

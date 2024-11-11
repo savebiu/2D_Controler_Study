@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Animator anim;
-    
+
     //动画状态
     private bool facingRight = true;
     //墙壁检测
@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
     float knockbackDuration;   //被击打持续时间
 
     [SerializeField]
+    [Header("击退速度")]
     Vector2 knockbackSpeed;   //被击退的速度
 
     /*//攀爬检测
@@ -193,6 +194,8 @@ public class PlayerController : MonoBehaviour
     }
     private void ApplyMovement()
     {
+        if (knockback)      //在击退状态时,体哦啊过其他状态的速度更新
+            return;
         if(!isGround && !isWallSliding && moveX == 0 && !knockback)
         {
             rb.velocity = new Vector2 (rb.velocity.x * JumpHeightMultiplier, rb.velocity.y);
@@ -341,7 +344,9 @@ public class PlayerController : MonoBehaviour
     {
         knockback = true;
         knockbackStartTime = Time.time;
+        Debug.Log("击退初始速度: " + rb.velocity);
         Debug.Log("移动方向 " + direction);
+        rb.velocity = Vector2.zero;
         rb.velocity = new Vector2(knockbackSpeed.x * direction, knockbackSpeed.y);
     }
 

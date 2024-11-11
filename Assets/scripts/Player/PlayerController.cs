@@ -99,7 +99,9 @@ public class PlayerController : MonoBehaviour
         CheckInput();
         UpdateAnimation();        
         CheckIfWallSliding();
-        CheckIfRun();        
+        CheckIfRun();
+        CheckDash();
+        CheckKnockBack();
         //CheckLedgeClimb();
         //HandleLedgeClimb();
     }
@@ -108,7 +110,7 @@ public class PlayerController : MonoBehaviour
     {
         ApplyMovement();
         CheckSurroundings();
-        CheckDash();
+       
     }
 
     //输入检测
@@ -335,16 +337,17 @@ public class PlayerController : MonoBehaviour
     }
 
     //被击打反馈
-    public void KnockBackle(int direction)
+    public void KnockBack(int direction)
     {
         knockback = true;
         knockbackStartTime = Time.time;
+        Debug.Log("移动方向 " + direction);
         rb.velocity = new Vector2(knockbackSpeed.x * direction, knockbackSpeed.y);
     }
 
     private void CheckKnockBack()
     {
-        if(Time.time >= knockbackStartTime + knockbackDuration)
+        if(Time.time >= knockbackStartTime + knockbackDuration && knockback)
         {
             knockback = false;
             rb.velocity = new Vector2(0, rb.velocity.y);

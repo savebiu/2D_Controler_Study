@@ -10,7 +10,7 @@ public class BasicsEnemyController : MonoBehaviour
     private Animator aliveAnim;
 
     [Header("测试")]
-    public float Head;
+    private float Head;
     //状态
     private enum State
     {
@@ -96,13 +96,13 @@ public class BasicsEnemyController : MonoBehaviour
         switch (currenState)
         {
             case State.Moving:
-                UpdataMovingState();
+                UpdateMovingState();
                 break;
             case State.Knockback:
-                UpdataKnockbackState(); 
+                UpdateKnockbackState(); 
                 break;
             case State.Dead:
-                UpdataDeadState();
+                UpdateDeadState();
                 break;
         }
         
@@ -147,7 +147,7 @@ public class BasicsEnemyController : MonoBehaviour
     {
 
     }
-    void UpdataMovingState()
+    void UpdateMovingState()
     {
         groundDetected = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
         wallDetected = Physics2D.Raycast(wallCheck.position, Vector2.right, wallCheckDistance, whatIsGround);
@@ -180,7 +180,7 @@ public class BasicsEnemyController : MonoBehaviour
         aliveAnim.SetBool("Knockback", true);   //动画切换
 
     }
-    void UpdataKnockbackState()
+    void UpdateKnockbackState()
     {
         //完成击退效果
         if (Time.time >= knockbackStartTime + knockbackDuration)
@@ -202,7 +202,7 @@ public class BasicsEnemyController : MonoBehaviour
         Instantiate(deathBloodParticle, alive.transform.position, deathBloodParticle.transform.rotation);
         Destroy(gameObject);
     }
-    void UpdataDeadState()
+    void UpdateDeadState()
     {
 
     }
@@ -245,25 +245,26 @@ public class BasicsEnemyController : MonoBehaviour
             SwitchState(State.Dead);
         }
     }
+
     private void CheckTouchDamage()
     {
-        ////距离上次攻击已过很长时间
-        //if (Time.time >= lastTouchDamageTime + touchDamageCooldown)
-        //{
-        //    //检测是否有图层重叠区域
-        //    touchDamageBotLeft.Set(touchDamageCheck.position.x - (touchDamageWidth / 2), touchDamageCheck.position.y - (touchDamageHeight / 2));
-        //    touchDamageTopRight.Set(touchDamageCheck.position.x + (touchDamageWidth / 2), touchDamageCheck.position.y + (touchDamageHeight / 2));
-        //    Collider2D hit = Physics2D.OverlapArea(touchDamageBotLeft, touchDamageTopRight, whatIsPlayer);
+        //距离上次攻击已过很长时间
+        if (Time.time >= lastTouchDamageTime + touchDamageCooldown)
+        {
+            //检测是否有图层重叠区域
+            touchDamageBotLeft.Set(touchDamageCheck.position.x - (touchDamageWidth / 2), touchDamageCheck.position.y - (touchDamageHeight / 2));
+            touchDamageTopRight.Set(touchDamageCheck.position.x + (touchDamageWidth / 2), touchDamageCheck.position.y + (touchDamageHeight / 2));
+            Collider2D hit = Physics2D.OverlapArea(touchDamageBotLeft, touchDamageTopRight, whatIsPlayer);
 
-        //    //检测敌人对攻击玩家哪个方向进行攻击
-        //    if (hit != null)
-        //    {
-        //        lastTouchDamageTime = Time.time;
-        //        attackDetails[0] = touchDamage;
-        //        attackDetails[1] = alive.transform.position.x;
-        //        hit.SendMessage("Damage", attackDetails);
-        //    }
-        //}
+            //检测敌人对攻击玩家哪个方向进行攻击
+            if (hit != null)
+            {
+                lastTouchDamageTime = Time.time;
+                attackDetails[0] = touchDamage;
+                attackDetails[1] = alive.transform.position.x;
+                hit.SendMessage("Damage", attackDetails);
+            }
+        }
     }
 
 
@@ -272,6 +273,16 @@ public class BasicsEnemyController : MonoBehaviour
     {
         Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x,groundCheck.position.y-groundCheckDistance));
         Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x, wallCheck.position.y));
-        
+
+        //创建四个碰撞点
+        Vector2 botLeft = new Vector2(touchDamageCheck.position.x - (touchDamageWidth / 2), touchDamageCheck.position.y - (touchDamageHeight / 2));
+        Vector2 botRight = new Vector2(touchDamageCheck.position.x + (touchDamageWidth / 2), touchDamageCheck.position.y - (touchDamageHeight / 2));
+        Vector2 topRight = new Vector2(touchDamageCheck.position.x + (touchDamageWidth / 2), touchDamageCheck.position.y + (touchDamageHeight / 2));
+        Vector2 topLeft = new Vector2(touchDamageCheck.position.x - (touchDamageWidth / 2), touchDamageCheck.position.y + (touchDamageHeight / 2));
+
+        Gizmos.DrawLine(botLeft, botRight);
+        Gizmos.DrawLine(botRight, topRight);
+        Gizmos.DrawLine(topRight, topLeft);
+        Gizmos.DrawLine(topLeft, botLeft);
     }
 }

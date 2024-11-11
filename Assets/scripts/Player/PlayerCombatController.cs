@@ -97,17 +97,22 @@ public class PlayerCombatController : MonoBehaviour
     //接收被击打消息
     void Damage(float[] attackDetails)
     {
-        //判断击退方向
-        int direction;   
-        if (attackDetails[1] < transform.position.x)
+        
+        //如果不在冲刺状态
+        if (!PC.GetDashStatus())
         {
-            direction = 1;
+            //判断击退方向
+            int direction;
+            if (attackDetails[1] < transform.position.x)
+            {
+                direction = 1;
+            }
+            else
+            {
+                direction = -1;
+            }
+            PC.KnockBack(direction);      //将方向返回给角色控制器
         }
-        else
-        {
-            direction = -1;
-        }
-        PC.KnockBackle(direction);
 
         //死亡和重生待写使用attackDetalis[0]
     }

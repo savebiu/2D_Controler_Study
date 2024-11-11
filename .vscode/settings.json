@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Controler_Study_2D.sln"
+    "dotnet.defaultSolution": "Controler_Study_2D.sln",
+    "dotnet.preferCSharpExtension": true
 }

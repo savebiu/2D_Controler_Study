@@ -53,10 +53,19 @@ public class CombatDummyController : MonoBehaviour
     }
 
     //伤害累计
-    private void Damage(float amount)
+    private void Damage(float[] details)        //details[0]伤害 dstails[1]判断攻击方向 
     {
-        currentHealth -= amount;
-        playerFacingDirection = pc.GetFacingDirection();
+        currentHealth -= details[0];
+
+        //识别攻击方向
+        if (details[1] < aliveGO.transform.position.x)
+        {
+            playerFacingDirection = -1;
+        }
+        else
+        {
+            playerFacingDirection = 1;
+        }
 
         Instantiate(hitParticle, aliveAnim.transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
 

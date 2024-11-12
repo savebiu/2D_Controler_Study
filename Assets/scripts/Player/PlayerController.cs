@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
     //Run
     private void CheckIfRun()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && moveX !=0)
         {
             if (!isRun)
             {
@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour
     }
     private void ApplyMovement()
     {
-        if (knockback)      //在击退状态时,体哦啊过其他状态的速度更新
+        if (knockback)      //在击退状态时,跳过其他状态的速度更新
             return;
         if(!isGround && !isWallSliding && moveX == 0 && !knockback)
         {

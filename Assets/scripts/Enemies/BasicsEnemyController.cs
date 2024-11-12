@@ -216,7 +216,8 @@ public class BasicsEnemyController : MonoBehaviour
     void Flip()
     {
         facingDerection *= -1;
-        alive.transform.Rotate(0, 180f, 0);        
+        alive.transform.Rotate(0, 180f, 0);
+        wallCheckDistance *= -1;
     }
 
 
@@ -272,7 +273,7 @@ public class BasicsEnemyController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x,groundCheck.position.y-groundCheckDistance));
-        Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x, wallCheck.position.y));
+        Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
 
         //创建四个碰撞点
         Vector2 botLeft = new Vector2(touchDamageCheck.position.x - (touchDamageWidth / 2), touchDamageCheck.position.y - (touchDamageHeight / 2));

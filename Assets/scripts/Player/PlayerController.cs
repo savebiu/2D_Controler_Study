@@ -29,10 +29,10 @@ public class PlayerController : MonoBehaviour
     //run
     public bool isRun;
     //³å´Ì
-    public bool isDash;
+    public bool isDashing;
     private float dashTimeLeft;
     private float lastImageXpos;
-    private float lastDash = -100;
+    private float lastDash = -100;      //²ÐÓ°ÀäÈ´Ê±¼ä
     /*//ÅÊÅÀ
     private bool isClimb;
     private bool canClimb = false;
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
         UpdateAnimation();        
         CheckIfWallSliding();
         CheckIfRun();
-        CheckDash();
+        //CheckDash();
         CheckKnockBack();
         //CheckLedgeClimb();
         //HandleLedgeClimb();
@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
     //ÊäÈë¼ì²â
     private void CheckInput()
     {
-        if (!isDash)
+        if (!isDashing)
         {
             moveX = Input.GetAxisRaw("Horizontal");
             moveY = Input.GetAxisRaw("Vertical");
@@ -295,17 +295,21 @@ public class PlayerController : MonoBehaviour
     //³å´Ì
     private void CheckDash()
     {
+        
         if (Input.GetButtonDown("Dash"))
         {
+            if(Time.time >= (lastDash + dashCoolDown))      //ÀäÈ´Íê³É
             AttemptDash();
         }
-        if (isDash)
-        {            
+        if (isDashing)
+        {
+            Debug.Log("Dash:" + isDashing);
             if(dashTimeLeft > 0)
             {
-                rb.velocity = new Vector2(dashSpeed * (facingRight ? 1 : -1), 0 );
+                isWalking = false;
+                rb.velocity = new Vector2(dashSpeed * (facingRight ? 1 : -1), rb.velocity.y);
                 dashTimeLeft -= Time.deltaTime;
-                //Éú³ÉÍÏÓ°
+                //Éú³ÉÍÏÓ°Î»ÖÃ
                 if (Mathf.Abs(transform.position.x - lastImageXpos) > distanceBetweenImages)
                 {
                     PlayerAfterPol.Instance.GetFromPool();
@@ -314,9 +318,10 @@ public class PlayerController : MonoBehaviour
             }
             if(dashTimeLeft <= 0 || isTouchingWall)
             {
-                isDash = false;
+                isDashing = false;
+                isWalking = true;
             }
-            
+
         }
     }
     //³å´ÌÀäÈ´Ê±¼ä
@@ -324,7 +329,7 @@ public class PlayerController : MonoBehaviour
     {        
         if(Time.time >=(lastDash + dashCoolDown))
         {
-            isDash = true;
+            isDashing = true;
             dashTimeLeft = dashTime;
             lastDash = Time.time;
 
@@ -362,7 +367,7 @@ public class PlayerController : MonoBehaviour
     //³å´Ì×´Ì¬¼ì²â
     public bool GetDashStatus()
     {
-        return isDash;
+        return isDashing;
     }
     /*private void HandleLedgeClimb()
     {

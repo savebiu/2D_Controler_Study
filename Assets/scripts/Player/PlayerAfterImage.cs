@@ -9,7 +9,7 @@ public class PlayerAfterImage : MonoBehaviour
     //获取精灵渲染器
     private Transform player;
     private SpriteRenderer SR;
-    private SpriteRenderer playerSR;
+    private SpriteRenderer playerSR;    //随时间降低alpha
 
     private Color color;
 
@@ -18,14 +18,16 @@ public class PlayerAfterImage : MonoBehaviour
     private float activeTime = 0.1f;
     private float timeActivated;    
     private float alpha;
+    
     [SerializeField]
     //透明度设定
     public float alphaSet = 0.8f;
-    [SerializeField]
-    public float alphaDecay = 0.8f;
+    private float alphaMultiplier = 0.85f;      //alpha降低比值
+
+    //每次启动游戏都会调用它
     private void OnEnable()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;      //获取角色位置
         playerSR = GetComponent<SpriteRenderer>();
         SR = GetComponent<SpriteRenderer>();
 
@@ -37,10 +39,10 @@ public class PlayerAfterImage : MonoBehaviour
     }
     private void Update()
     {
-        alpha -= alphaDecay * Time.deltaTime;
-        color = new Color(1f, 1f, 1f,alpha);
+        alpha *= alphaMultiplier * Time.deltaTime;
+        color = new Color(1f, 1f, 1f, alpha);
         SR.color = color;
-        if(Time.time >=(timeActivated + activeTime))
+        if(Time.time >= (timeActivated + activeTime))
         {
             PlayerAfterPol.Instance.AddToPool(gameObject);
         }

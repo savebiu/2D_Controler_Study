@@ -40,7 +40,7 @@ public class PlayerAfterPol : MonoBehaviour
         //如果队列为空(即没有可用对象), 会调用GrowPool再次扩充对象池
         if (availableobjects.Count == 0)
         {
-            GrowPool();
+            GrowPool();     // 扩展对象池
         }
         var instance = availableobjects.Dequeue();
         instance.SetActive(true);       //激活对象

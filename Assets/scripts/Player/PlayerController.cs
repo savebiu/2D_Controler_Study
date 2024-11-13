@@ -29,8 +29,9 @@ public class PlayerController : MonoBehaviour
     //run
     public bool isRun;
     //冲刺
-    public bool isDashing;
+    public bool isDashing;   
     private float dashTimeLeft;
+
     private float lastImageXpos;
     private float lastDash = -100;      //残影冷却时间
     /*//攀爬
@@ -63,7 +64,7 @@ public class PlayerController : MonoBehaviour
     //冲刺参数
     public float dashTime;
     public float dashSpeed;
-    public float distanceBetweenImages;
+    public float distanceBetweenImages = 0.5f;
     public float dashCoolDown;
     float knockbackStartTime;   //被击打的开始时间
     bool knockback;
@@ -80,8 +81,7 @@ public class PlayerController : MonoBehaviour
     public float ledgeClimbXOffset1 = 0f;
     public float ledgeClimbYOffset1 = 0f;
     public float ledgeClimbXOffset2 = 0f;
-    public float ledgeClimbYOffset2 = 0f;*/
- 
+    public float ledgeClimbYOffset2 = 0f;*/ 
     // Start is called before the first frame update
     void Start()
     {
@@ -101,10 +101,8 @@ public class PlayerController : MonoBehaviour
         UpdateAnimation();        
         CheckIfWallSliding();
         CheckIfRun();
-        //CheckDash();
-        CheckKnockBack();
-        //CheckLedgeClimb();
-        //HandleLedgeClimb();
+        CheckDash();
+        CheckKnockBack();       
     }
 
     void FixedUpdate()
@@ -123,7 +121,12 @@ public class PlayerController : MonoBehaviour
             moveY = Input.GetAxisRaw("Vertical");
         }        
         CheckIfJump();
-        CheckDash();
+
+        if (Input.GetButtonDown("Dash"))
+        {
+            if (Time.time >= (lastDash + dashCoolDown))      //冷却完成
+                AttemptToDash();
+        }
     }
 
     //环境反馈
@@ -141,6 +144,7 @@ public class PlayerController : MonoBehaviour
         }
         //墙面检测
         isTouchingWall = Physics2D.Raycast(WallCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
+        
         //isTouchingLedge = Physics2D.Raycast(ledgeCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
         /*//攀爬检测
         isClimb = Physics2D.Raycast(ledgeCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
@@ -172,6 +176,7 @@ public class PlayerController : MonoBehaviour
             Flip();
         }       
     }
+
     //Run
     private void CheckIfRun()
     {
@@ -192,10 +197,13 @@ public class PlayerController : MonoBehaviour
             }           
         }
     }
+
     private void ApplyMovement()
     {
+        //击退
         if (knockback)      //在击退状态时,跳过其他状态的速度更新
             return;
+        //跳跃
         if(!isGround && !isWallSliding && moveX == 0 && !knockback)
         {
             rb.velocity = new Vector2 (rb.velocity.x * JumpHeightMultiplier, rb.velocity.y);
@@ -204,13 +212,21 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector2(moveX * movementSpeed, rb.velocity.y);
         }
-        if (isWallSliding &&! knockback)
+        //滑墙
+        if (isWallSliding && !knockback)
         {            
             if (rb.velocity.y < -WallSlidingSpeed)
             {
                 rb.velocity = new Vector2(rb.velocity.x, -WallSlidingSpeed);                
             }
-        }        
+        }
+        //冲刺
+        if (isDashing)
+        {
+            rb.velocity = new Vector2(dashSpeed * (facingRight ? 1 : -1), -rb.velocity.y);
+            return;
+        }
+
     }
     public void DisableFlip()
     {
@@ -294,63 +310,56 @@ public class PlayerController : MonoBehaviour
     }
     //冲刺
     private void CheckDash()
-    {
-        
-        if (Input.GetButtonDown("Dash"))
-        {
-            if(Time.time >= (lastDash + dashCoolDown))      //冷却完成
-            AttemptDash();
-        }
+    {        
         if (isDashing)
         {
-            Debug.Log("Dash:" + isDashing);
             if(dashTimeLeft > 0)
             {
                 isWalking = false;
-                rb.velocity = new Vector2(dashSpeed * (facingRight ? 1 : -1), rb.velocity.y);
+                
+
                 dashTimeLeft -= Time.deltaTime;
                 //生成拖影位置
                 if (Mathf.Abs(transform.position.x - lastImageXpos) > distanceBetweenImages)
                 {
-                    PlayerAfterPol.Instance.GetFromPool();
+                    Debug.Log("生成残影");
+                    PlayerAfterPol.Instance.GetFromPool();                    
                     lastImageXpos = transform.position.x;
                 }
             }
+
             if(dashTimeLeft <= 0 || isTouchingWall)
             {
                 isDashing = false;
                 isWalking = true;
             }
-
         }
     }
     //冲刺冷却时间
-    private void AttemptDash()
-    {        
+    private void AttemptToDash()
+    {   
+        //如果冷却时间完成
         if(Time.time >=(lastDash + dashCoolDown))
         {
             isDashing = true;
             dashTimeLeft = dashTime;
-            lastDash = Time.time;
-
+            lastDash = Time.time;            
             PlayerAfterPol.Instance.GetFromPool();
-            lastImageXpos = transform.position.x;
-        }
-        
+            lastDash = Time.time;
+            //lastImageXpos = transform.position.x;
+        }        
     }
     //翻转角色
     public int GetFacingDirection()
     {
-        return facingRight ? 1 :-1 ;
+        return facingRight ? 1 :-1;
     }
 
     //被击打反馈
     public void KnockBack(int direction)
     {
         knockback = true;
-        knockbackStartTime = Time.time;
-        Debug.Log("击退初始速度: " + rb.velocity);
-        Debug.Log("移动方向 " + direction);
+        knockbackStartTime = Time.time;        
         rb.velocity = Vector2.zero;
         rb.velocity = new Vector2(knockbackSpeed.x * direction, knockbackSpeed.y);
     }
@@ -369,7 +378,10 @@ public class PlayerController : MonoBehaviour
     {
         return isDashing;
     }
-    /*private void HandleLedgeClimb()
+
+    /*
+    //攀爬
+    private void HandleLedgeClimb()
     {
         if (canClimb)
         {

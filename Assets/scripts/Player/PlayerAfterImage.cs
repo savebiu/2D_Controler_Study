@@ -28,18 +28,20 @@ public class PlayerAfterImage : MonoBehaviour
     private void OnEnable()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;      //获取角色位置
-        playerSR = GetComponent<SpriteRenderer>();
+        playerSR = player.GetComponent<SpriteRenderer>();
         SR = GetComponent<SpriteRenderer>();
 
         alpha = alphaSet;
         SR.sprite = playerSR.sprite;
         transform.position = player.position;
         transform.rotation = player.rotation;
+
         timeActivated = Time.time;
     }
     private void Update()
     {
-        alpha *= alphaMultiplier * Time.deltaTime;
+        
+        alpha *= alphaMultiplier;
         color = new Color(1f, 1f, 1f, alpha);
         SR.color = color;
         if(Time.time >= (timeActivated + activeTime))

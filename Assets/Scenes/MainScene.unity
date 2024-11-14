@@ -4019,6 +4019,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerAfterImagePool
       objectReference: {fileID: 0}
+    - target: {fileID: 1946997346274230688, guid: a7baed366a04c4b48aa938bcd737a455, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1946997346274230690, guid: a7baed366a04c4b48aa938bcd737a455, type: 3}
       propertyPath: m_RootOrder
       value: 3

@@ -62,4 +62,11 @@ public class Entity : MonoBehaviour
     {
         return Physics2D.Raycast(ledgeCheck.position,Vector2.down, entityData.ledgeCheckDistance, entityData.whatIsGround);
     }
+
+    //翻转
+    public virtual void Flip()
+    {
+        facingDirection *= -1;
+        AliveGO.transform.Rotate(0f, 180f, 0f);     //Rotate和Rotation的区别:Rotate是相对于当前的旋转,Rotation是相对于世界坐标的旋转
+    }
 }

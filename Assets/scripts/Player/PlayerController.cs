@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,32 +9,32 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
 
-    //¶¯»­×´Ì¬
+    //åŠ¨ç”»çŠ¶æ€
     private bool facingRight = true;
-    //Ç½±Ú¼ì²â
+    //å¢™å£æ£€æµ‹
     private bool isWalking = true;
-    //µØÃæ¼ì²â
+    //åœ°é¢æ£€æµ‹
     private bool isGround;
-    //Ç½±Ú¼ì²â
+    //å¢™å£æ£€æµ‹
     private bool isTouchingWall;
     private bool isTouchingLedge;
     private bool isWallSliding;
-    //ÌøÔ¾²ÎÊı
+    //è·³è·ƒå‚æ•°
     private bool canJump = false;
     private int jumpCount = 2;
     private float JumpHeightMultiplier = 0.5f;
-    //µÅÇ½Ìø    
+    //è¹¬å¢™è·³    
     public Vector2 wallHopDirection;
     public Vector2 wallJumpDirection;
     //run
     public bool isRun;
-    //³å´Ì
+    //å†²åˆº
     public bool isDashing;   
     private float dashTimeLeft;
 
     private float lastImageXpos;
-    private float lastDash = -100;      //²ĞÓ°ÀäÈ´Ê±¼ä
-    /*//ÅÊÅÀ
+    private float lastDash = -100;      //æ®‹å½±å†·å´æ—¶é—´
+    /*//æ”€çˆ¬
     private bool isClimb;
     private bool canClimb = false;
     private bool ledgeDetected;
@@ -45,38 +45,38 @@ public class PlayerController : MonoBehaviour
     private float moveX;
     private float moveY;
 
-    [Header("»ù±¾²ÎÊı")]
-    //ÒÆËÙ
+    [Header("åŸºæœ¬å‚æ•°")]
+    //ç§»é€Ÿ
     public float movementSpeed = 7.0f;
-    //µØÃæ¼ì²â
+    //åœ°é¢æ£€æµ‹
     public float groundCheckRadius;
     public Transform GroundCheck;
     public LayerMask whatIsGround;
-    //ÌøÔ¾¸ß¶È
+    //è·³è·ƒé«˜åº¦
     public float jumpForce = 12f;
-    //Ç½±Ú¼ì²â
+    //å¢™å£æ£€æµ‹
     public float WallCheckDistance;
     public float WallSlidingSpeed;
     public Transform WallCheck;
-    //µÅÇ½ÌøÁ¦¶È
+    //è¹¬å¢™è·³åŠ›åº¦
     public float wallHopForce;
     public float wallJumpForce;
-    //³å´Ì²ÎÊı
+    //å†²åˆºå‚æ•°
     public float dashTime;
     public float dashSpeed;
     public float distanceBetweenImages = 0.5f;
     public float dashCoolDown;
-    float knockbackStartTime;   //±»»÷´òµÄ¿ªÊ¼Ê±¼ä
+    float knockbackStartTime;   //è¢«å‡»æ‰“çš„å¼€å§‹æ—¶é—´
     bool knockback;
 
     [SerializeField]
-    float knockbackDuration;   //±»»÷´ò³ÖĞøÊ±¼ä
+    float knockbackDuration;   //è¢«å‡»æ‰“æŒç»­æ—¶é—´
 
     [SerializeField]
-    [Header("»÷ÍËËÙ¶È")]
-    Vector2 knockbackSpeed;   //±»»÷ÍËµÄËÙ¶È
+    [Header("å‡»é€€é€Ÿåº¦")]
+    Vector2 knockbackSpeed;   //è¢«å‡»é€€çš„é€Ÿåº¦
 
-    /*//ÅÊÅÀ¼ì²â
+    /*//æ”€çˆ¬æ£€æµ‹
     public Transform ledgeCheck;
     public float ledgeClimbXOffset1 = 0f;
     public float ledgeClimbYOffset1 = 0f;
@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();        
-        //µÅÇ½Ìø¹éÒ»»¯
+        //è¹¬å¢™è·³å½’ä¸€åŒ–
         //wallHopDirection.Normalize();
         //wallJumpDirection.Normalize();
     }
@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //ÒÆ¶¯ÊäÈë
+        //ç§»åŠ¨è¾“å…¥
         Movement();
         CheckInput();
         UpdateAnimation();        
@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
        
     }
 
-    //ÊäÈë¼ì²â
+    //è¾“å…¥æ£€æµ‹
     private void CheckInput()
     {
         if (!isDashing)
@@ -124,15 +124,15 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Dash"))
         {
-            if (Time.time >= (lastDash + dashCoolDown))      //ÀäÈ´Íê³É
+            if (Time.time >= (lastDash + dashCoolDown))      //å†·å´å®Œæˆ
                 AttemptToDash();
         }
     }
 
-    //»·¾³·´À¡
+    //ç¯å¢ƒåé¦ˆ
     private void CheckSurroundings()
     {
-        //µØÃæ¼ì²â
+        //åœ°é¢æ£€æµ‹
         isGround = Physics2D.OverlapCircle(GroundCheck.position, groundCheckRadius, whatIsGround);
         if (isGround)
         {
@@ -142,11 +142,11 @@ public class PlayerController : MonoBehaviour
         {
             jumpCount = 1;
         }
-        //Ç½Ãæ¼ì²â
+        //å¢™é¢æ£€æµ‹
         isTouchingWall = Physics2D.Raycast(WallCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
         
         //isTouchingLedge = Physics2D.Raycast(ledgeCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
-        /*//ÅÊÅÀ¼ì²â
+        /*//æ”€çˆ¬æ£€æµ‹
         isClimb = Physics2D.Raycast(ledgeCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
         if (isTouchingWall && isTouchingLedge && !ledgeDetected)
         {
@@ -154,10 +154,10 @@ public class PlayerController : MonoBehaviour
             ledgePosBot = ledgeCheck.position;
         }*/
     }
-    //ÒÆ¶¯
+    //ç§»åŠ¨
     private void Movement()
     {
-        //ÒÆ¶¯
+        //ç§»åŠ¨
         if (Mathf.Abs(rb.velocity.x) > 0.01f)
         {
             isWalking = true;
@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour
         {
             isWalking = false;
         }
-        //·­×ª
+        //ç¿»è½¬
         if (moveX > 0 && !facingRight)
         {
             Flip();
@@ -200,10 +200,10 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyMovement()
     {
-        //»÷ÍË
-        if (knockback)      //ÔÚ»÷ÍË×´Ì¬Ê±,Ìø¹ıÆäËû×´Ì¬µÄËÙ¶È¸üĞÂ
+        //å‡»é€€
+        if (knockback)      //åœ¨å‡»é€€çŠ¶æ€æ—¶,è·³è¿‡å…¶ä»–çŠ¶æ€çš„é€Ÿåº¦æ›´æ–°
             return;
-        //ÌøÔ¾
+        //è·³è·ƒ
         if(!isGround && !isWallSliding && moveX == 0 && !knockback)
         {
             rb.velocity = new Vector2 (rb.velocity.x * JumpHeightMultiplier, rb.velocity.y);
@@ -212,7 +212,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector2(moveX * movementSpeed, rb.velocity.y);
         }
-        //»¬Ç½
+        //æ»‘å¢™
         if (isWallSliding && !knockback)
         {            
             if (rb.velocity.y < -WallSlidingSpeed)
@@ -220,7 +220,7 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, -WallSlidingSpeed);                
             }
         }
-        //³å´Ì
+        //å†²åˆº
         if (isDashing)
         {
             rb.velocity = new Vector2(dashSpeed * (facingRight ? 1 : -1), -rb.velocity.y);
@@ -236,7 +236,7 @@ public class PlayerController : MonoBehaviour
     {
 
     }
-    //·­×ª
+    //ç¿»è½¬
     private void Flip()
     {        
         if(!isWallSliding && !knockback)
@@ -248,10 +248,10 @@ public class PlayerController : MonoBehaviour
         }
         
     }
-    //ÌøÔ¾
+    //è·³è·ƒ
     private void CheckIfJump()
     {
-        //ÌøÔ¾
+        //è·³è·ƒ
         if (Input.GetButtonDown("Jump"))
         {
             /*if (canClimb)
@@ -274,7 +274,7 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y * JumpHeightMultiplier);
         }
     }
-    //ÌøÔ¾
+    //è·³è·ƒ
     private void Jump()
     {
         if (canJump && !isWallSliding)
@@ -287,8 +287,8 @@ public class PlayerController : MonoBehaviour
             isWallSliding = false;
             jumpCount--;
             Vector2 forceToAdd = new Vector2(wallHopForce * wallHopDirection.x * (facingRight ? -1: 1), wallHopForce * wallHopDirection.y);
-            rb.AddForce(forceToAdd, ForceMode2D.Impulse);   // Ó¦ÓÃµÅÇ½ÌøÁ¦
-            //µÅÇ½Ê±·­×ª½ÇÉ«
+            rb.AddForce(forceToAdd, ForceMode2D.Impulse);   // åº”ç”¨è¹¬å¢™è·³åŠ›
+            //è¹¬å¢™æ—¶ç¿»è½¬è§’è‰²
             Flip();
         }
         else if ((isWallSliding || isTouchingWall) && moveX != 0 && canJump)
@@ -296,11 +296,11 @@ public class PlayerController : MonoBehaviour
             isWallSliding = false;
             jumpCount--;
             Vector2 forceToAdd = new Vector2(wallJumpForce * wallJumpDirection.x * moveX, wallJumpForce * wallHopDirection.y);
-            rb.AddForce(forceToAdd, ForceMode2D.Impulse);  // Ó¦ÓÃµÅÇ½ÌøÁ¦
+            rb.AddForce(forceToAdd, ForceMode2D.Impulse);  // åº”ç”¨è¹¬å¢™è·³åŠ›
         }
     }
 
-    //Ç½Ãæ·´À¡
+    //å¢™é¢åé¦ˆ
     private void CheckIfWallSliding()
     {
         if(isTouchingWall && !isGround && rb.velocity.y < 0 /*&& !canClimb*/)
@@ -308,7 +308,7 @@ public class PlayerController : MonoBehaviour
         else
             isWallSliding = false;        
     }
-    //³å´Ì
+    //å†²åˆº
     private void CheckDash()
     {        
         if (isDashing)
@@ -319,10 +319,10 @@ public class PlayerController : MonoBehaviour
                 
 
                 dashTimeLeft -= Time.deltaTime;
-                //Éú³ÉÍÏÓ°Î»ÖÃ
+                //ç”Ÿæˆæ‹–å½±ä½ç½®
                 if (Mathf.Abs(transform.position.x - lastImageXpos) > distanceBetweenImages)
                 {
-                    Debug.Log("Éú³É²ĞÓ°");
+                    Debug.Log("ç”Ÿæˆæ®‹å½±");
                     PlayerAfterPol.Instance.GetFromPool();                    
                     lastImageXpos = transform.position.x;
                 }
@@ -335,10 +335,10 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    //³å´ÌÀäÈ´Ê±¼ä
+    //å†²åˆºå†·å´æ—¶é—´
     private void AttemptToDash()
     {   
-        //Èç¹ûÀäÈ´Ê±¼äÍê³É
+        //å¦‚æœå†·å´æ—¶é—´å®Œæˆ
         if(Time.time >=(lastDash + dashCoolDown))
         {
             isDashing = true;
@@ -349,13 +349,13 @@ public class PlayerController : MonoBehaviour
             //lastImageXpos = transform.position.x;
         }        
     }
-    //·­×ª½ÇÉ«
+    //ç¿»è½¬è§’è‰²
     public int GetFacingDirection()
     {
         return facingRight ? 1 :-1;
     }
 
-    //±»»÷´ò·´À¡
+    //è¢«å‡»æ‰“åé¦ˆ
     public void KnockBack(int direction)
     {
         knockback = true;
@@ -373,22 +373,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //³å´Ì×´Ì¬¼ì²â
+    //å†²åˆºçŠ¶æ€æ£€æµ‹
     public bool GetDashStatus()
     {
         return isDashing;
     }
 
     /*
-    //ÅÊÅÀ
+    //æ”€çˆ¬
     private void HandleLedgeClimb()
     {
         if (canClimb)
         {
-            // Ê¹ÓÃ MoveTowards À´Æ½»¬ÒÆ¶¯½ÇÉ«µ½ĞüÑÂ¶¥²¿
+            // ä½¿ç”¨ MoveTowards æ¥å¹³æ»‘ç§»åŠ¨è§’è‰²åˆ°æ‚¬å´–é¡¶éƒ¨
             transform.position = Vector2.MoveTowards(transform.position, ledgePos1, movementSpeed * Time.deltaTime);
 
-            // µ±½ÇÉ«µ½´ï ledgePos1 Î»ÖÃ£¬½øÈëĞüÑÂµÄ×îÖÕÎ»ÖÃ ledgePos2
+            // å½“è§’è‰²åˆ°è¾¾ ledgePos1 ä½ç½®ï¼Œè¿›å…¥æ‚¬å´–çš„æœ€ç»ˆä½ç½® ledgePos2
             if (Vector2.Distance(transform.position, ledgePos1) < 0.1f)
             {
                 FinishClimb();
@@ -425,7 +425,7 @@ public class PlayerController : MonoBehaviour
         canClimb = false;
         anim.SetBool("IsClimb", false);
     }*/
-    //¶¯»­
+    //åŠ¨ç”»
     private void UpdateAnimation()
     {
         anim.SetBool("IsWalking", isWalking);

@@ -6,7 +6,7 @@ using UnityEngine;
  */
 public class MoveState : State
 {
-    protected D_MoveState stateData;
+    protected D_MoveState stateData;        //在移动状态中调用移动数据
 
     protected bool isDetectingWall;       //检测墙壁
     protected bool isDetectingLedge;       //检测悬崖

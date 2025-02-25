@@ -1,34 +1,45 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*å¯¹è±¡æ± :
+ * 1.åˆ›å»ºå•ä¾‹,ä¾¿äºå…¶ä»–è„šæœ¬è°ƒç”¨
+ * 2.åœ¨Awakeä¸­å®ä¾‹åŒ–å•ä¾‹
+ * 3.æ ¸å¿ƒæ–¹æ³•
+ *      --GrowPool: æ‰©å……å¯¹è±¡æ± 
+ *      --AddToPool: å°†ä¸å†ä½¿ç”¨çš„å¯¹è±¡æ”¾å›availableobjectså¯¹è±¡æ± 
+ *      --GetFromPool: ä»å¯¹è±¡æ± ä¸­è·å–å¯¹è±¡,è‹¥ç©º,åˆ™æ‰©å±•å¯¹è±¡æ± 
+ *
+ *
+*/
 public class PlayerAfterPol : MonoBehaviour
 {
     [SerializeField]
-    //????????
-    private GameObject afterImagePrefab;        //¶ÔÏóÔ¤ÖÆÌå
-    //????Queue???????????????????
-    private Queue<GameObject> availableobjects = new Queue<GameObject>();       //´æ´¢¶ÔÏóµÄ¶ÓÁĞQueue,µ±¶ÔÏó²»ÔÙÊ¹ÓÃÊ±½«Æä·Å»Ø¶ÓÁĞ
-    //????,??????????????PlayerAfterPol.Instance??????
-    //???set??????????
-    public static PlayerAfterPol Instance { get; private set; }     //´´½¨µ¥Àı,·½±ãÆäËû½Å±¾·ÃÎÊ
+
+    private GameObject afterImagePrefab;        //å¯¹è±¡é¢„åˆ¶ä½“
+
+    private Queue<GameObject> availableobjects = new Queue<GameObject>();       //å­˜å‚¨å¯¹è±¡çš„é˜Ÿåˆ—
+
+
+    public static PlayerAfterPol Instance { get; private set; }     //åˆ›å»ºå•ä¾‹,æ–¹ä¾¿å…¶ä»–è„šæœ¬è®¿é—®
+
     private void Awake()
     {
-        Instance = this;        //ÊµÀıµ±Ç°¶ÔÏóafterImagePrefab
+        Instance = this;        //å®ä¾‹å½“å‰å¯¹è±¡afterImagePrefab
         GrowPool();
     }
     private void GrowPool()
     {
-        for(int i = 0; i< 10; i++)
+        for (int i = 0; i < 10; i++)
         {
-            var instanceToAdd = Instantiate(afterImagePrefab);      //ĞÂ½¨¶ÔÏó
-            instanceToAdd.transform.SetParent(transform);       
-            AddToPool(instanceToAdd);       //½«ĞÂ½¨µÄ¶ÔÏóÌí¼Óµ½¶ÓÁĞÖĞ
+            var instanceToAdd = Instantiate(afterImagePrefab);      //æ·»åŠ å¯¹è±¡åˆ°å¯¹è±¡æ± ä¸­
+            instanceToAdd.transform.SetParent(transform);       //è®¾ç½®ä½ç½®
+            AddToPool(instanceToAdd);       //å°†æ–°å»ºçš„å¯¹è±¡æ·»åŠ åˆ°é˜Ÿåˆ—ä¸­
         }
     }
 
-    //½«²»ÔÙÊ¹ÓÃµÄ¶ÔÏó·Å»Øavailableobjects¶ÔÏó³Ø
+    //å°†ä¸å†ä½¿ç”¨çš„å¯¹è±¡æ”¾å›availableobjectså¯¹è±¡æ± 
     public void AddToPool(GameObject instance)
     {
         instance.SetActive(false);
@@ -37,13 +48,13 @@ public class PlayerAfterPol : MonoBehaviour
 
     public GameObject GetFromPool()
     {
-        //Èç¹û¶ÓÁĞÎª¿Õ(¼´Ã»ÓĞ¿ÉÓÃ¶ÔÏó), »áµ÷ÓÃGrowPoolÔÙ´ÎÀ©³ä¶ÔÏó³Ø
+        //å¦‚æœé˜Ÿåˆ—ä¸ºç©º(å³æ²¡æœ‰å¯ç”¨å¯¹è±¡), ä¼šè°ƒç”¨GrowPoolå†æ¬¡æ‰©å……å¯¹è±¡æ± 
         if (availableobjects.Count == 0)
         {
-            GrowPool();     // À©Õ¹¶ÔÏó³Ø
+            GrowPool();     // æ‰©å±•å¯¹è±¡æ± 
         }
         var instance = availableobjects.Dequeue();
-        instance.SetActive(true);       //¼¤»î¶ÔÏó
+        instance.SetActive(true);       //æ¿€æ´»å¯¹è±¡
         return instance;
     }
 }

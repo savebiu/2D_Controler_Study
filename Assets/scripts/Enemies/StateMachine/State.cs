@@ -4,27 +4,33 @@ using UnityEngine;
 
 /*
  * 此脚本负责管理所有实体的状态
- * 
+ * 1.传入需要跟踪的状态
+ * 进入状态后:
+ *      --记录开始时间
+ *      --启动动画控制器
+ * 退出状态后:
+ *      --关闭动画控制器
  */
 public class State
 {
-    protected FiniteStateMachine stateMachine;
-    protected Entity entity;
+    protected FiniteStateMachine stateMachine;      //跟踪状态机
+    protected Entity entity;        //跟踪实体
     protected float startTime;      //开始时间
 
-    protected string animBoolName;      //动画布尔值
+    protected string animBoolName;      //动画布尔值,保证每个状态都能自行设置动画状态
 
+    //创建状态时需要传入(当前实体即对象, 对应的状态机, 动画状态)
     public State(Entity entity, FiniteStateMachine stateMachine, string animBoolName)
     {
-        this.stateMachine = stateMachine;
         this.entity = entity;
+        this.stateMachine = stateMachine;
         this.animBoolName = animBoolName;
     }
 
-    public virtual void Enter()
+    public virtual void Enter()         //使用virtual关键字,允许子类重写该方法
     {
-        startTime = Time.time;
-        entity.anim.SetBool(animBoolName, true);
+        startTime = Time.time;      //每次进行状态时都会存储当前时间
+        entity.anim.SetBool(animBoolName, true);        //启动实体的动画控制器
     }
 
     public virtual void Exit()
@@ -32,12 +38,12 @@ public class State
         entity.anim.SetBool(animBoolName, false);
     }
 
-    public virtual void LogicUpdate()
+    public virtual void LogicUpdate()       //逻辑更新
     {
 
     }
 
-    public virtual void PhysicsUpdate()
+    public virtual void PhysicsUpdate()         //物理更新
     {
 
     }

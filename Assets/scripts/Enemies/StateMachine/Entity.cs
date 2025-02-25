@@ -4,18 +4,22 @@ using UnityEngine;
 
 
 /*
- * 实体类，此脚本负责管理所有实体的基本属性
- * 
+ * 实体类脚本，此脚本负责管理所有实体的基本属性
+ * 基础脚本
  * 该代码编写所有怪物都拥有的属性
+ * 共同属性:
+ *      --刚体rigibody
+ *      --动画控制器Animator
+ *      --存活对象aliveGo
  */
 public class Entity : MonoBehaviour
 {
     public FiniteStateMachine stateMachine;
     public D_Entity entityData;
 
-    public Rigidbody2D rb { get; private set; }
-    public Animator anim { get; private set; }
-    public GameObject AliveGO { get; private set; }
+    public Rigidbody2D rb { get; private set; }     //刚体
+    public Animator anim { get; private set; }      //动画控制器
+    public GameObject AliveGO { get; private set; }     //存活对象
 
     public float facingDirection { get; private set; }      //怪物的朝向
     public Vector2 velocityWorkSpace;       //速度工作空间
@@ -27,9 +31,10 @@ public class Entity : MonoBehaviour
 
     private void Start()
     {
-        AliveGO = transform.Find("Alive").gameObject;
-        rb = AliveGO.GetComponent<Rigidbody2D>();
-        anim = AliveGO.GetComponent<Animator>();
+        AliveGO = transform.Find("Alive").gameObject;       //获取所有存活对象
+        rb = AliveGO.GetComponent<Rigidbody2D>();       //从AliveGo存活对象中获取他们的刚体
+        anim = AliveGO.GetComponent<Animator>();        //从AliveGo存活对象中获取他们的动画控制器
+
         stateMachine = new FiniteStateMachine();
 
     }

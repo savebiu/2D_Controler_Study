@@ -2,10 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "newEntityData", menuName = "Data/Entity Data/Base Data")]
 public class D_Entity : ScriptableObject
 {
-    public float wallCheckDistance;
-    public float ledgeCheckDistance;
+    public float wallCheckDistance = 0.2f;      //Ç½Ãæ¼ì²â¾àÀë
+    public float ledgeCheckDistance = 0.4f;     //ĞüÑÂ¼ì²â¾àÀë
 
-    public LayerMask whatIsGround;
+
+    public float minAgroDistance = 3f;      //×îĞ¡³ğºŞ¾àÀë
+    public float maxAgroDistance = 4f;      //×î´ó³ğºŞ¾àÀë
+
+    public LayerMask whatIsGround;      //µØÃæÍ¼²ã
+    public LayerMask whatIsPlayer;      //½ÇÉ«Í¼²ã
 }

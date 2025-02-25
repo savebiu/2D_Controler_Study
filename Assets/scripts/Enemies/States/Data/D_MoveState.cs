@@ -4,6 +4,8 @@ using UnityEngine;
 /*
  * 该脚本用于保存怪物移动状态的数据
  */
+
+[CreateAssetMenu(fileName = "newMoveStateData", menuName = "Data/State Data/Idle Data")]
 public class D_MoveState : ScriptableObject     //ScriptableObject用于创建可重用的数据对象
 {
     public float movementSpeed = 3f;

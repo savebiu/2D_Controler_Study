@@ -4,8 +4,10 @@ using UnityEngine;
 /*
  * 该脚本同于保存怪物空闲状态的数据
  */
+
+[CreateAssetMenu(fileName = "newIdleState Data", menuName = "Data/State Data/Base Data")]
 public class D_IdleState : ScriptableObject        
 {
-    public float minIdleTime;
-    public float maxIdleTime;
+    public float minIdleTime = 1f;
+    public float maxIdleTime = 2f;
 }

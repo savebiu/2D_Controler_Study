@@ -26,8 +26,8 @@ public class E1_MoveState : MoveState
 
         if(isDetectingWall || !isDetectingLedge)
         {
-            //TODO: 转换为idle状态
-            
+            enemy.idleState.SetFlipAfterImage(true);      //设置翻转
+            stateMachine.ChangeState(enemy.idleState);      //通过状态机进行状态转换
         }
     }
 

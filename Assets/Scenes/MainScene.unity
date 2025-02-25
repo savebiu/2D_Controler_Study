@@ -527,7 +527,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 8
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 3527ed96842ac7e4487d94b7deaf7c51, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -4079,7 +4079,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1574029934}
   m_Layer: 7
-  m_Name: GroundChaec
+  m_Name: LedgeChack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19629,39 +19629,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1972756260}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 007ad8723409d774690f56e55a2f46ad, type: 3}
+  m_Script: {fileID: 11500000, guid: aed7c1dbcf7ded64aa3cfa2b3b9e9baa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundCheckDistance: 0.5
-  wallCheckDistance: 0.2
-  groundCheck: {fileID: 1574029934}
+  entityData: {fileID: 11400000, guid: e6573213a6bde454eaf238f4569ad0d7, type: 2}
+  velocityWorkSpace: {x: 0, y: 0}
   wallCheck: {fileID: 1411019788}
-  touchDamageCheck: {fileID: 969818862}
-  movementSpeed: 3
-  maxHealth: 30
-  currentHealth: 0
-  knockbackStartTime: 0
-  knockbackDuration: 0.1
-  lastTouchDamageTime: 0
-  touchDamageCooldown: 0.2
-  touchDamage: 10
-  touchDamageWidth: 1.8
-  touchDamageHeight: 1
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 64
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 512
-  knockbackSpeed: {x: 10, y: 5}
-  touchDamageBotLeft: {x: 0, y: 0}
-  touchDamageTopRight: {x: 0, y: 0}
-  attackDetails:
-  - 0
-  - 0
-  hitParticle: {fileID: 6225292651559959792, guid: d1db165d27f16e6428f9c0912b892c02, type: 3}
-  deathChunkParticle: {fileID: 3361040997308711373, guid: 6ce020c7adaadef418c79a0a9d1adf93, type: 3}
-  deathBloodParticle: {fileID: 2908942088432134477, guid: 5f219bff10f35b04a9320cadd4fcc15b, type: 3}
+  ledgeCheck: {fileID: 1574029934}
+  idleStateData: {fileID: 11400000, guid: c1b2242e74b8daa41bba62270eddcca7, type: 2}
+  moveStateData: {fileID: 11400000, guid: 3e8e7da685ec0fc4d905c93b94950899, type: 2}
 --- !u!1 &2048006623
 GameObject:
   m_ObjectHideFlags: 0

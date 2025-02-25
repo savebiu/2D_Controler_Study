@@ -10,6 +10,7 @@ public class MoveState : State
 
     protected bool isDetectingWall;       //检测墙壁
     protected bool isDetectingLedge;       //检测悬崖
+    protected bool isPlayerInMinAgroRange;        //玩家是否在最小攻击范围内
 
     //base用来调用父类的构造函数,这里是调用State的构造函数,因为子类不能直接继承父类的构造函数
     public MoveState(Entity entity, FiniteStateMachine stateMachine, string animBoolName, D_MoveState stateData) : base(entity, stateMachine, animBoolName)
@@ -17,13 +18,15 @@ public class MoveState : State
         this.stateData = stateData;
     }
 
-    public override void Enter()
+    //进入状态时调用
+    public override void Enter()        //可以通过override重写基类状态
     {
-        base.Enter();       //base同时调用父类的Enter方法中的构造函数
+        base.Enter();       //Enter函数被调用时也会自动调用基类中(State状态)中的Enter函数
         entity.SetVelocity(stateData.movementSpeed);       //设置实体速度
 
         isDetectingWall = entity.CheckWall();
         isDetectingLedge = entity.CheckLedge();
+        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
     public override void Exit()
@@ -41,5 +44,6 @@ public class MoveState : State
         base.PhysicsUpdate();
         isDetectingWall = entity.CheckWall();
         isDetectingLedge = entity.CheckLedge();
+        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 }

@@ -322,7 +322,7 @@ public class PlayerController : MonoBehaviour
                 //生成拖影位置
                 if (Mathf.Abs(transform.position.x - lastImageXpos) > distanceBetweenImages)
                 {
-                    Debug.Log("生成残影");
+                    //Debug.Log("生成残影");
                     PlayerAfterPol.Instance.GetFromPool();                    
                     lastImageXpos = transform.position.x;
                 }

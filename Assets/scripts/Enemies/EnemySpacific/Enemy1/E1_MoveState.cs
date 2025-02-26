@@ -24,7 +24,14 @@ public class E1_MoveState : MoveState
     {
         base.LogicUpdate();
 
-        if(isDetectingWall || !isDetectingLedge)
+        //在最小检测范围内则将状态转换为 PlayerDetectedState
+        if (isPlayerInMinAgroRange)
+        {
+            stateMachine.ChangeState(enemy.playerDetectedState);
+        }
+
+        //如果检测到墙壁或者没有检测到悬崖则转换到 Idle
+        else if (isDetectingWall || !isDetectingLedge)
         {
             enemy.idleState.SetFlipAfterImage(true);      //设置翻转
             stateMachine.ChangeState(enemy.idleState);      //通过状态机进行状态转换

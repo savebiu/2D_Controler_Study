@@ -17,17 +17,23 @@ public class MoveState : State
     {
         this.stateData = stateData;
     }
-
+    //检测函数
+    public override void DoChecks()
+    {
+        base.DoChecks();
+        isDetectingWall = entity.CheckWall();
+        isDetectingLedge = entity.CheckLedge();
+        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
+    }
     //进入状态时调用
     public override void Enter()        //可以通过override重写基类状态
     {
         base.Enter();       //Enter函数被调用时也会自动调用基类中(State状态)中的Enter函数
         entity.SetVelocity(stateData.movementSpeed);       //设置实体速度
 
-        isDetectingWall = entity.CheckWall();
-        isDetectingLedge = entity.CheckLedge();
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
+
     }
+   
 
     public override void Exit()
     {
@@ -42,8 +48,5 @@ public class MoveState : State
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        isDetectingWall = entity.CheckWall();
-        isDetectingLedge = entity.CheckLedge();
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 }

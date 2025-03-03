@@ -20,12 +20,17 @@ public class IdleState : State
         this.stateData = stateData;
     }
 
+    public override void DoChecks()
+    {
+        base.DoChecks();
+        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();        //检测玩家是否在最小攻击范围内
+    }
+
     public override void Enter()
     {
         base.Enter();
         entity.SetVelocity(0f);     //速度为0进入
         isIdleTimeOver = false;
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();        //检测玩家是否在最小攻击范围内
         SetRandomIdleTiem();        //设置随机空闲时间
     }
 
@@ -53,7 +58,6 @@ public class IdleState : State
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
     //是否翻转

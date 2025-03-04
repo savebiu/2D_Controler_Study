@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newPlayerDetectedStateData", menuName = "Data/State Data/PlayerDetected Data")]
 public class D_PlayerDetected : ScriptableObject
 {
-    public float actionTime = 1.5f;        //行动时间
+    public float longRangeActionTime = 1.5f;        //行动时间
 }

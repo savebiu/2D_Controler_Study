@@ -8,6 +8,9 @@ public class PlayerDetectedState : State
 
     protected bool isPlayerInMinAgroRange;      //玩家是否在最小攻击范围内
     protected bool isPlayerInMaxAgroRange;      //玩家是否在最大攻击范围内
+
+    protected bool performCloseRangeAction;        //执行近距离动作
+    protected bool performLongRangeAction;      //玩家是否在最大攻击范围内
     public PlayerDetectedState(Entity entity, FiniteStateMachine stateMachine, string animBoolName, D_PlayerDetected stateDate) : base(entity, stateMachine, animBoolName)
     {
         this.stateData = stateDate;
@@ -26,6 +29,7 @@ public class PlayerDetectedState : State
     {
         base.Enter();
         entity.SetVelocity(0);      //设置速度为0
+        performLongRangeAction = false;        //执行近距离动作
     }
 
     public override void Exit()
@@ -36,6 +40,11 @@ public class PlayerDetectedState : State
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        //玩家执行远距离攻击
+        if (Time.time >= startTime + stateData.longRangeActionTime)
+        {
+            performLongRangeAction = true;
+        }
     }
 
     public override void PhysicsUpdate()

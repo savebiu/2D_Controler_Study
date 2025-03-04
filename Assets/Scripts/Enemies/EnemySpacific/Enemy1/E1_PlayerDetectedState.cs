@@ -12,6 +12,7 @@ using UnityEngine;
 public class E1_PlayerDetectedState : PlayerDetectedState
 {
     private Enemy1 enemy;
+    
 
     public E1_PlayerDetectedState(Entity entity, FiniteStateMachine stateMachine, string animBoolName, D_PlayerDetected stateDate, Enemy1 enemy) : base(entity, stateMachine, animBoolName, stateDate)
     {
@@ -32,11 +33,23 @@ public class E1_PlayerDetectedState : PlayerDetectedState
     {
         base.LogicUpdate();
 
-        //如果玩家不在最大攻击范围内则转换到Idle状态
+        /*//如果玩家不在最大攻击范围内则转换到Idle状态
         if (!isPlayerInMaxAgroRange)
         {
             enemy.idleState.SetFlipAfterImage(false);       //不希望翻转
             stateMachine.ChangeState(enemy.idleState);
+        }*/
+
+        //如果敌人在远距离,则执行冲锋状态
+        if (performLongRangeAction)
+        {
+            stateMachine.ChangeState(enemy.chargeState);
+        }
+
+        //如果敌人不在最大攻击范围内,则转换到寻敌状态
+        else if (!isPlayerInMaxAgroRange)   
+        {
+            stateMachine.ChangeState(enemy.lookForPlayerState);
         }
     }
 

@@ -28,8 +28,13 @@ public class E1_ChargeState : ChargeState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        //冲锋时间结束
-        if (isChargeTimeOver)
+        //未检测到悬崖 || 未检测到墙壁
+        if (!isDetectingLedge || isDetectingWall)
+        {
+            //TODO:寻找敌人
+            stateMachine.ChangeState(enemy.lookForPlayerState);
+        }
+        else if (isChargeTimeOver)
         {
             //如果玩家在最小攻击范围内则转换到攻击状态则更改为攻击状态
             if (isPlayerInMinAgroRange)

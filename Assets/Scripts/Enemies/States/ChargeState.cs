@@ -43,6 +43,7 @@ public class ChargeState : State
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+       
         //³å·æÌõ¼þ
         if(Time.time >= startTime + stateData.chargeTime)
         {

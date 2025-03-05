@@ -22,7 +22,7 @@ public class PlayerCombatController : MonoBehaviour
     private bool gotInput, isAttacking, isFirstAttack;
 
     //攻击
-    float[] attackDetails = new float[2];
+    AttackDetails attackDetails;
 
     // public bool aa { get => isAttacking ? gotInput : isFirstAttack; set => isAttacking = value; }
     private Animator anim;
@@ -77,10 +77,10 @@ public class PlayerCombatController : MonoBehaviour
         //扫描对象
         Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attack1HitBoxPos.position, attack1Radius, whatIsDamageable);
 
-        attackDetails[0] = attack1Damage;
-        attackDetails[1] = transform.position.x;
+        attackDetails.damageAmount = attack1Damage;
+        attackDetails.position = transform.position;
 
-        foreach(Collider2D collider in detectedObjects)
+        foreach (Collider2D collider in detectedObjects)
         {
             collider.transform.parent.SendMessage("Damage", attackDetails);
             //启用粒子反馈伤害
@@ -95,7 +95,7 @@ public class PlayerCombatController : MonoBehaviour
     }
 
     //接收被击打消息
-    void Damage(float[] attackDetails)
+    void Damage(AttackDetails attackDetails)
     {
         
         //如果不在冲刺状态
@@ -103,7 +103,7 @@ public class PlayerCombatController : MonoBehaviour
         {
             //判断击退方向
             int direction;
-            if (attackDetails[1] < transform.position.x)
+            if (attackDetails.position.x < transform.position.x)
             {
                 direction = 1;
             }

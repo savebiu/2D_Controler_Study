@@ -14,6 +14,7 @@ public class ChargeState : State
     protected bool isDetectingLedge;        // ¼ì²âµ½ĞüÑÂ
     protected bool isDetectingWall;     //¼ì²âµ½Ç½±Ú
     protected bool isChargeTimeOver;        //³å´ÌÊ±¼äÊÇ·ñ½áÊø
+    protected bool performCloseRangeAction;        //Ö´ĞĞ½ü¾àÀë¹¥»÷
 
     public ChargeState(Entity entity, FiniteStateMachine stateMachine, string animBoolName, D_ChargeState stateData) : base(entity, stateMachine, animBoolName)
     {

@@ -19,9 +19,11 @@ public class Entity : MonoBehaviour
 
     public Rigidbody2D rb { get; private set; }     //刚体
     public Animator anim { get; private set; }      //动画控制器
-    public GameObject AliveGO { get; private set; }     //存活对象
+    public GameObject aliveGO { get; private set; }     //存活对象
 
     public float facingDirection { get; private set; }      //怪物的朝向
+    public AnimationToStatemachine atsm { get; private set; }        //动画状态机
+
     public Vector2 velocityWorkSpace;       //速度工作空间
 
     //[SerializeField]
@@ -33,9 +35,10 @@ public class Entity : MonoBehaviour
     public virtual void Start()
     {
         //初始化
-        AliveGO = transform.Find("Alive").gameObject;       //获取所有存活对象
-        rb = AliveGO.GetComponent<Rigidbody2D>();       //从AliveGo存活对象中获取他们的刚体
-        anim = AliveGO.GetComponent<Animator>();        //从AliveGo存活对象中获取他们的动画控制器
+        aliveGO = transform.Find("Alive").gameObject;       //获取所有存活对象
+        rb = aliveGO.GetComponent<Rigidbody2D>();       //从AliveGo存活对象中获取他们的刚体
+        anim = aliveGO.GetComponent<Animator>();        //从AliveGo存活对象中获取他们的动画控制器
+        atsm = aliveGO.GetComponent<AnimationToStatemachine>();        //从AliveGo存活对象中获取他们的动画状态机
 
         facingDirection = 1;        //默认朝向为1
 
@@ -63,7 +66,7 @@ public class Entity : MonoBehaviour
     //墙壁检测
     public virtual bool CheckWall()
     {
-        return Physics2D.Raycast(wallCheck.position, AliveGO.transform.right, entityData.wallCheckDistance, entityData.whatIsGround);       //Raycast(检测初始位置, 方向, 距离, 图层)
+        return Physics2D.Raycast(wallCheck.position, aliveGO.transform.right, entityData.wallCheckDistance, entityData.whatIsGround);       //Raycast(检测初始位置, 方向, 距离, 图层)
     }
 
     //悬崖检测
@@ -81,22 +84,29 @@ public class Entity : MonoBehaviour
     //检测玩家是否在最小仇恨范围内
     public virtual bool CheckPlayerInMinAgroRange()
     {
-        return Physics2D.Raycast(playerCheck.transform.position, AliveGO.transform.right, entityData.minAgroDistance, entityData.whatIsPlayer);
+        return Physics2D.Raycast(playerCheck.transform.position, aliveGO.transform.right, entityData.minAgroDistance, entityData.whatIsPlayer);
     }
 
     //检测玩家是否在最大仇恨范围内
     public virtual bool CheckPlayerInMaxAgroRange()
     {
-        return Physics2D.Raycast(playerCheck.transform.position, AliveGO.transform.right, entityData.maxAgroDistance, entityData.whatIsPlayer);     
+        return Physics2D.Raycast(playerCheck.transform.position, aliveGO.transform.right, entityData.maxAgroDistance, entityData.whatIsPlayer);     
     }
 
+    //检查玩家是否在近距离攻击范围内
+    public virtual bool CheckPlayerInCloseRangeAction()
+    {
+        return Physics2D.Raycast(playerCheck.transform.position, aliveGO.transform.right, entityData.closeRangeActionDistance, entityData.whatIsPlayer);
+    }
 
     //翻转
     public virtual void Flip()
     {
         facingDirection *= -1;
-        AliveGO.transform.Rotate(0f, 180f, 0f);     //Rotate和Rotation的区别:Rotate是相对于当前的旋转,Rotation是相对于世界坐标的旋转
+        aliveGO.transform.Rotate(0f, 180f, 0f);     //Rotate和Rotation的区别:Rotate是相对于当前的旋转,Rotation是相对于世界坐标的旋转
     }
+
+
 
     public virtual void OnDrawGizmos()
     {

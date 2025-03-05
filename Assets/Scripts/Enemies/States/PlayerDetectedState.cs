@@ -9,8 +9,9 @@ public class PlayerDetectedState : State
     protected bool isPlayerInMinAgroRange;      //玩家是否在最小攻击范围内
     protected bool isPlayerInMaxAgroRange;      //玩家是否在最大攻击范围内
 
-    protected bool performCloseRangeAction;        //执行近距离动作
-    protected bool performLongRangeAction;      //玩家是否在最大攻击范围内
+    protected bool performCloseRangeAction;        //执行近距离攻击
+    protected bool performLongRangeAction;      //执行远程攻击
+
     public PlayerDetectedState(Entity entity, FiniteStateMachine stateMachine, string animBoolName, D_PlayerDetected stateDate) : base(entity, stateMachine, animBoolName)
     {
         this.stateData = stateDate;
@@ -22,6 +23,7 @@ public class PlayerDetectedState : State
         isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();        //检测玩家是否在最小攻击范围内
         isPlayerInMaxAgroRange = entity.CheckPlayerInMaxAgroRange();        //检测玩家是否在最大攻击范围内
 
+        performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();      //检测玩家是否在近距离攻击范围内
     }
 
     //检测到玩家实体后进入状态
@@ -46,6 +48,8 @@ public class PlayerDetectedState : State
         {
             performLongRangeAction = true;
         }
+
+        //TODO：转换为攻击状态
     }
 
     public override void PhysicsUpdate()

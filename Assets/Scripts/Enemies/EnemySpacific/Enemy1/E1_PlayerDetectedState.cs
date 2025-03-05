@@ -40,8 +40,14 @@ public class E1_PlayerDetectedState : PlayerDetectedState
             stateMachine.ChangeState(enemy.idleState);
         }*/
 
+        //在近战范围内        
+        if (performCloseRangeAction)
+        {
+            stateMachine.ChangeState(enemy.meleeAttackState);
+        }
+        
         //如果敌人在远距离,则执行冲锋状态
-        if (performLongRangeAction)
+        else if (performLongRangeAction)
         {
             stateMachine.ChangeState(enemy.chargeState);
         }

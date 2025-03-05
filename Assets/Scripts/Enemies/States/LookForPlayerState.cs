@@ -8,7 +8,7 @@ public class LookForPlayerState : State
     protected D_LookForPlayerState stateData;
     protected bool isPlayerInMinAgroRange;
     protected bool isAllTurnsDone;
-    protected bool isAllTurnsTimeDone;
+    protected bool isAllTurnsTimeDone;      //所有翻转时间完成
     protected bool turnImmediately;     //立即翻转
 
     protected float lastTurnTime;       //上次翻转时间

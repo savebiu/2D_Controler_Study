@@ -55,7 +55,7 @@ public class LookForPlayerState : State
             amountOfTurnsDone++;        //反转数量加一
             turnImmediately = false;     //禁止立即翻转
         }
-        else if(! isAllTurnsDone && lastTurnTime >= startTime + stateData.TimeBetweenTurns)
+        else if(!isAllTurnsDone && Time.time >= lastTurnTime + stateData.TimeBetweenTurns)
         {
             entity.Flip();
             lastTurnTime = Time.time;
@@ -67,10 +67,10 @@ public class LookForPlayerState : State
         {
             isAllTurnsDone = true;
         }
-        /*if(isAllTurnsDone && Time.time >= lastTurnTime + stateData.TimeBetweenTurns)      //所有翻转完成 && 反转冷却结束
+        if (isAllTurnsDone && Time.time >= lastTurnTime + stateData.TimeBetweenTurns)      //所有翻转完成 && 反转冷却结束
         {
             isAllTurnsDone = true;
-        }*/
+        }
     }
 
     public override void PhysicsUpdate()

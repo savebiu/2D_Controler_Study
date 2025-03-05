@@ -29,7 +29,8 @@ public class PlayerDetectedState : State
     {
         base.Enter();
         entity.SetVelocity(0);      //设置速度为0
-        performLongRangeAction = false;        //执行近距离动作
+        performLongRangeAction = false;        //执行远距离动作
+        //performCloseRangeAction = false;
     }
 
     public override void Exit()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 
 /*
@@ -32,6 +33,9 @@ public class Entity : MonoBehaviour
     public Transform ledgeCheck;        //悬崖检测
     public Transform playerCheck;       //玩家检测
 
+    public float currentHealth;     //当前生命值
+    public int lastDamageDirection;     //上次攻击方向 
+
     public virtual void Start()
     {
         //初始化
@@ -41,7 +45,7 @@ public class Entity : MonoBehaviour
         atsm = aliveGO.GetComponent<AnimationToStatemachine>();        //从AliveGo存活对象中获取他们的动画状态机
 
         facingDirection = 1;        //默认朝向为1
-
+        currentHealth = entityData.maxHealth;        //当前生命值为最大生命值
         stateMachine = new FiniteStateMachine();
 
     }
@@ -99,6 +103,31 @@ public class Entity : MonoBehaviour
         return Physics2D.Raycast(playerCheck.transform.position, aliveGO.transform.right, entityData.closeRangeActionDistance, entityData.whatIsPlayer);
     }
 
+    //损伤
+    public virtual void Damage(AttackDetails attackDetails)
+    {
+        currentHealth -= attackDetails.damageAmount;        //当前生命值减去攻击详情中的伤害量
+        DamageHop(entityData.damageHopSpeed);       //受伤跳跃
+
+        //判断攻击方向
+        if (attackDetails.position.x > aliveGO.transform.position.x)     //角色位置是否在攻击位置的右边
+        {
+            lastDamageDirection = -1;       //攻击方向为-1
+        }
+        else
+        {
+            lastDamageDirection = 1;        //攻击方向为1
+        }
+        
+    }
+
+    //受伤跳跃
+    public virtual void DamageHop(float velocity)
+    {
+        velocityWorkSpace.Set(rb.velocity.x, velocity);        //设置速度
+        rb.velocity = velocityWorkSpace;        //赋值给刚体
+    }
+
     //翻转
     public virtual void Flip()
     {
@@ -112,5 +141,8 @@ public class Entity : MonoBehaviour
     {
         Gizmos.DrawLine(wallCheck.position, wallCheck.position + (Vector3)(Vector2.right * facingDirection * entityData.wallCheckDistance));        //墙壁检测线
         Gizmos.DrawLine(ledgeCheck.position, ledgeCheck.position + (Vector3)(Vector2.down * entityData.ledgeCheckDistance));        //悬崖检测线
+        Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(Vector2.right * entityData.closeRangeActionDistance), 0.2f);     //近距离攻击玩家检测线
+        Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(Vector2.right * entityData.minAgroDistance), 0.2f);        //最小仇恨范围检测线
+        Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(Vector2.right * entityData.maxAgroDistance), 0.2f);        //最大仇恨范围检测线
     }
 }

@@ -39,4 +39,9 @@ public class Enemy1 : Entity
 
         stateMachine.Initialize(idleState);     //³õÊ¼»¯×´Ì¬»ú
     }
+    public override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        Gizmos.DrawWireSphere(meleeAttackPosition.position, meleeAttackStateData.attackRadius);
+    }
 }

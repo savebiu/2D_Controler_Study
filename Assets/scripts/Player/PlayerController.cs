@@ -34,8 +34,8 @@ public class PlayerController : MonoBehaviour
 
     private float lastImageXpos;
     private float lastDash = -100;      //残影冷却时间
-    /*//攀爬
-    private bool isClimb;
+    //攀爬
+    /*private bool isClimb;
     private bool canClimb = false;
     private bool ledgeDetected;
     private Vector2 ledgePosBot;
@@ -76,12 +76,12 @@ public class PlayerController : MonoBehaviour
     [Header("击退速度")]
     Vector2 knockbackSpeed;   //被击退的速度
 
-    /*//攀爬检测
-    public Transform ledgeCheck;
+    //攀爬检测
+    /*public Transform ledgeCheck;
     public float ledgeClimbXOffset1 = 0f;
     public float ledgeClimbYOffset1 = 0f;
     public float ledgeClimbXOffset2 = 0f;
-    public float ledgeClimbYOffset2 = 0f;*/ 
+    public float ledgeClimbYOffset2 = 0f;*/
     // Start is called before the first frame update
     void Start()
     {
@@ -379,9 +379,9 @@ public class PlayerController : MonoBehaviour
         return isDashing;
     }
 
-    /*
+
     //攀爬
-    private void HandleLedgeClimb()
+    /*private void HandleLedgeClimb()
     {
         if (canClimb)
         {
@@ -416,15 +416,16 @@ public class PlayerController : MonoBehaviour
             }
 
         }
-    }
-    private void FinishClimb()
-    {
-        transform.position = Vector2.MoveTowards(transform.position, ledgePos2, movementSpeed * Time.deltaTime);
-        if (Vector2.Distance(rb.position, ledgePos2) < 0.1f)
-            ledgeDetected = false;
-        canClimb = false;
-        anim.SetBool("IsClimb", false);
     }*/
+    //private void FinishClimb()
+    //{
+    //    transform.position = Vector2.MoveTowards(transform.position, ledgePos2, movementSpeed * Time.deltaTime);
+    //    if (Vector2.Distance(rb.position, ledgePos2) < 0.1f)
+    //        ledgeDetected = false;
+    //    canClimb = false;
+    //    anim.SetBool("IsClimb", false);
+    //}
+
     //动画
     private void UpdateAnimation()
     {

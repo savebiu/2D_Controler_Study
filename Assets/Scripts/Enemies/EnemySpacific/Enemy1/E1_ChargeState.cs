@@ -28,24 +28,32 @@ public class E1_ChargeState : ChargeState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        
+        //在近战范围内则转换到攻击状态
+        if (performCloseRangeAction)
+        {
+            stateMachine.ChangeState(enemy.meleeAttackState);
+        }
+
         //未检测到悬崖 || 未检测到墙壁
         if (!isDetectingLedge || isDetectingWall)
         {
            
             stateMachine.ChangeState(enemy.lookForPlayerState);
         }
-        else if (isChargeTimeOver)
-        {
-            //在近战范围内则转换到攻击状态
-            if (performCloseRangeAction)
-            {
-                stateMachine.ChangeState(enemy.meleeAttackState);
-            }
 
+        //冲锋状态结束时
+        else if (isChargeTimeOver)
+        {           
             //如果玩家在最小攻击范围内则转换到攻击状态则更改为攻击状态
-            else if (isPlayerInMinAgroRange)
+            if (isPlayerInMinAgroRange)
             {
-                stateMachine.ChangeState(enemy.playerDetectedState);        //转换到玩家检测状态
+                stateMachine.ChangeState(enemy.playerDetectedState);        
+            }
+            //不再最小估计范围内则转换到寻找玩家状态
+            else
+            {
+                stateMachine.ChangeState(enemy.lookForPlayerState);
             }
         }
     }

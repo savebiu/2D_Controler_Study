@@ -19,6 +19,9 @@ public class D_Entity : ScriptableObject
     public LayerMask whatIsGround;      //地面图层
     public LayerMask whatIsPlayer;      //角色图层
 
-    public float maxHealth = 30f;       //血量
+    public float maxHealth = 60f;       //血量
     public float damageHopSpeed = 6f;       //伤害跳跃速度
+    public float knockbackSpeedX;       //击退速度X
+    public float deathTorque;       //deathTorque假人死亡时的扭矩
+
 }

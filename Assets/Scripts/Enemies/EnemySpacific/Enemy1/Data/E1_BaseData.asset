@@ -24,3 +24,7 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 512
+  maxHealth: 60
+  damageHopSpeed: 6
+  knockbackSpeedX: 10
+  deathTorque: 1

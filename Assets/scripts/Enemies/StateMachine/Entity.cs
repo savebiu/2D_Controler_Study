@@ -20,7 +20,12 @@ public class Entity : MonoBehaviour
 
     public Rigidbody2D rb { get; private set; }     //刚体
     public Animator anim { get; private set; }      //动画控制器
-    public GameObject aliveGO { get; private set; }     //存活对象
+    public GameObject aliveGO{ get; private set; }     //存活对象
+    //public GameObject brokenTopGO { get; private set; }      //死亡上半部分
+    //public GameObject brokenBotGO { get; private set; }      //死亡下半部分
+    //private Rigidbody2D rbAlive, rbBrokenTop, rbBrokenBot;      //存活对象的刚体,死亡上半部分的刚体,死亡下半部分的刚体
+
+
 
     public float facingDirection { get; private set; }      //怪物的朝向
     public AnimationToStatemachine atsm { get; private set; }        //动画状态机
@@ -35,6 +40,16 @@ public class Entity : MonoBehaviour
 
     public float currentHealth;     //当前生命值
     public int lastDamageDirection;     //上次攻击方向 
+
+
+    //击退
+    private float knockbacksatart;  //开始记录击退时间
+    private bool knockback; //是否正在进行击退
+
+    [SerializeField]
+    GameObject hitParticle;     //受伤粒子效果
+    [SerializeField]
+    GameObject deathChunkParticle;      //死亡粒子效果
 
     public virtual void Start()
     {
@@ -108,17 +123,24 @@ public class Entity : MonoBehaviour
     {
         currentHealth -= attackDetails.damageAmount;        //当前生命值减去攻击详情中的伤害量
         DamageHop(entityData.damageHopSpeed);       //受伤跳跃
+        Instantiate(hitParticle, aliveGO.transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));        //生成受伤粒子效果
 
         //判断攻击方向
         if (attackDetails.position.x > aliveGO.transform.position.x)     //角色位置是否在攻击位置的右边
         {
             lastDamageDirection = -1;       //攻击方向为-1
+            KnockBack();
         }
         else
         {
             lastDamageDirection = 1;        //攻击方向为1
         }
-        
+       
+        if (currentHealth <= 0f)
+        {
+            //死亡
+            Die();
+        }
     }
 
     //受伤跳跃
@@ -133,6 +155,21 @@ public class Entity : MonoBehaviour
     {
         facingDirection *= -1;
         aliveGO.transform.Rotate(0f, 180f, 0f);     //Rotate和Rotation的区别:Rotate是相对于当前的旋转,Rotation是相对于世界坐标的旋转
+    }
+
+    //击退
+    private void KnockBack()
+    {
+        knockback = true;
+        knockbacksatart = Time.time;
+        //aliveGO.velocity = new Vector2(entityData.knockbackSpeedX * facingDirection, rb.velocity.y);
+    }
+
+    //死亡
+    public virtual void Die()
+    {
+        Instantiate(deathChunkParticle, aliveGO.transform.position, Quaternion.identity); // 实例化死亡粒子效果
+        Destroy(aliveGO);        //销毁存活对象       
     }
 
 

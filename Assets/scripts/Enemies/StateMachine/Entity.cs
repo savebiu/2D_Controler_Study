@@ -162,7 +162,7 @@ public class Entity : MonoBehaviour
     {
         knockback = true;
         knockbacksatart = Time.time;
-        //aliveGO.velocity = new Vector2(entityData.knockbackSpeedX * facingDirection, rb.velocity.y);
+        rb.velocity = new Vector2(entityData.knockbackSpeedX * -facingDirection, rb.velocity.y);
     }
 
     //À¿Õˆ

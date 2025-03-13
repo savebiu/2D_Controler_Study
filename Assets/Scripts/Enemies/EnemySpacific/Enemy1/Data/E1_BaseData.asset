@@ -26,5 +26,5 @@ MonoBehaviour:
     m_Bits: 512
   maxHealth: 60
   damageHopSpeed: 6
-  knockbackSpeedX: 10
+  knockbackSpeedX: 3
   deathTorque: 1

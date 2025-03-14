@@ -25,8 +25,8 @@ public class PlayerAfterImage : MonoBehaviour
 
     [SerializeField]
     //透明度设定
-    public float alphaSet = 0.8f;
-    private float alphaMultiplier = 0.85f;      //alpha降低比值
+    public float alphaSet = 0.9f;
+    private float alphaMultiplier = 0.6f;      //alpha降低比值
 
     //每次启动游戏都会调用它
     private void OnEnable()

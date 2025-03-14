@@ -32,12 +32,12 @@ public class E1_LookForPlayerState : LookForPlayerState
         if (isPlayerInMinAgroRange)
         {
             stateMachine.ChangeState(enemy.playerDetectedState);
-            Debug.Log("进入玩家检测检测");
+            //Debug.Log("进入玩家检测检测");
         }
         //如果所有转向都完成,则转为移动状态
         else if (isAllTurnsDone)
         {
-            Debug.Log("所有翻转完成");
+            //Debug.Log("所有翻转完成");
             stateMachine.ChangeState(enemy.moveState);
         }
     }

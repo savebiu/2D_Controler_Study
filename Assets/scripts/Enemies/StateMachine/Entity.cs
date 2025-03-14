@@ -21,9 +21,8 @@ public class Entity : MonoBehaviour
     public Rigidbody2D rb { get; private set; }     //刚体
     public Animator anim { get; private set; }      //动画控制器
     public GameObject aliveGO{ get; private set; }     //存活对象
-    //public GameObject brokenTopGO { get; private set; }      //死亡上半部分
-    //public GameObject brokenBotGO { get; private set; }      //死亡下半部分
-    //private Rigidbody2D rbAlive, rbBrokenTop, rbBrokenBot;      //存活对象的刚体,死亡上半部分的刚体,死亡下半部分的刚体
+    public int lastDamageDirection { get; private set; }     //上次攻击方向 
+
 
 
 
@@ -36,16 +35,18 @@ public class Entity : MonoBehaviour
     [Header("检测")]
     public Transform wallCheck;     //墙壁检测
     public Transform ledgeCheck;        //悬崖检测
+    public Transform groundCheck;       //地面检测
     public Transform playerCheck;       //玩家检测
 
     public float currentHealth;     //当前生命值
-    public int lastDamageDirection;     //上次攻击方向 
 
 
     //击退
     private float knockbacksatart;  //开始记录击退时间
     private bool knockback; //是否正在进行击退
 
+    
+    [Header("效果")]
     [SerializeField]
     GameObject hitParticle;     //受伤粒子效果
     [SerializeField]
@@ -76,9 +77,15 @@ public class Entity : MonoBehaviour
     }
 
     //设置朝向,速度 
-    public void SetVelocity(float velocity)
+    public virtual void SetVelocity(float velocity)
     {
         velocityWorkSpace.Set(facingDirection * velocity, rb.velocity.y);       //工作空间设置为(x = 当前x轴方向 * 速度, 当前y轴速度)
+        rb.velocity = velocityWorkSpace;        //将速度赋值给刚体进行移动
+    }
+    public virtual void SetVelocity(float velocity, Vector2 angle, int direction)
+    {
+        angle.Normalize();      //归一化处理
+        velocityWorkSpace.Set(velocity * angle.x * direction, velocity * angle.y);       //工作空间设置为(速度 * 角度x * 方向, 速度 * 角度y
         rb.velocity = velocityWorkSpace;        //将速度赋值给刚体进行移动
     }
 
@@ -169,7 +176,7 @@ public class Entity : MonoBehaviour
     public virtual void Die()
     {
         Instantiate(deathChunkParticle, aliveGO.transform.position, Quaternion.identity); // 实例化死亡粒子效果
-        Destroy(aliveGO);        //销毁存活对象       
+        Destroy(aliveGO.transform.parent.gameObject);        //销毁存活对象Alive的父物体   
     }
 
 

@@ -11,7 +11,7 @@ using UnityEngine;
 public class D_StunState : ScriptableObject
 {
     public float stuntime = 2f;         //眩晕时间
-    public float stunknockbacksatart = 0.2f;       //开始记录击退时间
+    public float stunknockbackTime = 0.2f;       //开始记录击退时间
     public float stunknockbackSpeed = 20f;       //击退速度
 
     public Vector2 knockbackAngle;      //击退角度

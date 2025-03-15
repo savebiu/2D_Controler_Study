@@ -10,6 +10,7 @@ public class Enemy1 : Entity
     public E1_ChargeState chargeState { get; private set; }       //冲锋状态获取器
     public E1_LookForPlayerState lookForPlayerState { get; private set; }       //寻找玩家状态获取器
     public E1_MeleeAttackState meleeAttackState { get; private set; }       //近战攻击状态获取器
+    public E1_StunState stunState { get; private set; }       //眩晕状态获取器
 
     [SerializeField]
     private D_IdleState idleStateData;
@@ -23,9 +24,10 @@ public class Enemy1 : Entity
     private D_LookForPlayerState lookForPlayerStateData;        //寻找玩家状态数据
     [SerializeField]
     private D_MeleeState meleeAttackStateData;       //近战攻击状态数据
-
     [SerializeField]
     private Transform meleeAttackPosition;     //近战攻击位置
+    [SerializeField]
+    private D_StunState stunStateData;       //眩晕状态数据
     public override void Start()
     {
         base.Start();
@@ -36,6 +38,7 @@ public class Enemy1 : Entity
         chargeState = new E1_ChargeState(this, stateMachine, "charge", chargeStateData, this);      //创建冲锋状态
         lookForPlayerState = new E1_LookForPlayerState(this, stateMachine, "lookForPlayer", lookForPlayerStateData, this);      //创建寻找玩家状态
         meleeAttackState = new E1_MeleeAttackState(this, stateMachine, "meleeAttack", aliveGO.transform, meleeAttackStateData, this);      //创建近战攻击状态
+        stunState = new E1_StunState(this, stateMachine, "stun", stunStateData, this);      //创建眩晕状态
 
         stateMachine.Initialize(idleState);     //初始化状态机
     }
@@ -43,5 +46,15 @@ public class Enemy1 : Entity
     {
         base.OnDrawGizmos();
         Gizmos.DrawWireSphere(meleeAttackPosition.position, meleeAttackStateData.attackRadius);
+    }
+
+    public override void Damage(AttackDetails attackDetails)
+    {
+        base.Damage(attackDetails);
+
+        if(isStunned && stateMachine.currentState != stunState)
+        {
+            stateMachine.ChangeState(stunState);
+        }
     }
 }

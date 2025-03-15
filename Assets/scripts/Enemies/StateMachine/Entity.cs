@@ -21,11 +21,8 @@ public class Entity : MonoBehaviour
     public Rigidbody2D rb { get; private set; }     //刚体
     public Animator anim { get; private set; }      //动画控制器
     public GameObject aliveGO{ get; private set; }     //存活对象
+
     public int lastDamageDirection { get; private set; }     //上次攻击方向 
-
-
-
-
     public float facingDirection { get; private set; }      //怪物的朝向
     public AnimationToStatemachine atsm { get; private set; }        //动画状态机
 
@@ -38,8 +35,11 @@ public class Entity : MonoBehaviour
     public Transform groundCheck;       //地面检测
     public Transform playerCheck;       //玩家检测
 
+    private float lastDamageTime;       //上次受伤时间
     public float currentHealth;     //当前生命值
+    public float currentStunResistance;      //当前眩晕抵抗力
 
+    protected bool isStunned;       //是否眩晕
 
     //击退
     private float knockbacksatart;  //开始记录击退时间
@@ -62,6 +62,7 @@ public class Entity : MonoBehaviour
 
         facingDirection = 1;        //默认朝向为1
         currentHealth = entityData.maxHealth;        //当前生命值为最大生命值
+        currentStunResistance = entityData.stunResistance;        //当前眩晕抵抗力为眩晕抵抗力
         stateMachine = new FiniteStateMachine();
 
     }
@@ -69,6 +70,12 @@ public class Entity : MonoBehaviour
     public virtual void Update()        //virtual的作用是在基类中允许被重写,在子类中只需要使用override即可覆盖该方法
     {
         stateMachine.currentState.LogicUpdate();        //调用状态机中当前状态的逻辑更新
+
+        //重置眩晕
+        if(Time.time >= lastDamageTime + entityData.stunRecorveryTime)
+        {
+            ResetStunResistance();
+        }
     }
 
     public virtual void FixedUpdate()
@@ -98,7 +105,7 @@ public class Entity : MonoBehaviour
     //悬崖检测
     public virtual bool CheckLedge()
     {
-        return Physics2D.Raycast(ledgeCheck.position, Vector2.down, entityData.ledgeCheckDistance, entityData.whatIsGround);
+        return Physics2D.Raycast(ledgeCheck.position, Vector2.down, entityData.ledgeCheckDistance, entityData.whatIsGround);        //Raycast（地面检测，向下， 地面检测距离， 地面图层）
     }
 
 
@@ -128,7 +135,13 @@ public class Entity : MonoBehaviour
     //损伤
     public virtual void Damage(AttackDetails attackDetails)
     {
+        lastDamageTime = Time.time;     //记录上次受伤时间
+
+        //受伤血量
         currentHealth -= attackDetails.damageAmount;        //当前生命值减去攻击详情中的伤害量
+        currentStunResistance -= attackDetails.stunDamageAmount;        //当前眩晕抵抗力减去攻击详情中的眩晕伤害量
+
+        //受伤效果
         DamageHop(entityData.damageHopSpeed);       //受伤跳跃
         Instantiate(hitParticle, aliveGO.transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));        //生成受伤粒子效果
 
@@ -142,12 +155,26 @@ public class Entity : MonoBehaviour
         {
             lastDamageDirection = 1;        //攻击方向为1
         }
+
+        //眩晕条件
+        if(currentStunResistance <= 0)
+        {
+            isStunned = true;
+        }
        
+        //死亡条件
         if (currentHealth <= 0f)
         {
             //死亡
             Die();
         }
+    }
+
+    //重置眩晕
+    public virtual void ResetStunResistance()
+    {
+        currentStunResistance = entityData.stunResistance;        //重置眩晕抵抗力
+        isStunned = false;      //不眩晕
     }
 
     //受伤跳跃

@@ -7,5 +7,6 @@ using UnityEngine;
 public struct AttackDetails
 {
     public Vector2 position;        //Œª÷√
-    public float damageAmount;      //…À∫¶
+    public float damageAmount;      //…À∫¶¡ø
+    public float stunDamageAmount;      //—£‘Œ…À∫¶¡ø
 }

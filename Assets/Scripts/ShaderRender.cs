@@ -19,7 +19,7 @@ public class ShaderRender : MonoBehaviour
     public void FlashEffect()
     {
         StartCoroutine(FlashRoutine());         //启动协程
-        Debug.Log("闪光协程");
+        //Debug.Log("闪光协程");
     }
 
     public IEnumerator FlashRoutine()

@@ -12,8 +12,6 @@ public class PlayerCombatController : MonoBehaviour
     [SerializeField]
     //ÀäÈ´Ê±¼ä  ¼ì²â·¶Î§  ÉËº¦
     private float inputTimer, attack1Radius, attack1Damage;
-    [SerializeField]
-    private float stunDamageAmount = 1f;
     //¼ì²â±»¹¥»÷ÕßµÄÎ»ÖÃ
     [SerializeField]
     private Transform attack1HitBoxPos;
@@ -62,6 +60,10 @@ public class PlayerCombatController : MonoBehaviour
                 gotInput = false;
                 isAttacking = true;
                 isFirstAttack = !isFirstAttack;
+
+                //½ûÖ¹ÒÆ¶¯
+                //PC.canMove = false;
+
                 anim.SetBool("Attack1", true);
                 anim.SetBool("FirstAttack", !isFirstAttack);
                 anim.SetBool("IsAttacking", isAttacking);
@@ -81,7 +83,6 @@ public class PlayerCombatController : MonoBehaviour
 
         attackDetails.damageAmount = attack1Damage;
         attackDetails.position = transform.position;
-        attackDetails.stunDamageAmount = stunDamageAmount;
 
         foreach (Collider2D collider in detectedObjects)
         {
@@ -93,6 +94,8 @@ public class PlayerCombatController : MonoBehaviour
     private void FinishAttack1()
     {
         isAttacking = false;
+
+        //PC.canMove = true;      //Ëø¶¨ÒÆ¶¯
         anim.SetBool("IsAttacking", isAttacking);
         anim.SetBool("Attack1", false);
     }

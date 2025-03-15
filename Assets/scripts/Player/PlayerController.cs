@@ -6,34 +6,38 @@ using UnityEngine.PlayerLoop;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private Animator anim;
 
     //动画状态
     private bool facingRight = true;
-    //墙壁检测
-    private bool isWalking = true;
-    //地面检测
-    private bool isGround;
-    //墙壁检测
-    private bool isTouchingWall;
-    private bool isTouchingLedge;
-    private bool isWallSliding;
+
+    [Header("状态检测")]    
+    private bool isWalking = true;      //移动检测    
+    public bool isRun;      //奔跑检测
+    public bool isDashing;      //冲刺检测
+    private bool isGround;      //地面检测
+    private bool isTouchingWall;  //墙壁检测
+    private bool isTouchingLedge;       //悬崖检测
+    private bool isWallSliding;     //滑墙检测
+
+
     //跳跃参数
-    private bool canJump = false;
     private int jumpCount = 2;
     private float JumpHeightMultiplier = 0.5f;
     //蹬墙跳    
     public Vector2 wallHopDirection;
     public Vector2 wallJumpDirection;
-    //run
-    public bool isRun;
     //冲刺
-    public bool isDashing;   
     private float dashTimeLeft;
 
     private float lastImageXpos;
     private float lastDash = -100;      //残影冷却时间
+    
+    //状态判定
+    private bool canJump = false;
+    //public bool canMove = true;
+
     //攀爬
     /*private bool isClimb;
     private bool canClimb = false;
@@ -157,7 +161,13 @@ public class PlayerController : MonoBehaviour
     //移动
     private void Movement()
     {
-        //移动
+        ////移动
+        //if (canMove)
+        //{
+        //    rb.velocity = new Vector2(0, rb.velocity.y);
+        //    return;
+        //}
+
         if (Mathf.Abs(rb.velocity.x) > 0.01f)
         {
             isWalking = true;

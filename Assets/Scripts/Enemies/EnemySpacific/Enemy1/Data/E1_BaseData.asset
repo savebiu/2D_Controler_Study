@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallCheckDistance: 0.2
   ledgeCheckDistance: 0.4
+  groundChekDistance: 0.2
   minAgroDistance: 3.71
   maxAgroDistance: 6
-  closeRangeActionDistance: 2.28
+  closeRangeActionDistance: 0.88
   longRangeActionDistance: 5
   whatIsGround:
     serializedVersion: 2
@@ -27,3 +28,5 @@ MonoBehaviour:
   maxHealth: 60
   damageHopSpeed: 6
   knockbackSpeedX: 4
+  stunResistance: 3
+  stunRecorveryTime: 2

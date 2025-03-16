@@ -52,17 +52,19 @@ public class E1_PlayerDetectedState : PlayerDetectedState
             stateMachine.ChangeState(enemy.chargeState);
         }
 
-        //如果敌人不在最大攻击范围内,则转换到寻敌状态
-        else if (!isPlayerInMaxAgroRange)   
-        {
-            stateMachine.ChangeState(enemy.lookForPlayerState);
-        }
         //遇到悬崖和墙壁
         else if (!isDetectedLedge)
         {
             entity.Flip();      //翻转
             stateMachine.ChangeState(enemy.moveState);
         }
+
+        //如果敌人不在最大攻击范围内,则转换到寻敌状态
+        else if (!isPlayerInMaxAgroRange)   
+        {
+            stateMachine.ChangeState(enemy.lookForPlayerState);
+        }
+        
     }
 
     public override void PhysicsUpdate()

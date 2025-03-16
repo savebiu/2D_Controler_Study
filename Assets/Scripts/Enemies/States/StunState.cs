@@ -57,6 +57,7 @@ public class StunState : State
             isStunTimeOver = true;
             
         }
+
         //击退时间结束 并且 时间没停止
         if (Time.time >= startTime + stateData.stunknockbackTime && !isMovementStopped)
         {

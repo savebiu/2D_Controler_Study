@@ -72,8 +72,9 @@ public class Entity : MonoBehaviour
         stateMachine.currentState.LogicUpdate();        //调用状态机中当前状态的逻辑更新
 
         //重置眩晕
-        if(Time.time >= lastDamageTime + entityData.stunRecorveryTime)
+        if(isStunned ==true &&currentStunResistance <= entityData.stunResistance && (Time.time - lastDamageTime >= entityData.stunRecorveryTime))
         {
+            Debug.Log("重置眩晕:" + Time.time.ToString() + "      aaa     " + lastDamageTime.ToString() + "   bbb " + entityData.stunRecorveryTime.ToString());
             ResetStunResistance();
         }
     }
@@ -212,6 +213,7 @@ public class Entity : MonoBehaviour
     {
         Gizmos.DrawLine(wallCheck.position, wallCheck.position + (Vector3)(Vector2.right * facingDirection * entityData.wallCheckDistance));        //墙壁检测线
         Gizmos.DrawLine(ledgeCheck.position, ledgeCheck.position + (Vector3)(Vector2.down * entityData.ledgeCheckDistance));        //悬崖检测线
+        Gizmos.DrawLine(groundCheck.position, groundCheck.position + (Vector3)(Vector2.down * facingDirection * entityData.groundChekDistance));    //地面检测线
         Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(Vector2.right * entityData.closeRangeActionDistance), 0.2f);     //近距离攻击玩家检测线
         Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(Vector2.right * entityData.minAgroDistance), 0.2f);        //最小仇恨范围检测线
         Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(Vector2.right * entityData.maxAgroDistance), 0.2f);        //最大仇恨范围检测线

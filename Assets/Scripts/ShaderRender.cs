@@ -11,7 +11,7 @@ public class ShaderRender : MonoBehaviour
     private void Start()
     {
         materialInst = m_SpriteRenderer.material;
-        Debug.Log("开始");
+        //Debug.Log("开始");
         GetComponent<ShaderRender>().FlashEffect();
     }
 

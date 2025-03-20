@@ -45,12 +45,12 @@ public class Entity : MonoBehaviour
     private float knockbacksatart;  //开始记录击退时间
     private bool knockback; //是否正在进行击退
 
-    
-    [Header("效果")]
-    [SerializeField]
-    GameObject hitParticle;     //受伤粒子效果
-    [SerializeField]
-    GameObject deathChunkParticle;      //死亡粒子效果
+
+    //[Header("效果")]
+    //[SerializeField]
+    //GameObject hitParticle;     //受伤粒子效果
+    //[SerializeField]
+    //GameObject deathChunkParticle;      //死亡粒子效果
 
     public virtual void Start()
     {
@@ -74,7 +74,7 @@ public class Entity : MonoBehaviour
         //重置眩晕
         if(Time.time >= lastDamageTime + entityData.stunRecorveryTime)
         {
-            Debug.Log("重置眩晕:" + Time.time.ToString() + "      aaa     " + lastDamageTime.ToString() + "   bbb " + entityData.stunRecorveryTime.ToString());
+            //Debug.Log("重置眩晕:" + Time.time.ToString() + "      aaa     " + lastDamageTime.ToString() + "   bbb " + entityData.stunRecorveryTime.ToString());
             ResetStunResistance();
         }
     }
@@ -144,7 +144,7 @@ public class Entity : MonoBehaviour
 
         //受伤效果
         DamageHop(entityData.damageHopSpeed);       //受伤跳跃
-        Instantiate(hitParticle, aliveGO.transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));        //生成受伤粒子效果
+        Instantiate(entityData.hitParticle, aliveGO.transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));        //生成受伤粒子效果
 
         //判断攻击方向
         if (attackDetails.position.x > aliveGO.transform.position.x)     //角色位置是否在攻击位置的右边
@@ -203,7 +203,7 @@ public class Entity : MonoBehaviour
     //死亡
     public virtual void Die()
     {
-        Instantiate(deathChunkParticle, aliveGO.transform.position, Quaternion.identity); // 实例化死亡粒子效果
+        Instantiate(entityData.deathChunkParticle, aliveGO.transform.position, Quaternion.identity); // 实例化死亡粒子效果
         Destroy(aliveGO.transform.parent.gameObject);        //销毁存活对象Alive的父物体   
     }
 

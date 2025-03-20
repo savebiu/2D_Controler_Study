@@ -113,4 +113,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeTime: 0.1
-  alphaSet: 0.8
+  alphaSet: 1

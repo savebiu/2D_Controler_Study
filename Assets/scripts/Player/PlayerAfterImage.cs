@@ -19,14 +19,14 @@ public class PlayerAfterImage : MonoBehaviour
 
     [SerializeField]
     //时间设定
-    private float activeTime = 0.1f;    //残影存在时间
+    private float activeTime = 0.3f;    //残影存在时间
     private float timeActivated;        //激活时间
     private float alpha;
 
     [SerializeField]
     //透明度设定
-    public float alphaSet = 0.9f;
-    private float alphaMultiplier = 0.6f;      //alpha降低比值
+    public float alphaSet = 0.85f;
+    private float alphaMultiplier = 0.85f;      //alpha降低比值
 
     //每次启动游戏都会调用它
     private void OnEnable()

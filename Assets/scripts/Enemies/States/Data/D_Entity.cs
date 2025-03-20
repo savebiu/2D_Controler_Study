@@ -26,5 +26,10 @@ public class D_Entity : ScriptableObject
     //眩晕抗性(敌人承受多少伤害会被眩晕)
     public float stunResistance = 3f;     //眩晕抗性
     //眩晕回复时间(敌人上次收到眩晕后需要多久才能恢复)
-    public float stunRecorveryTime = 2f;    
+    public float stunRecorveryTime = 2f;
+
+    [Header("效果")]
+    [SerializeField]
+    public GameObject hitParticle;     //受伤粒子效果
+    public Object deathChunkParticle;       //死亡粒子效果
 }

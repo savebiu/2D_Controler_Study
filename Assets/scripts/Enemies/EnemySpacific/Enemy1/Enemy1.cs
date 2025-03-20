@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy1 : Entity
 {
+    //状态列表
     public E1_IdleState idleState { get; private set; }
     public E1_MoveState moveState { get; private set; }
     public E1_PlayerDetectedState playerDetectedState { get; private set; }     //玩家检测状态获取器
@@ -12,6 +13,7 @@ public class Enemy1 : Entity
     public E1_MeleeAttackState meleeAttackState { get; private set; }       //近战攻击状态获取器
     public E1_StunState stunState { get; private set; }       //眩晕状态获取器
 
+    //数据列表
     [SerializeField]
     private D_IdleState idleStateData;
     [SerializeField]
@@ -28,6 +30,7 @@ public class Enemy1 : Entity
     private Transform meleeAttackPosition;     //近战攻击位置
     [SerializeField]
     private D_StunState stunStateData;       //眩晕状态数据
+
     public override void Start()
     {
         base.Start();

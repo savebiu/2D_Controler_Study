@@ -53,12 +53,12 @@ public class CombatDummyController : MonoBehaviour
     }
 
     //伤害累计
-    private void Damage(float[] details)        //details[0]伤害 dstails[1]判断攻击方向 
+    private void Damage(AttackDetails details)        //details[0]伤害 dstails[1]判断攻击方向 
     {
-        currentHealth -= details[0];
+        currentHealth -= details.damageAmount;
 
         //识别攻击方向
-        if (details[1] < aliveGO.transform.position.x)
+        if (details.position.x < aliveGO.transform.position.x)
         {
             playerFacingDirection = -1;
         }
@@ -97,7 +97,7 @@ public class CombatDummyController : MonoBehaviour
     {
         knockback = true;
         knockbacksatart = Time.time;
-        rbAlive.velocity = new Vector2(knockbackSpeedX * playerFacingDirection, knockbackSpeedY);
+        rbAlive.velocity = new Vector2(knockbackSpeedX * -playerFacingDirection, knockbackSpeedY);
     }
     //一定时间内停止回击
     private void CheckKnockback()

@@ -72,7 +72,7 @@ public class Entity : MonoBehaviour
         stateMachine.currentState.LogicUpdate();        //调用状态机中当前状态的逻辑更新
 
         //重置眩晕
-        if(isStunned ==true &&currentStunResistance <= entityData.stunResistance && (Time.time - lastDamageTime >= entityData.stunRecorveryTime))
+        if(Time.time >= lastDamageTime + entityData.stunRecorveryTime)
         {
             Debug.Log("重置眩晕:" + Time.time.ToString() + "      aaa     " + lastDamageTime.ToString() + "   bbb " + entityData.stunRecorveryTime.ToString());
             ResetStunResistance();
@@ -174,8 +174,8 @@ public class Entity : MonoBehaviour
     //重置眩晕
     public virtual void ResetStunResistance()
     {
-        currentStunResistance = entityData.stunResistance;        //重置眩晕抵抗力
         isStunned = false;      //不眩晕
+        currentStunResistance = entityData.stunResistance;        //重置眩晕抵抗力
     }
 
     //受伤跳跃

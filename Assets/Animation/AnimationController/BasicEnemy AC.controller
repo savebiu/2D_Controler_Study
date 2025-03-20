@@ -56,11 +56,11 @@ AnimatorState:
   m_Transitions:
   - {fileID: 1666267482221883181}
   - {fileID: 1755333366992253653}
+  - {fileID: 1411168609018760807}
   - {fileID: 1818393380741530642}
   - {fileID: 1336233216832910832}
   - {fileID: -2259878846586658416}
   - {fileID: 7471157109283778001}
-  - {fileID: 1411168609018760807}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0

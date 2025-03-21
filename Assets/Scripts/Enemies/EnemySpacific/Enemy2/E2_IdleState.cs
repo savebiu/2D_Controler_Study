@@ -29,11 +29,17 @@ public class E2_IdleState : IdleState
     {
         base.LogicUpdate();
 
+        if (isPlayerInMinAgroRange)
+        {
+            enemy.stateMachine.ChangeState(enemy.playerDetectedState);
+        }
+
         // 一次Idle时间结束后转换为Move状态
-        if(isIdleTimeOver)
+        else if(isIdleTimeOver)
         {
             enemy.stateMachine.ChangeState(enemy.moveState);
         }
+        
 
         //TODO: 敌人在 minAgroDistance 距离外转换为 PlayerDetectedState
 

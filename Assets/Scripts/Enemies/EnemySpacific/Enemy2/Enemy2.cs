@@ -7,6 +7,7 @@ public class Enemy2 : Entity
     //状态列表
     public E2_IdleState idleState { get; private set; }     //引入Idle状态
     public E2_MoveState moveState { get; private set; }     //引入Move状态
+    public E2_PlayerDetectedState playerDetectedState { get; private set; }     //引入PlayerDetected状态
 
     //数据列表
     [Header("数据")]
@@ -14,6 +15,8 @@ public class Enemy2 : Entity
     private D_IdleState idleStateData;     //引入Idle状态数据
     [SerializeField]
     private D_MoveState moveStateData;     //引入Move状态数据
+    [SerializeField]
+    private D_PlayerDetected playerDetectedStateData;     //引入PlayerDetected状态数据
 
     public override void Start()
     {
@@ -21,6 +24,7 @@ public class Enemy2 : Entity
 
         idleState = new E2_IdleState(this, stateMachine, "idle", idleStateData, this);     //将Idle状态传递给状态机
         moveState = new E2_MoveState(this, stateMachine, "move", moveStateData, this);     //将Move状态传递给状态机
+        playerDetectedState = new E2_PlayerDetectedState(this, stateMachine, "playerDetected", playerDetectedStateData, this);     //将PlayerDetected状态传递给状态机
 
         stateMachine.Initialize(moveState);     //move作为初始状态
     }

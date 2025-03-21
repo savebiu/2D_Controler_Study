@@ -28,6 +28,15 @@ public class E2_IdleState : IdleState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        // 一次Idle时间结束后转换为Move状态
+        if(isIdleTimeOver)
+        {
+            enemy.stateMachine.ChangeState(enemy.moveState);
+        }
+
+        //TODO: 敌人在 minAgroDistance 距离外转换为 PlayerDetectedState
+
     }
 
     public override void PhysicsUpdate()

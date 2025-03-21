@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class E2_MoveState : MoveState
 {
-    Enemy2 enemy;
+    private Enemy2 enemy;
 
     public E2_MoveState(Entity entity, FiniteStateMachine stateMachine, string animBoolName, D_MoveState stateData, Enemy2 enemy) : base(entity, stateMachine, animBoolName, stateData)
     {
+        this.enemy = enemy;
     }
 
     public override void DoChecks()
@@ -28,6 +29,15 @@ public class E2_MoveState : MoveState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        // 碰到墙壁或者未检测到悬崖 转换为Idle状态
+        if (isDetectingWall || !isDetectingLedge)
+        {
+            enemy.idleState.SetFlipAfterImage(true);    //翻转
+            stateMachine.ChangeState(enemy.idleState);   //转换为Idle状态 
+        }
+
+        //TODO: 敌人在 minAgroDistance 距离外转换为 PlayerDetectedState
     }
 
     public override void PhysicsUpdate()

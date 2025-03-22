@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     //动画状态
     private bool facingRight = true;
 
-    [Header("状态检测")]    
+    [Header("状态检测")]
     private bool isWalking = true;      //移动检测    
     public bool isRun;      //奔跑检测
     public bool isDashing;      //冲刺检测
@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
     private float lastImageXpos;
     private float lastDash = -100;      //残影冷却时间
-    
+
     //状态判定
     private bool canJump = false;
     //public bool canMove = true;
@@ -80,6 +80,15 @@ public class PlayerController : MonoBehaviour
     [Header("击退速度")]
     Vector2 knockbackSpeed;   //被击退的速度
 
+    [SerializeField]
+    [Header("血量")]
+    public float MaxHealth;
+    public float currentHealth;
+    private float lastDamageTime;
+
+    [Header("死亡效果")]
+    public GameObject deathChunkParticle;
+
     //攀爬检测
     /*public Transform ledgeCheck;
     public float ledgeClimbXOffset1 = 0f;
@@ -90,7 +99,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();        
+        anim = GetComponent<Animator>();
         //蹬墙跳归一化
         //wallHopDirection.Normalize();
         //wallJumpDirection.Normalize();
@@ -102,18 +111,18 @@ public class PlayerController : MonoBehaviour
         //移动输入
         Movement();
         CheckInput();
-        UpdateAnimation();        
+        UpdateAnimation();
         CheckIfWallSliding();
         CheckIfRun();
         CheckDash();
-        CheckKnockBack();       
+        CheckKnockBack();
     }
 
     void FixedUpdate()
     {
         ApplyMovement();
         CheckSurroundings();
-       
+
     }
 
     //输入检测
@@ -123,7 +132,7 @@ public class PlayerController : MonoBehaviour
         {
             moveX = Input.GetAxisRaw("Horizontal");
             moveY = Input.GetAxisRaw("Vertical");
-        }        
+        }
         CheckIfJump();
 
         if (Input.GetButtonDown("Dash"))
@@ -148,7 +157,7 @@ public class PlayerController : MonoBehaviour
         }
         //墙面检测
         isTouchingWall = Physics2D.Raycast(WallCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
-        
+
         //isTouchingLedge = Physics2D.Raycast(ledgeCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
         /*//攀爬检测
         isClimb = Physics2D.Raycast(ledgeCheck.position, facingRight ? Vector2.right : Vector2.left, WallCheckDistance, whatIsGround);
@@ -184,13 +193,13 @@ public class PlayerController : MonoBehaviour
         if (moveX < 0 && facingRight)
         {
             Flip();
-        }       
+        }
     }
 
     //Run
     private void CheckIfRun()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && moveX !=0)
+        if (Input.GetKey(KeyCode.LeftShift) && moveX != 0)
         {
             if (!isRun)
             {
@@ -200,11 +209,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if(isRun)
+            if (isRun)
             {
                 isRun = false;
                 movementSpeed = movementSpeed / 1.5f;
-            }           
+            }
         }
     }
 
@@ -214,9 +223,9 @@ public class PlayerController : MonoBehaviour
         if (knockback)      //在击退状态时,跳过其他状态的速度更新
             return;
         //跳跃
-        if(!isGround && !isWallSliding && moveX == 0 && !knockback)
+        if (!isGround && !isWallSliding && moveX == 0 && !knockback)
         {
-            rb.velocity = new Vector2 (rb.velocity.x * JumpHeightMultiplier, rb.velocity.y);
+            rb.velocity = new Vector2(rb.velocity.x * JumpHeightMultiplier, rb.velocity.y);
         }
         else
         {
@@ -224,10 +233,10 @@ public class PlayerController : MonoBehaviour
         }
         //滑墙
         if (isWallSliding && !knockback)
-        {            
+        {
             if (rb.velocity.y < -WallSlidingSpeed)
             {
-                rb.velocity = new Vector2(rb.velocity.x, -WallSlidingSpeed);                
+                rb.velocity = new Vector2(rb.velocity.x, -WallSlidingSpeed);
             }
         }
         //冲刺
@@ -248,15 +257,15 @@ public class PlayerController : MonoBehaviour
     }
     //翻转
     private void Flip()
-    {        
-        if(!isWallSliding && !knockback)
+    {
+        if (!isWallSliding && !knockback)
         {
             facingRight = !facingRight;
             Vector3 scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;
         }
-        
+
     }
     //跳跃
     private void CheckIfJump()
@@ -281,7 +290,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetButtonUp("Jump"))
         {
-            rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y * JumpHeightMultiplier);
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * JumpHeightMultiplier);
         }
     }
     //跳跃
@@ -296,13 +305,13 @@ public class PlayerController : MonoBehaviour
         {
             isWallSliding = false;
             jumpCount--;
-            Vector2 forceToAdd = new Vector2(wallHopForce * wallHopDirection.x * (facingRight ? -1: 1), wallHopForce * wallHopDirection.y);
+            Vector2 forceToAdd = new Vector2(wallHopForce * wallHopDirection.x * (facingRight ? -1 : 1), wallHopForce * wallHopDirection.y);
             rb.AddForce(forceToAdd, ForceMode2D.Impulse);   // 应用蹬墙跳力
             //蹬墙时翻转角色
             Flip();
         }
         else if ((isWallSliding || isTouchingWall) && moveX != 0 && canJump)
-        {            
+        {
             isWallSliding = false;
             jumpCount--;
             Vector2 forceToAdd = new Vector2(wallJumpForce * wallJumpDirection.x * moveX, wallJumpForce * wallHopDirection.y);
@@ -313,32 +322,32 @@ public class PlayerController : MonoBehaviour
     //墙面反馈
     private void CheckIfWallSliding()
     {
-        if(isTouchingWall && !isGround && rb.velocity.y < 0 /*&& !canClimb*/)
+        if (isTouchingWall && !isGround && rb.velocity.y < 0 /*&& !canClimb*/)
             isWallSliding = true;
         else
-            isWallSliding = false;        
+            isWallSliding = false;
     }
     //冲刺
     private void CheckDash()
-    {        
+    {
         if (isDashing)
         {
-            if(dashTimeLeft > 0)
+            if (dashTimeLeft > 0)
             {
                 isWalking = false;
-                
+
 
                 dashTimeLeft -= Time.deltaTime;
                 //生成拖影位置
                 if (Mathf.Abs(transform.position.x - lastImageXpos) > distanceBetweenImages)
                 {
                     //Debug.Log("生成残影");
-                    PlayerAfterPol.Instance.GetFromPool();                    
+                    PlayerAfterPol.Instance.GetFromPool();
                     lastImageXpos = transform.position.x;
                 }
             }
 
-            if(dashTimeLeft <= 0 || isTouchingWall)
+            if (dashTimeLeft <= 0 || isTouchingWall)
             {
                 isDashing = false;
                 isWalking = true;
@@ -347,36 +356,36 @@ public class PlayerController : MonoBehaviour
     }
     //冲刺冷却时间
     private void AttemptToDash()
-    {   
+    {
         //如果冷却时间完成
-        if(Time.time >=(lastDash + dashCoolDown))
+        if (Time.time >= (lastDash + dashCoolDown))
         {
             isDashing = true;
             dashTimeLeft = dashTime;
-            lastDash = Time.time;            
+            lastDash = Time.time;
             PlayerAfterPol.Instance.GetFromPool();
             lastDash = Time.time;
             //lastImageXpos = transform.position.x;
-        }        
+        }
     }
     //翻转角色
     public int GetFacingDirection()
     {
-        return facingRight ? 1 :-1;
+        return facingRight ? 1 : -1;
     }
 
     //被击打反馈
     public void KnockBack(int direction)
     {
         knockback = true;
-        knockbackStartTime = Time.time;        
+        knockbackStartTime = Time.time;
         rb.velocity = Vector2.zero;
         rb.velocity = new Vector2(knockbackSpeed.x * direction, knockbackSpeed.y);
     }
 
     private void CheckKnockBack()
     {
-        if(Time.time >= knockbackStartTime + knockbackDuration && knockback)
+        if (Time.time >= knockbackStartTime + knockbackDuration && knockback)
         {
             knockback = false;
             rb.velocity = new Vector2(0, rb.velocity.y);
@@ -442,14 +451,39 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("IsWalking", isWalking);
         anim.SetBool("IsGround", isGround);
         anim.SetFloat("IsJump", rb.velocity.y);
-        anim.SetBool ("IsWallSliding", isWallSliding);
+        anim.SetBool("IsWallSliding", isWallSliding);
         anim.SetBool("IsRun", isRun);
     }
+
+    //损伤
+    public void Damage(AttackDetails attackDetails)
+    {
+        lastDamageTime = Time.time;     //记录上次受伤时间
+
+        //受伤血量
+        currentHealth -= attackDetails.damageAmount;        //当前生命值减去攻击详情中的伤害量
+       
+
+        //死亡条件
+        if (currentHealth <= 0f)
+        {
+            //死亡
+            Die();
+        }
+    }
+
+    //死亡效果
+    private void Die()
+    {
+        Instantiate(deathChunkParticle, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(GroundCheck.position, groundCheckRadius);
         Gizmos.DrawLine(WallCheck.position, new Vector3(WallCheck.position.x + WallCheckDistance, WallCheck.position.y, WallCheck.position.y));
-    } 
+    }
 
 
 }

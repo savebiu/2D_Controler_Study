@@ -33,11 +33,15 @@ public class E2_MeleeAttackState : MeleeState
         // 如果动画完成
         if (isAnimationFinished)
         {
-            if (isPlayerInMinAgroRange)
+            if (!isPlayerInMinAgroRange)
             //if(isPlayerMaxAgroRange)
             {
                 stateMachine.ChangeState(enemy.playerDetectedState);
             }
+            //else
+            //{
+            //    stateMachine.ChangeState(enemy.lookForPlayerState);
+            //}
         }
 /*
         if (isPlayerInMaxAgroRange)
@@ -57,5 +61,11 @@ public class E2_MeleeAttackState : MeleeState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+    }
+
+    public override void TriggerAttack()
+    {
+        base.TriggerAttack();
+
     }
 }

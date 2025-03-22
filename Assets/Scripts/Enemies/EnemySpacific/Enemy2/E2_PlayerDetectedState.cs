@@ -31,6 +31,15 @@ public class E2_PlayerDetectedState : PlayerDetectedState
     {
         base.LogicUpdate();
 
+        // 在近战攻击范围内转换为 MeleeState
+        if (performCloseRangeAction)
+        {
+            stateMachine.ChangeState(enemy.meleeAttackState);
+        }
+        //else
+        //{
+        //    stateMachine.ChangeState(enemy.lookForPlayerState);
+        //}
         
     }
 

@@ -22,7 +22,7 @@ public class PlayerCombatController : MonoBehaviour
     private bool gotInput, isAttacking, isFirstAttack;
 
     //¹¥»÷
-    AttackDetails attackDetails;
+    public AttackDetails attackDetails;
 
     // public bool aa { get => isAttacking ? gotInput : isFirstAttack; set => isAttacking = value; }
     private Animator anim;

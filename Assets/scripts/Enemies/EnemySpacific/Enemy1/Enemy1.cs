@@ -40,7 +40,7 @@ public class Enemy1 : Entity
         playerDetectedState = new E1_PlayerDetectedState(this, stateMachine, "playerDetected", playerDetectedStateData, this);      //创建玩家检测状态
         chargeState = new E1_ChargeState(this, stateMachine, "charge", chargeStateData, this);      //创建冲锋状态
         lookForPlayerState = new E1_LookForPlayerState(this, stateMachine, "lookForPlayer", lookForPlayerStateData, this);      //创建寻找玩家状态
-        meleeAttackState = new E1_MeleeAttackState(this, stateMachine, "meleeAttack", aliveGO.transform, meleeAttackStateData, this);      //创建近战攻击状态
+        meleeAttackState = new E1_MeleeAttackState(this, stateMachine, "meleeAttack", meleeAttackPosition, meleeAttackStateData, this);      //创建近战攻击状态
         stunState = new E1_StunState(this, stateMachine, "stun", stunStateData, this);      //创建眩晕状态
 
         stateMachine.Initialize(idleState);     //初始化状态机

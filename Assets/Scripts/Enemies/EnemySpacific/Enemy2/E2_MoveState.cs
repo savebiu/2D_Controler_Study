@@ -30,12 +30,21 @@ public class E2_MoveState : MoveState
     {
         base.LogicUpdate();
 
+
+        // 在最小攻击范围内转换为PlayerDetectedState        
+        if (isPlayerInMinAgroRange)
+        {
+            stateMachine.ChangeState(enemy.playerDetectedState);   //转换为PlayerDetectedState
+        }
+
         // 碰到墙壁或者未检测到悬崖 转换为Idle状态
-        if (isDetectingWall || !isDetectingLedge)
+        else if (isDetectingWall || !isDetectingLedge)
         {
             enemy.idleState.SetFlipAfterImage(true);    //翻转
             stateMachine.ChangeState(enemy.idleState);   //转换为Idle状态 
         }
+
+
 
         //TODO: 敌人在 minAgroDistance 距离外转换为 PlayerDetectedState
     }

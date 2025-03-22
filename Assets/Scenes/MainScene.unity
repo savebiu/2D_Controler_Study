@@ -2987,6 +2987,7 @@ MonoBehaviour:
   currentStunResistance: 0
   idleStateData: {fileID: 11400000, guid: fe76b6ef6e0813a4ea34cc0fdd3e5cc2, type: 2}
   moveStateData: {fileID: 11400000, guid: f6e9301c9864c7d44846d2c4af26b7a7, type: 2}
+  playerDetectedStateData: {fileID: 11400000, guid: afff113b5e6d6234bbfeeb31f54fca73, type: 2}
 --- !u!1 &969818861
 GameObject:
   m_ObjectHideFlags: 0

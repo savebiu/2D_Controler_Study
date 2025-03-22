@@ -419,7 +419,7 @@ MonoBehaviour:
   knockbackSpeed: {x: 10, y: 5}
   MaxHealth: 80
   currentHealth: 80
-  deathChunkParticle: {fileID: 3361040997308711373, guid: 6ce020c7adaadef418c79a0a9d1adf93, type: 3}
+  deathChunkParticle: {fileID: 2908942088432134477, guid: 5f219bff10f35b04a9320cadd4fcc15b, type: 3}
 --- !u!95 &117051501
 Animator:
   serializedVersion: 5
@@ -2857,7 +2857,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 752793581}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.27, y: -0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3023,6 +3023,7 @@ MonoBehaviour:
   moveStateData: {fileID: 11400000, guid: f6e9301c9864c7d44846d2c4af26b7a7, type: 2}
   playerDetectedStateData: {fileID: 11400000, guid: afff113b5e6d6234bbfeeb31f54fca73, type: 2}
   meleeAttackStateData: {fileID: 11400000, guid: 2f0f08d8c9de88a40ae53c1650006a6a, type: 2}
+  meleeAttackPosition: {fileID: 752793582}
 --- !u!1 &969818861
 GameObject:
   m_ObjectHideFlags: 0

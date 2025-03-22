@@ -20,6 +20,7 @@ public class Enemy2 : Entity
     private D_PlayerDetected playerDetectedStateData;     //引入PlayerDetected状态数据
     [SerializeField]
     private D_MeleeState meleeAttackStateData;     //引入MeleeAttack状态数据
+    [SerializeField]
     private Transform meleeAttackPosition;     //近战攻击位置
 
     public override void Start()
@@ -43,5 +44,6 @@ public class Enemy2 : Entity
     public override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
+        Gizmos.DrawWireSphere(meleeAttackPosition.position, meleeAttackStateData.attackRadius);
     }
 }

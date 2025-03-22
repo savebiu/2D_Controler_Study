@@ -14,6 +14,7 @@ public class Enemy1 : Entity
     public E1_StunState stunState { get; private set; }       //眩晕状态获取器
 
     //数据列表
+    [Header("数据")]
     [SerializeField]
     private D_IdleState idleStateData;
     [SerializeField]
@@ -44,12 +45,7 @@ public class Enemy1 : Entity
         stunState = new E1_StunState(this, stateMachine, "stun", stunStateData, this);      //创建眩晕状态
 
         stateMachine.Initialize(idleState);     //初始化状态机
-    }
-    public override void OnDrawGizmos()
-    {
-        base.OnDrawGizmos();
-        Gizmos.DrawWireSphere(meleeAttackPosition.position, meleeAttackStateData.attackRadius);
-    }
+    }    
 
     public override void Damage(AttackDetails attackDetails)
     {
@@ -59,5 +55,10 @@ public class Enemy1 : Entity
         {
             stateMachine.ChangeState(stunState);
         }
+    }
+    public override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        Gizmos.DrawWireSphere(meleeAttackPosition.position, meleeAttackStateData.attackRadius);
     }
 }

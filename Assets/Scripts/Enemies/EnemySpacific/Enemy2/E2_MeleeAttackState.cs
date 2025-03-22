@@ -38,7 +38,7 @@ public class E2_MeleeAttackState : MeleeState
             {
                 stateMachine.ChangeState(enemy.playerDetectedState);
             }
-            //else
+            //else if(is)
             //{
             //    stateMachine.ChangeState(enemy.lookForPlayerState);
             //}

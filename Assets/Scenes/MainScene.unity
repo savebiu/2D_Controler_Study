@@ -3024,6 +3024,7 @@ MonoBehaviour:
   playerDetectedStateData: {fileID: 11400000, guid: afff113b5e6d6234bbfeeb31f54fca73, type: 2}
   meleeAttackStateData: {fileID: 11400000, guid: 2f0f08d8c9de88a40ae53c1650006a6a, type: 2}
   meleeAttackPosition: {fileID: 752793582}
+  lookForPlayerStateData: {fileID: 11400000, guid: 4c70625911b1cf54ebda01ba35fdd0d9, type: 2}
 --- !u!1 &969818861
 GameObject:
   m_ObjectHideFlags: 0

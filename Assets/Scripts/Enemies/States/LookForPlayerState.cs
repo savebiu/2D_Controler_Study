@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
 using UnityEngine;
 
+/*
+ * Ñ°ÕÒÍæ¼Ò×´Ì¬
+ */
 public class LookForPlayerState : State
 {
     protected D_LookForPlayerState stateData;

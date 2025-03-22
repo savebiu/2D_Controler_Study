@@ -36,11 +36,12 @@ public class E2_PlayerDetectedState : PlayerDetectedState
         {
             stateMachine.ChangeState(enemy.meleeAttackState);
         }
-        //else
-        //{
-        //    stateMachine.ChangeState(enemy.lookForPlayerState);
-        //}
-        
+        //不在最大范围内，转换为LookForPlayerState
+        else if (!isPlayerInMaxAgroRange)
+        {
+            stateMachine.ChangeState(enemy.lookForPlayerState);
+        }
+
     }
 
     public override void PhysicsUpdate()

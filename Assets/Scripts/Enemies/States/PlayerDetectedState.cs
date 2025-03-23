@@ -12,6 +12,7 @@ public class PlayerDetectedState : State
     protected bool isPlayerInMaxAgroRange;      //玩家是否在最大攻击范围内
     protected bool isDetectedLedge;     //检测悬崖
     protected bool isDetectedWall;      //检测墙壁
+    protected bool isDetectedGround;    //检测地面
 
     protected bool performCloseRangeAction;        //执行近距离攻击
     protected bool performLongRangeAction;      //执行远程攻击
@@ -29,6 +30,7 @@ public class PlayerDetectedState : State
         isPlayerInMaxAgroRange = entity.CheckPlayerInMaxAgroRange();        //检测玩家是否在最大攻击范围内
         isDetectedLedge = entity.CheckLedge();        //检测悬崖
         isDetectedWall = entity.CheckWall();      //检测墙壁
+        isDetectedGround = entity.CheckGround();      //检测地面
         performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();      //检测玩家是否在近距离攻击范围内
     }
 

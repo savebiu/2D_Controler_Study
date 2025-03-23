@@ -7,7 +7,7 @@ using UnityEngine;
  * 眩晕时间 float stuntime
  * 击退角度 Vecyor2 knockbackAngle
  */
-[CreateAssetMenu(fileName = "newStunStateData", menuName = "Data/State Data/Stun State")]
+[CreateAssetMenu(fileName = "newStunStateData", menuName = "Data/State Data/Stun Dataa")]
 public class D_StunState : ScriptableObject
 {
     public float stuntime = 2f;         //眩晕时间

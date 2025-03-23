@@ -3026,6 +3026,7 @@ MonoBehaviour:
   meleeAttackPosition: {fileID: 752793582}
   lookForPlayerStateData: {fileID: 11400000, guid: 4c70625911b1cf54ebda01ba35fdd0d9, type: 2}
   stunStateData: {fileID: 11400000, guid: 163bd8b751947e742b26a195e1054163, type: 2}
+  dodgeStateData: {fileID: 11400000, guid: 2b714afb1b870384fb67249b3559eaec, type: 2}
 --- !u!1 &969818861
 GameObject:
   m_ObjectHideFlags: 0

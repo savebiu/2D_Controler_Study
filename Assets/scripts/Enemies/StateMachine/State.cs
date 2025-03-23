@@ -22,7 +22,7 @@ public class State
 {
     protected FiniteStateMachine stateMachine;      //跟踪状态机
     protected Entity entity;        //跟踪实体
-    protected float startTime;      //开始时间
+    public float startTime { get; protected set; }      //开始时间
 
     protected string animBoolName;      //动画布尔值,保证每个状态都能自行设置动画状态
 

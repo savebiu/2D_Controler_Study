@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-// 玩家检测状态
+/*
+ *玩家检测状态
+ */
 public class E2_PlayerDetectedState : PlayerDetectedState
 {
     Enemy2 enemy;
@@ -34,7 +35,15 @@ public class E2_PlayerDetectedState : PlayerDetectedState
         // 在近战攻击范围内转换为 MeleeState
         if (performCloseRangeAction)
         {
-            stateMachine.ChangeState(enemy.meleeAttackState);
+            // 闪避时间 + 冷却时间结束 ，转换为闪避状态
+            if (Time.time >= enemy.dodgeState.startTime + enemy.dodgeStateData.dodgeCoolDown)
+            {
+                stateMachine.ChangeState(enemy.dodgeState);
+            }
+            else
+            {
+                stateMachine.ChangeState(enemy.meleeAttackState);
+            }
         }
         //不在最大范围内，转换为LookForPlayerState
         else if (!isPlayerInMaxAgroRange)

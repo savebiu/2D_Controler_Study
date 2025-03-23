@@ -23,7 +23,7 @@ public class Entity : MonoBehaviour
     public GameObject aliveGO{ get; private set; }     //存活对象
 
     public int lastDamageDirection { get; private set; }     //上次攻击方向 
-    public float facingDirection { get; private set; }      //怪物的朝向
+    public int facingDirection { get; private set; }      //怪物的朝向
     public AnimationToStatemachine atsm { get; private set; }        //动画状态机
 
     public Vector2 velocityWorkSpace;       //速度工作空间
@@ -71,8 +71,10 @@ public class Entity : MonoBehaviour
     {
         stateMachine.currentState.LogicUpdate();        //调用状态机中当前状态的逻辑更新
 
+        anim.SetFloat("yVelocity", rb.velocity.y);       //设置动画控制器中闪避混合树的y轴速度为玩家的y轴速度
+
         //重置眩晕
-        if(Time.time >= lastDamageTime + entityData.stunRecorveryTime)
+        if (Time.time >= lastDamageTime + entityData.stunRecorveryTime)
         {
             //Debug.Log("重置眩晕:" + Time.time.ToString() + "      aaa     " + lastDamageTime.ToString() + "   bbb " + entityData.stunRecorveryTime.ToString());
             ResetStunResistance();
@@ -107,6 +109,12 @@ public class Entity : MonoBehaviour
     public virtual bool CheckLedge()
     {
         return Physics2D.Raycast(ledgeCheck.position, Vector2.down, entityData.ledgeCheckDistance, entityData.whatIsGround);        //Raycast（地面检测，向下， 地面检测距离， 地面图层）
+    }
+
+    //地面检测
+    public virtual bool CheckGround()
+    {
+        return Physics2D.Raycast(groundCheck.position, aliveGO.transform.right, entityData.groundChekDistance, entityData.whatIsGround);        //Raycast（地面检测，向右， 地面检测距离， 地面图层）
     }
 
 

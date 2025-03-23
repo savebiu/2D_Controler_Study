@@ -54,8 +54,7 @@ public class StunState : State
         //眩晕时间结束
         if (Time.time >= startTime + stateData.stuntime)
         {
-            isStunTimeOver = true;
-            
+            isStunTimeOver = true;            
         }
 
         //击退时间结束 并且 时间没停止

@@ -73,6 +73,7 @@ public class LookForPlayerState : State
         if (isAllTurnsDone && Time.time >= lastTurnTime + stateData.TimeBetweenTurns)      //所有翻转完成 && 反转冷却结束
         {
             isAllTurnsDone = true;
+            isAllTurnsTimeDone = true;
         }
     }
 

@@ -17,7 +17,7 @@ MonoBehaviour:
   groundChekDistance: 0.2
   minAgroDistance: 3
   maxAgroDistance: 4
-  closeRangeActionDistance: 1
+  closeRangeActionDistance: 0.5
   longRangeActionDistance: 5
   whatIsGround:
     serializedVersion: 2

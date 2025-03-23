@@ -29,7 +29,21 @@ public class E2_LookForPlayerState : LookForPlayerState
     {
         base.LogicUpdate();
 
-        
+        // 超出最小攻击范围，转换为玩家检测状态
+        if (isPlayerInMinAgroRange)
+        {
+            stateMachine.ChangeState(enemy.playerDetectedState);
+        }
+        //// 完成所有翻转查找, 换为玩家检测状态
+        //else if (isAllTurnsDone)
+        //{
+        //    stateMachine.ChangeState(enemy.idleState);
+        //}
+        // 查找时间结束，换为移动状态
+        else if (isAllTurnsTimeDone)
+        {
+            stateMachine.ChangeState(enemy.moveState);
+        }
     }
 
     public override void PhysicsUpdate()

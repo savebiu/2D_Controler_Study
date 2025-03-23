@@ -35,7 +35,8 @@ public class E1_LookForPlayerState : LookForPlayerState
             //Debug.Log("进入玩家检测检测");
         }
         //如果所有转向都完成,则转为移动状态
-        else if (isAllTurnsDone)
+        //else if (isAllTurnsDone)
+        else if (isAllTurnsTimeDone)
         {
             //Debug.Log("所有翻转完成");
             stateMachine.ChangeState(enemy.moveState);

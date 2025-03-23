@@ -33,29 +33,29 @@ public class E2_MeleeAttackState : MeleeState
         // 如果动画完成
         if (isAnimationFinished)
         {
-            if (!isPlayerInMinAgroRange)
-            //if(isPlayerMaxAgroRange)
+            //if (!isPlayerInMinAgroRange)
+            if(isPlayerInMinAgroRange)
             {
                 stateMachine.ChangeState(enemy.playerDetectedState);
             }
-            //else if(is)
-            //{
-            //    stateMachine.ChangeState(enemy.lookForPlayerState);
-            //}
+            else
+            {
+                stateMachine.ChangeState(enemy.lookForPlayerState);
+            }
         }
-/*
-        if (isPlayerInMaxAgroRange)
-        {
-            stateMachine.ChangeState(enemy.playerDetectedState);
-        }
-        else if (isPlayerInMinAgroRange)
-        {
-            stateMachine.ChangeState(enemy.chargeState);
-        }
-        else if (!isDetectingLedge || isDetectingWall)
-        {
-            stateMachine.ChangeState(enemy.moveState);
-        }*/
+        /*
+                if (isPlayerInMaxAgroRange)
+                {
+                    stateMachine.ChangeState(enemy.playerDetectedState);
+                }
+                else if (isPlayerInMinAgroRange)
+                {
+                    stateMachine.ChangeState(enemy.chargeState);
+                }
+                else if (!isDetectingLedge || isDetectingWall)
+                {
+                    stateMachine.ChangeState(enemy.moveState);
+                }*/
     }
 
     public override void PhysicsUpdate()

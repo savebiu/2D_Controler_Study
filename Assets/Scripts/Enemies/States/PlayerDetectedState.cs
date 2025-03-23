@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * 玩家检测状态
+ */
 public class PlayerDetectedState : State
 {
     public D_PlayerDetected stateData;      //引入检测数据

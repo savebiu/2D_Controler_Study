@@ -62,6 +62,7 @@ public class Entity : MonoBehaviour
 
         facingDirection = 1;        //默认朝向为1
         currentHealth = entityData.maxHealth;        //当前生命值为最大生命值
+        isStunned = false;
         currentStunResistance = entityData.stunResistance;        //当前眩晕抵抗力为眩晕抵抗力
         stateMachine = new FiniteStateMachine();
 
@@ -193,7 +194,7 @@ public class Entity : MonoBehaviour
     }
 
     //击退
-    private void KnockBack()
+    public virtual void KnockBack()
     {
         knockback = true;
         knockbacksatart = Time.time;

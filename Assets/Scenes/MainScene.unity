@@ -3025,6 +3025,7 @@ MonoBehaviour:
   meleeAttackStateData: {fileID: 11400000, guid: 2f0f08d8c9de88a40ae53c1650006a6a, type: 2}
   meleeAttackPosition: {fileID: 752793582}
   lookForPlayerStateData: {fileID: 11400000, guid: 4c70625911b1cf54ebda01ba35fdd0d9, type: 2}
+  stunStateData: {fileID: 11400000, guid: 163bd8b751947e742b26a195e1054163, type: 2}
 --- !u!1 &969818861
 GameObject:
   m_ObjectHideFlags: 0
@@ -4424,7 +4425,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728451511}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.28, y: -0.24, z: 0}
+  m_LocalPosition: {x: 0.4, y: -0.24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

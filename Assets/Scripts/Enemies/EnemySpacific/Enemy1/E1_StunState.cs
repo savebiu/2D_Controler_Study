@@ -30,6 +30,7 @@ public class E1_StunState : StunState
     {
         base.LogicUpdate();
 
+        // 眩晕时间结束
         if (isStunTimeOver)
         {
             //在近战范围内

@@ -50,6 +50,7 @@ public class E2_PlayerDetectedState : PlayerDetectedState
         {
             stateMachine.ChangeState(enemy.lookForPlayerState);
         }
+        
 
     }
 

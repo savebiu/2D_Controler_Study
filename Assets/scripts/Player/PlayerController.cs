@@ -415,7 +415,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void CheckLedgeClimb()
+    private void 
+    Climb()
     {
         if (ledgeDetected && !canClimb)
         {

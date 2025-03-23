@@ -15,9 +15,9 @@ MonoBehaviour:
   wallCheckDistance: 0.2
   ledgeCheckDistance: 0.4
   groundChekDistance: 0.2
-  minAgroDistance: 2.58
+  minAgroDistance: 1.4
   maxAgroDistance: 4
-  closeRangeActionDistance: 0.68
+  closeRangeActionDistance: 0.77
   longRangeActionDistance: 5
   whatIsGround:
     serializedVersion: 2
@@ -27,7 +27,7 @@ MonoBehaviour:
     m_Bits: 512
   maxHealth: 60
   damageHopSpeed: 6
-  knockbackSpeedX: 0
+  knockbackSpeedX: 3
   stunResistance: 3
   stunRecorveryTime: 2
   hitParticle: {fileID: 6225292651559959792, guid: a07bc96f7c1c38040a5e30c054cb08cd, type: 3}

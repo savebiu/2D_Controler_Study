@@ -114,7 +114,7 @@ public class Entity : MonoBehaviour
     //地面检测
     public virtual bool CheckGround()
     {
-        return Physics2D.Raycast(groundCheck.position, aliveGO.transform.right, entityData.groundChekDistance, entityData.whatIsGround);        //Raycast（地面检测，向右， 地面检测距离， 地面图层）
+        return Physics2D.Raycast(groundCheck.position, Vector2.down, entityData.groundChekDistance, entityData.whatIsGround);        //Raycast（地面检测，向右， 地面检测距离， 地面图层）
     }
 
 

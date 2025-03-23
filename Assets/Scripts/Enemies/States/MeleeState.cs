@@ -5,6 +5,7 @@ using UnityEngine;
 public class MeleeState : AttackState
 {
     protected D_MeleeState stateData;
+    protected bool performCloseRangeAction;        //是否执行近距离动作
     protected AttackDetails attackDetails;
     public MeleeState(Entity entity, FiniteStateMachine stateMachine, string animBoolName, Transform attackPosition, D_MeleeState stateData) : base(entity, stateMachine, animBoolName, attackPosition)
     {
@@ -19,8 +20,8 @@ public class MeleeState : AttackState
     public override void Enter()
     {
         base.Enter();
-        attackDetails.damageAmount = stateData.attackDamage;        //初始化伤害
-        attackDetails.position = entity.aliveGO.transform.position;  //初始化位置
+        attackDetails.damageAmount = stateData.attackDamage;        //初始化伤害数值
+        attackDetails.position = entity.aliveGO.transform.position;  //初始化伤害的位置
     }
 
     public override void Exit()

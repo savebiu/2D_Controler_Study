@@ -33,8 +33,8 @@ public class E2_MeleeAttackState : MeleeState
         // 如果动画完成
         if (isAnimationFinished)
         {
-            //if (!isPlayerInMinAgroRange)
-            if(isPlayerInMinAgroRange)
+            if (isPlayerInMinAgroRange)
+            //if(!isPlayerInMinAgroRange)
             {
                 stateMachine.ChangeState(enemy.playerDetectedState);
             }

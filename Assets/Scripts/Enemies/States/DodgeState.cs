@@ -47,8 +47,9 @@ public class DodgeState : State
 
 
         //闪避时间结束角色在地面上
-        if(Time.time >= startTime + stateData.dodgeTime && isGround)
+        if(Time.time >= startTime + stateData.dodgeTime)
         {
+            //Debug.Log("isGround");
             isDodgeOver = true;        
         }
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /*
- * Íæ¼Ò¼ì²â×´Ì¬
+ * ·¢ÏÖÍæ¼Ò×´Ì¬
  */
 public class PlayerDetectedState : State
 {

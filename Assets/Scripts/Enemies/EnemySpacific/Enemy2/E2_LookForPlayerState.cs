@@ -34,11 +34,7 @@ public class E2_LookForPlayerState : LookForPlayerState
         {
             stateMachine.ChangeState(enemy.playerDetectedState);
         }
-        //// 完成所有翻转查找, 换为玩家检测状态
-        //else if (isAllTurnsDone)
-        //{
-        //    stateMachine.ChangeState(enemy.idleState);
-        //}
+
         // 查找时间结束，换为移动状态
         else if (isAllTurnsTimeDone)
         {

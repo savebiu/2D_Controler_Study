@@ -31,4 +31,4 @@ MonoBehaviour:
   stunResistance: 3
   stunRecorveryTime: 2
   hitParticle: {fileID: 6225292651559959792, guid: a07bc96f7c1c38040a5e30c054cb08cd, type: 3}
-  deathChunkParticle: {fileID: 2908942088432134477, guid: 5f219bff10f35b04a9320cadd4fcc15b, type: 3}
+  deathChunkParticle: {fileID: 3361040997308711373, guid: 6ce020c7adaadef418c79a0a9d1adf93, type: 3}

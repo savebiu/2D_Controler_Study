@@ -1,56 +1,64 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy2 : Entity
 {
-    //×´Ì¬ÁĞ±í
-    public E2_IdleState idleState { get; private set; }     //ÒıÈëIdle×´Ì¬
-    public E2_MoveState moveState { get; private set; }     //ÒıÈëMove×´Ì¬
-    public E2_PlayerDetectedState playerDetectedState { get; private set; }     //ÒıÈëPlayerDetected×´Ì¬
-    public E2_MeleeAttackState meleeAttackState { get; private set; }     //ÒıÈëMeleeAttack×´Ì¬
-    public E2_LookForPlayerState lookForPlayerState { get; private set; }     //ÒıÈëLookForPlayer×´Ì¬
-    public E2_StunState stunState { get; private set; }     //ÒıÈëStun×´Ì¬
+    //çŠ¶æ€åˆ—è¡¨
+    public E2_IdleState idleState { get; private set; }     //å¼•å…¥IdleçŠ¶æ€
+    public E2_MoveState moveState { get; private set; }     //å¼•å…¥MoveçŠ¶æ€
+    public E2_PlayerDetectedState playerDetectedState { get; private set; }     //å¼•å…¥PlayerDetectedçŠ¶æ€
+    public E2_MeleeAttackState meleeAttackState { get; private set; }     //å¼•å…¥MeleeAttackçŠ¶æ€
+    public E2_LookForPlayerState lookForPlayerState { get; private set; }     //å¼•å…¥LookForPlayerçŠ¶æ€
+    public E2_StunState stunState { get; private set; }     //å¼•å…¥StunçŠ¶æ€
 
-    //Êı¾İÁĞ±í
-    [Header("Êı¾İ")]
+    //æ•°æ®åˆ—è¡¨
+    [Header("æ•°æ®")]
     [SerializeField]
-    private D_IdleState idleStateData;     //ÒıÈëIdle×´Ì¬Êı¾İ
+    private D_IdleState idleStateData;     //å¼•å…¥IdleçŠ¶æ€æ•°æ®
     [SerializeField]
-    private D_MoveState moveStateData;     //ÒıÈëMove×´Ì¬Êı¾İ
+    private D_MoveState moveStateData;     //å¼•å…¥MoveçŠ¶æ€æ•°æ®
     [SerializeField]
-    private D_PlayerDetected playerDetectedStateData;     //ÒıÈëPlayerDetected×´Ì¬Êı¾İ
+    private D_PlayerDetected playerDetectedStateData;     //å¼•å…¥PlayerDetectedçŠ¶æ€æ•°æ®
     [SerializeField]
-    private D_MeleeState meleeAttackStateData;     //ÒıÈëMeleeAttack×´Ì¬Êı¾İ
+    private D_MeleeState meleeAttackStateData;     //å¼•å…¥MeleeAttackçŠ¶æ€æ•°æ®
     [SerializeField]
-    private Transform meleeAttackPosition;     //½üÕ½¹¥»÷Î»ÖÃ
+    private Transform meleeAttackPosition;     //è¿‘æˆ˜æ”»å‡»ä½ç½®
     [SerializeField]
-    private D_LookForPlayerState lookForPlayerStateData;     //ÒıÈëLookForPlayer×´Ì¬Êı¾İ
+    private D_LookForPlayerState lookForPlayerStateData;     //å¼•å…¥LookForPlayerçŠ¶æ€æ•°æ®
     [SerializeField]
-    private D_StunState stunStateData;     //ÒıÈëStun×´Ì¬Êı¾İ
+    private D_StunState stunStateData;     //å¼•å…¥StunçŠ¶æ€æ•°æ®
 
     public override void Start()
     {
         base.Start();
 
-        idleState = new E2_IdleState(this, stateMachine, "idle", idleStateData, this);     //½«Idle×´Ì¬´«µİ¸ø×´Ì¬»ú
-        moveState = new E2_MoveState(this, stateMachine, "move", moveStateData, this);     //½«Move×´Ì¬´«µİ¸ø×´Ì¬»ú
-        playerDetectedState = new E2_PlayerDetectedState(this, stateMachine, "playerDetected", playerDetectedStateData, this);     //½«PlayerDetected×´Ì¬´«µİ¸ø×´Ì¬»ú
-        meleeAttackState = new E2_MeleeAttackState(this, stateMachine, "meleeAttack", meleeAttackPosition, meleeAttackStateData, this);     //½«MeleeAttack×´Ì¬´«µİ¸ø×´Ì¬»ú
-        lookForPlayerState = new E2_LookForPlayerState(this, stateMachine, "lookForPlayer", lookForPlayerStateData, this);     //½«LookForPlayer×´Ì¬´«µİ¸ø×´Ì¬»ú
-        stunState = new E2_StunState(this, stateMachine, "stun", stunStateData, this);     //½«Stun×´Ì¬´«µİ¸ø×´Ì¬»ú
+        idleState = new E2_IdleState(this, stateMachine, "idle", idleStateData, this);     //å°†IdleçŠ¶æ€ä¼ é€’ç»™çŠ¶æ€æœº
+        moveState = new E2_MoveState(this, stateMachine, "move", moveStateData, this);     //å°†MoveçŠ¶æ€ä¼ é€’ç»™çŠ¶æ€æœº
+        playerDetectedState = new E2_PlayerDetectedState(this, stateMachine, "playerDetected", playerDetectedStateData, this);     //å°†PlayerDetectedçŠ¶æ€ä¼ é€’ç»™çŠ¶æ€æœº
+        meleeAttackState = new E2_MeleeAttackState(this, stateMachine, "meleeAttack", meleeAttackPosition, meleeAttackStateData, this);     //å°†MeleeAttackçŠ¶æ€ä¼ é€’ç»™çŠ¶æ€æœº
+        lookForPlayerState = new E2_LookForPlayerState(this, stateMachine, "lookForPlayer", lookForPlayerStateData, this);     //å°†LookForPlayerçŠ¶æ€ä¼ é€’ç»™çŠ¶æ€æœº
+        stunState = new E2_StunState(this, stateMachine, "stun", stunStateData, this);     //å°†StunçŠ¶æ€ä¼ é€’ç»™çŠ¶æ€æœº
 
-        stateMachine.Initialize(moveState);     //move×÷Îª³õÊ¼×´Ì¬
+        stateMachine.Initialize(moveState);     //moveä½œä¸ºåˆå§‹çŠ¶æ€
     }
 
     public override void Damage(AttackDetails attackDealis)
     {
         base.Damage(attackDealis);
-
-        // ±»Ñ£ÔÎ²¢ÇÒ²»ÔÚÑ£ÔÎ×´Ì¬
+        Debug.Log("è¿›å…¥æŸä¼¤");
+        // è¢«çœ©æ™•å¹¶ä¸”ä¸åœ¨çœ©æ™•çŠ¶æ€
         if(isStunned && stateMachine.currentState != stunState)
         {
             stateMachine.ChangeState(stunState);
+        }
+
+        // èƒŒåæ”»å‡»æ—¶ç¿»è½¬Enemy
+        else if (!CheckPlayerInMinAgroRange())
+        {
+            Debug.Log("åœ¨æ£€æµ‹çŠ¶æ€");
+            lookForPlayerState.SetTurnImediately(true);
+            stateMachine.ChangeState(lookForPlayerState);
         }
     }
 

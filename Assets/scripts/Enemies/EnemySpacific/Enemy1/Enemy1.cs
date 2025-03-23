@@ -55,6 +55,14 @@ public class Enemy1 : Entity
         {
             stateMachine.ChangeState(stunState);
         }
+
+        // ±³ºó¹¥»÷Ê±·­×ªEnemy
+        else if (!CheckPlayerInMinAgroRange())
+        {
+            Debug.Log("ÔÚ¼ì²â×´Ì¬");
+            lookForPlayerState.SetTurnImediately(true);
+            stateMachine.ChangeState(lookForPlayerState);
+        }
     }
     public override void OnDrawGizmos()
     {

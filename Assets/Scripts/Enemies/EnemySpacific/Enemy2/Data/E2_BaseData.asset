@@ -15,7 +15,7 @@ MonoBehaviour:
   wallCheckDistance: 0.2
   ledgeCheckDistance: 0.4
   groundChekDistance: 0.2
-  minAgroDistance: 3
+  minAgroDistance: 0.5
   maxAgroDistance: 4
   closeRangeActionDistance: 0.5
   longRangeActionDistance: 5

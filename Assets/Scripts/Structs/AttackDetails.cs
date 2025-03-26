@@ -1,12 +1,12 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /*
- * Í¨¹ı½á¹¹Ìå´æ´¢¹¥»÷Ï¸½Ú
+ * é€šè¿‡ç»“æ„ä½“å­˜å‚¨æ”»å‡»ç»†èŠ‚
  */
 public struct AttackDetails
 {
-    public Vector2 position;        //Î»ÖÃ
-    public float damageAmount;      //ÉËº¦Á¿
-    public float stunDamageAmount;      //Ñ£ÔÎÉËº¦Á¿
+    public Vector2 position;        //ä½ç½®
+    public float damageAmount;      //ä¼¤å®³é‡
+    public float stunDamageAmount;      //çœ©æ™•ä¼¤å®³é‡
 }

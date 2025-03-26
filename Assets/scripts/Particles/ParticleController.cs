@@ -1,11 +1,11 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Á£×Ó¶¯»­¿ØÖÆÆ÷
+//ç²’å­åŠ¨ç”»æ§åˆ¶å™¨
 public class ParticleController : MonoBehaviour
 {
-    //Ïú»ÙÁ£×Ó¶¯»­
+    //é”€æ¯ç²’å­åŠ¨ç”»
     void FinishAnim()
     {
         Destroy(gameObject);

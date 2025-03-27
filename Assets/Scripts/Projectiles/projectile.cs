@@ -1,91 +1,92 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private AttackDetails attackDetails;        // ¹¥»÷Ï¸½Ú
-    private Rigidbody2D rb; // ¸ÕÌå   
+    private AttackDetails attackDetails;        // æ”»å‡»ç»†èŠ‚
+    private Rigidbody2D rb; // åˆšä½“   
 
-    private float speed;    // ËÙ¶È
+    private float speed;    // é€Ÿåº¦
     [SerializeField]
-    private float gravity;      // ÖØÁ¦
-    private float travelDistance = 2f;        // ·ÉĞĞ¾àÀë£¬·ÉĞĞÒ»¶¨¾àÀëºó¿ªÊ¼ÓĞÖØÁ¦
-    private float xStartPos;       // Í¶ÉäÎïÎ»ÖÃ
+    private float gravity;      // é‡åŠ›
+    private float travelDistance = 2f;        // é£è¡Œè·ç¦»ï¼Œé£è¡Œä¸€å®šè·ç¦»åå¼€å§‹æœ‰é‡åŠ›
+    private float xStartPos;       // æŠ•å°„ç‰©ä½ç½®
     [SerializeField]
-    private float damageRadius;     // ÉËº¦°ë¾¶
+    private float damageRadius;     // ä¼¤å®³åŠå¾„
 
-    private bool isGravotyOn;       // ÖØÁ¦¿ª¹Ø
-    private bool hasHitGround;          // ÊÇ·ñÅöµ½µØÃæ
+    private bool isGravotyOn;       // é‡åŠ›å¼€å…³
+    private bool hasHitGround;          // æ˜¯å¦ç¢°åˆ°åœ°é¢
 
 
-    //¼ì²â²¿·Ö
-    [Header("¼ì²â²¿·Ö")]
+    //æ£€æµ‹éƒ¨åˆ†
+    [Header("æ£€æµ‹éƒ¨åˆ†")]
     [SerializeField]
-    LayerMask whatIsGround;     // µØÃæ¼ì²â
+    LayerMask whatIsGround;     // åœ°é¢æ£€æµ‹
     [SerializeField]
-    LayerMask whatIsPlayer;     // Íæ¼Ò¼ì²â
+    LayerMask whatIsPlayer;     // ç©å®¶æ£€æµ‹
     [SerializeField]
-    Transform damagePosition;       // ÉËº¦Î»ÖÃ
+    Transform damagePosition;       // ä¼¤å®³ä½ç½®
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
-        rb.gravityScale = 0;        // ÖØÁ¦Îª0
-        rb.velocity = transform.right * speed;      // ÉèÖÃËÙ¶È
+        rb.gravityScale = 0;        // é‡åŠ›ä¸º0
+        rb.velocity = transform.right * speed;      // è®¾ç½®é€Ÿåº¦
 
         isGravotyOn = false;
-        xStartPos = transform.position.x;        // ³õÊ¼»¯Í¶ÉäÎïÎ»ÖÃ
+        xStartPos = transform.position.x;        // åˆå§‹åŒ–æŠ•å°„ç‰©ä½ç½®
     }
 
     // Update is called once per frame
     void Update()
     {
-        // ÆôÓÃÖØÁ¦ÆÚ¼ä¸Ä±äµôÂä½Ç¶È
+        // å¯ç”¨é‡åŠ›æœŸé—´æ”¹å˜æ‰è½è§’åº¦
         if (!hasHitGround)
         {
-            attackDetails.position = transform.position;        // ÉèÖÃ¹¥»÷Î»ÖÃ
+            attackDetails.position = transform.position;        // è®¾ç½®æ”»å‡»ä½ç½®
 
             if (isGravotyOn)
             {
-                float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;        // ¼ÆËãĞı×ª½Ç¶È
-                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);        // ¸Ä±äĞı×ª½Ç¶È
+                float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;        // è®¡ç®—æ—‹è½¬è§’åº¦
+                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);        // æ”¹å˜æ—‹è½¬è§’åº¦
             }
         }
     }
     private void FixedUpdate()
     {
+        // æ²¡æœ‰ç¢°åˆ°Ground
         if (!hasHitGround)
         {
-            Collider2D damageHit = Physics2D.OverlapCircle(damagePosition.position, damageRadius, whatIsPlayer);        // ¼ì²âÍæ¼Ò
-            Collider2D groundHit = Physics2D.OverlapCircle(damagePosition.position, damageRadius, whatIsGround);        // ¼ì²âµØÃæ
+            Collider2D damageHit = Physics2D.OverlapCircle(damagePosition.position, damageRadius, whatIsPlayer);        // æ£€æµ‹ç©å®¶
+            Collider2D groundHit = Physics2D.OverlapCircle(damagePosition.position, damageRadius, whatIsGround);        // æ£€æµ‹åœ°é¢
 
-            // Åöµ½Íæ¼Ò
+            // ç¢°åˆ°ç©å®¶
             if (damageHit)
             {
-                damageHit.transform.SendMessage("Damage", attackDetails);        // ÉËº¦Íæ¼Ò
-                Destroy(gameObject);        // Ïú»ÙÎïÌå
+                damageHit.transform.SendMessage("Damage", attackDetails);        // ä¼¤å®³ç©å®¶
+                Destroy(gameObject);        // é”€æ¯ç‰©ä½“
             }
 
-            // Åöµ½µØÃæ
+            // ç¢°åˆ°åœ°é¢
             if (groundHit)
             {
                 hasHitGround = true;
-                rb.gravityScale = 0f;       //ÖØÁ¦ÇåÁã
-                rb.velocity = Vector2.zero;     // ËÙ¶ÈÇåÁã
+                rb.gravityScale = 0f;       //é‡åŠ›æ¸…é›¶
+                rb.velocity = Vector2.zero;     // é€Ÿåº¦æ¸…é›¶
             }
 
             if (Mathf.Abs(xStartPos - transform.position.x) >= travelDistance && isGravotyOn)
             {
                 isGravotyOn = true;
-                rb.gravityScale = gravity;      // ÖØÁ¦¿ªÆô
+                rb.gravityScale = gravity;      // é‡åŠ›å¼€å¯
             }
         }
     }
 
-    // ·¢ÉäÍ¶ÖÀÎï
+    // å‘å°„æŠ•æ·ç‰©
     public void FireProjectile(float speed, float traveDistance, float damage)
     {
         this.speed = speed;

@@ -9,6 +9,6 @@ public class D_RangeAttackState : ScriptableObject
     public float projectileDamage = 10f;        // 投射物伤害
     public float projectileSpeed = 12f;     // 投射物速度
     // 飞行距离决定了多久开始下落
-    public float projectileTravelDistance = 5f;       // 投射物飞行距离
+    public float projectileTravelDistance = 2f;       // 投射物飞行距离
 
 }

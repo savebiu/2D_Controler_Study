@@ -59,5 +59,5 @@ public class State
     public virtual void DoChecks()      //执行检测,每次启动状态时都会执行检测功能
     {        
 
-    }      
+    }          
 }

@@ -34,11 +34,25 @@ public class E2_RangeAttackState : RangeAttackState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        if (isAnimationFinished)
+        {
+            // 如果玩家在最小攻击范围内执行玩家检测状态
+            if (isPlayerInMinAgroRange)
+            {
+                stateMachine.ChangeState(enemy.playerDetectedState);
+            }
+            // 否则执行寻找玩家状态
+            else
+            {
+                stateMachine.ChangeState(enemy.lookForPlayerState);
+            }
+        }
     }
 
     public override void PhysicsUpdate()
     {
-        base.PhysicsUpdate();
+        base.PhysicsUpdate();        
     }
 
     public override void TriggerAttack()

@@ -9,6 +9,9 @@ using UnityEngine;
 public class RangeAttackState : AttackState
 {
     protected D_RangeAttackState stateData;      //远距离攻击状态数据
+    protected GameObject projectile;        //投射物
+    protected Projectile projectileScript;       //投射物逻辑脚本
+
     public RangeAttackState(Entity entity, FiniteStateMachine stateMachine, string animBoolName, Transform attackPosition, D_RangeAttackState stateData) : base(entity, stateMachine, animBoolName, attackPosition)
     {
         this.stateData = stateData;
@@ -49,6 +52,9 @@ public class RangeAttackState : AttackState
         base.TriggerAttack();
 
         // 生成投射物
-        GameObject.Instantiate(stateData.projectile, attackPosition.position, attackPosition.rotation);
+        projectile = GameObject.Instantiate(stateData.projectile, attackPosition.position, attackPosition.rotation);
+        projectileScript = projectile.GetComponent<Projectile>();
+        projectileScript.FireProjectile(stateData.projectileSpeed, stateData.projectileTravelDistance, stateData.projectileDamage);
     }
 }
+ 

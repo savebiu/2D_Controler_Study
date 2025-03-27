@@ -141,6 +141,12 @@ public class Entity : MonoBehaviour
         return Physics2D.Raycast(playerCheck.transform.position, aliveGO.transform.right, entityData.closeRangeActionDistance, entityData.whatIsPlayer);
     }
 
+    //¼ì²âÍæ¼ÒÊÇ·ñÔÚÔ¶¾àÀë¹¥»÷·¶Î§ÄÚ
+    public virtual bool CheckPlayerInLongRangeAction()
+    {
+        return Physics2D.Raycast(playerCheck.transform.position, aliveGO.transform.right, entityData.longRangeActionDistance, entityData.whatIsPlayer);
+    }
+
     //ËğÉË
     public virtual void Damage(AttackDetails attackDetails)
     {

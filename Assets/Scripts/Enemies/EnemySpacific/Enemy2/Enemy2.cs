@@ -12,6 +12,7 @@ public class Enemy2 : Entity
     public E2_LookForPlayerState lookForPlayerState { get; private set; }     //引入LookForPlayer状态
     public E2_StunState stunState { get; private set; }     //引入Stun状态
     public E2_DodgeState dodgeState { get; private set; }     //引入Dodge状态
+    public E2_RangeAttackState rangeAttackState { get; private set; }     //引入RangeAttack状态
 
     //数据列表
     [Header("数据")]
@@ -22,15 +23,21 @@ public class Enemy2 : Entity
     [SerializeField]
     private D_PlayerDetected playerDetectedStateData;     //引入PlayerDetected状态数据
     [SerializeField]
-    private D_MeleeState meleeAttackStateData;     //引入MeleeAttack状态数据
-    [SerializeField]
-    private Transform meleeAttackPosition;     //近战攻击位置
+    private D_MeleeState meleeAttackStateData;     //引入MeleeAttack状态数据    
     [SerializeField]
     private D_LookForPlayerState lookForPlayerStateData;     //引入LookForPlayer状态数据
     [SerializeField]
     private D_StunState stunStateData;     //引入Stun状态数据
     [SerializeField]
     public D_DodgeState dodgeStateData;     //引入Dodge状态数据
+    [SerializeField]
+    private D_RangeAttackState rangeAttackStateData;     //引入RangeAttack状态数据
+
+    [Header("位置")]
+    [SerializeField]
+    private Transform meleeAttackPosition;     //近战攻击位置
+    [SerializeField]
+    private Transform rangeAttackPosition;     //远程攻击位置
 
     public override void Start()
     {
@@ -43,6 +50,7 @@ public class Enemy2 : Entity
         lookForPlayerState = new E2_LookForPlayerState(this, stateMachine, "lookForPlayer", lookForPlayerStateData, this);     //将LookForPlayer状态传递给状态机
         stunState = new E2_StunState(this, stateMachine, "stun", stunStateData, this);     //将Stun状态传递给状态机
         dodgeState = new E2_DodgeState(this, stateMachine, "dodge", dodgeStateData, this);     //将Dodge状态传递给状态机
+        rangeAttackState = new E2_RangeAttackState(this, stateMachine, "rangeAttack", rangeAttackPosition, rangeAttackStateData, this);     //将RangeAttack状态传递给状态机
 
         stateMachine.Initialize(moveState);     //move作为初始状态
     }
@@ -55,6 +63,11 @@ public class Enemy2 : Entity
         if (isStunned && stateMachine.currentState != stunState)
         {
             stateMachine.ChangeState(stunState);
+        }
+
+        else if (CheckPlayerInMinAgroRange())
+        {
+            stateMachine.ChangeState(rangeAttackState);
         }
 
         // 背后攻击时翻转Enemy

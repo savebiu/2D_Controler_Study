@@ -45,6 +45,11 @@ public class E2_PlayerDetectedState : PlayerDetectedState
                 stateMachine.ChangeState(enemy.meleeAttackState);
             }
         }
+        //不在最小距离,但在最大距离内，转换为远程攻击状态
+        else if (performLongRangeAction)
+        {
+            stateMachine.ChangeState(enemy.rangeAttackState);
+        }
         //不在最大范围内，转换为LookForPlayerState
         else if (!isPlayerInMaxAgroRange)
         {

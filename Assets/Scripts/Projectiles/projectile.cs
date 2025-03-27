@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class projectile : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
     private AttackDetails attackDetails;        // 攻击细节
     private Rigidbody2D rb; // 刚体   
@@ -80,10 +80,12 @@ public class projectile : MonoBehaviour
             if (Mathf.Abs(xStartPos - transform.position.x) >= travelDistance && isGravotyOn)
             {
                 isGravotyOn = true;
+                rb.gravityScale = gravity;      // 重力开启
             }
         }
     }
 
+    // 发射投掷物
     public void FireProjectile(float speed, float traveDistance, float damage)
     {
         this.speed = speed;

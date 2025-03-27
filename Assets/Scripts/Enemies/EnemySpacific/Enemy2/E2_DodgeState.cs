@@ -42,11 +42,11 @@ public class E2_DodgeState : DodgeState
                 stateMachine.ChangeState(enemy.meleeAttackState);
             }
 
-            ////在最大范围内,且不为近战攻击状态 转换为 远程攻击状态
-            //else if (isPlayerInMaxAgroRange && !performCloseRangeAction)
-            //{
-            //    //stateMachine.ChangeState(enemy.CheckPlayerInCloseRangeAction);
-            //}
+            //在最大范围内,且不为近战攻击状态 转换为 远程攻击状态
+            else if (isPlayerInMaxAgroRange && !performCloseRangeAction)
+            {
+                stateMachine.ChangeState(enemy.rangeAttackState);
+            }
 
             //不在最大范围 转为寻找玩家状态
             else if (!isPlayerInMaxAgroRange)

@@ -51,6 +51,7 @@ public class RangeAttackState : AttackState
     {
         base.TriggerAttack();
 
+        Debug.Log("进入远程攻击");
         // 生成投射物
         projectile = GameObject.Instantiate(stateData.projectile, attackPosition.position, attackPosition.rotation);
         projectileScript = projectile.GetComponent<Projectile>();

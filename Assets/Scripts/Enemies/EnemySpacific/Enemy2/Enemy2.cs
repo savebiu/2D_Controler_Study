@@ -73,7 +73,7 @@ public class Enemy2 : Entity
         // 背后攻击时翻转Enemy
         else if (!CheckPlayerInMinAgroRange())
         {
-            Debug.Log("在检测状态");
+            //Debug.Log("在检测状态");
             lookForPlayerState.SetTurnImediately(true);
             stateMachine.ChangeState(lookForPlayerState);
         }

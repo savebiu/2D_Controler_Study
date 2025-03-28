@@ -76,9 +76,14 @@ public class Projectile : MonoBehaviour
                 hasHitGround = true;
                 rb.gravityScale = 0f;       //重力清零
                 rb.velocity = Vector2.zero;     // 速度清零
+
+                // 投掷物落地3秒后销毁
+                Destroy(gameObject, 3f);        // 销毁物体
+
             }
 
-            if (Mathf.Abs(xStartPos - transform.position.x) >= travelDistance && isGravotyOn)
+            // 飞行一定距离后开启重力
+            if (Mathf.Abs(xStartPos - transform.position.x) >= travelDistance && !isGravotyOn)
             {
                 isGravotyOn = true;
                 rb.gravityScale = gravity;      // 重力开启

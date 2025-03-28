@@ -40,6 +40,7 @@ public class E2_RangeAttackState : RangeAttackState
             // 如果玩家在最小攻击范围内执行玩家检测状态
             if (isPlayerInMinAgroRange)
             {
+                Debug.Log("进入玩家检测状态");
                 stateMachine.ChangeState(enemy.playerDetectedState);
             }
             // 否则执行寻找玩家状态

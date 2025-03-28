@@ -12,6 +12,7 @@ public class RangeAttackState : AttackState
     protected GameObject projectile;        //投射物
     protected Projectile projectileScript;       //投射物逻辑脚本
 
+
     public RangeAttackState(Entity entity, FiniteStateMachine stateMachine, string animBoolName, Transform attackPosition, D_RangeAttackState stateData) : base(entity, stateMachine, animBoolName, attackPosition)
     {
         this.stateData = stateData;
@@ -25,6 +26,7 @@ public class RangeAttackState : AttackState
     public override void Enter()
     {
         base.Enter();
+
     }
 
     public override void Exit()
@@ -49,6 +51,7 @@ public class RangeAttackState : AttackState
 
     public override void TriggerAttack()
     {
+
         base.TriggerAttack();
 
         Debug.Log("进入远程攻击");
@@ -58,4 +61,3 @@ public class RangeAttackState : AttackState
         projectileScript.FireProjectile(stateData.projectileSpeed, stateData.projectileTravelDistance, stateData.projectileDamage);
     }
 }
- 

@@ -12,6 +12,8 @@ public class RangeAttackState : AttackState
     protected GameObject projectile;        //投射物
     protected Projectile projectileScript;       //投射物逻辑脚本
 
+    private bool hasTriggeredAttack = false; // 添加一个标志位来确保 TriggerAttack 只被调用一次
+
 
     public RangeAttackState(Entity entity, FiniteStateMachine stateMachine, string animBoolName, Transform attackPosition, D_RangeAttackState stateData) : base(entity, stateMachine, animBoolName, attackPosition)
     {
@@ -27,6 +29,7 @@ public class RangeAttackState : AttackState
     {
         base.Enter();
 
+        hasTriggeredAttack = true;
     }
 
     public override void Exit()
@@ -59,5 +62,7 @@ public class RangeAttackState : AttackState
         projectile = GameObject.Instantiate(stateData.projectile, attackPosition.position, attackPosition.rotation);
         projectileScript = projectile.GetComponent<Projectile>();
         projectileScript.FireProjectile(stateData.projectileSpeed, stateData.projectileTravelDistance, stateData.projectileDamage);
+
+        hasTriggeredAttack = true; // 设置标志位，确保 TriggerAttack 只被调用一次
     }
 }

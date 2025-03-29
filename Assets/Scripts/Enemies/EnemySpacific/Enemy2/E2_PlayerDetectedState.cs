@@ -46,7 +46,7 @@ public class E2_PlayerDetectedState : PlayerDetectedState
             }
         }
         //不在最小距离,但在最大距离内，转换为远程攻击状态
-        else if (performLongRangeAction && isPlayerInMaxAgroRange)
+        else if (performLongRangeAction /*&& isPlayerInMaxAgroRange*/)
         {
             stateMachine.ChangeState(enemy.rangeAttackState);
         }
@@ -54,13 +54,7 @@ public class E2_PlayerDetectedState : PlayerDetectedState
         else if (!isPlayerInMaxAgroRange)
         {
             stateMachine.ChangeState(enemy.lookForPlayerState);
-        }
-        //
-        else
-        {
-            stateMachine.ChangeState(enemy.idleState);
-        }
-        
+        }               
 
     }
 

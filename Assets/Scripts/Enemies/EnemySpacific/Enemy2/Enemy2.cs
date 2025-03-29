@@ -65,7 +65,7 @@ public class Enemy2 : Entity
             stateMachine.ChangeState(stunState);
         }
 
-        else if (CheckPlayerInMinAgroRange())
+        else if (!CheckPlayerInCloseRangeAction() && CheckPlayerInMaxAgroRange())
         {
             stateMachine.ChangeState(rangeAttackState);
         }

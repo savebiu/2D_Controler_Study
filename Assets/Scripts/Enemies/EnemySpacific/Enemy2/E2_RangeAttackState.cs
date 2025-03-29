@@ -35,10 +35,12 @@ public class E2_RangeAttackState : RangeAttackState
     {
         base.LogicUpdate();
 
+        // 动画结束
         if (isAnimationFinished)
         {
-            // 如果玩家在最小攻击范围内执行玩家检测状态
-            if (isPlayerInMinAgroRange)
+            Debug.Log("动画结束");
+            // 如果玩家在最大攻击范围内执行玩家检测状态
+            if (isPlayerInMaxAgroRange)
             {
                 Debug.Log("进入玩家检测状态");
                 stateMachine.ChangeState(enemy.playerDetectedState);

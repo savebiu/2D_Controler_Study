@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,22 +6,22 @@ public class PlayerCombatController : MonoBehaviour
 {
     private PlayerController PC;
 
-    //¹¥»÷ÊäÈë
+    //æ”»å‡»è¾“å…¥
     [SerializeField]
     private bool combatEnabled;    
     [SerializeField]
-    //ÀäÈ´Ê±¼ä  ¼ì²â·¶Î§  ÉËº¦
+    //å†·å´æ—¶é—´  æ£€æµ‹èŒƒå›´  ä¼¤å®³
     private float inputTimer, attack1Radius, attack1Damage;
-    //¼ì²â±»¹¥»÷ÕßµÄÎ»ÖÃ
+    //æ£€æµ‹è¢«æ”»å‡»è€…çš„ä½ç½®
     [SerializeField]
     private Transform attack1HitBoxPos;
-    //¼ì²â²ã¼¶ÖĞ¿ÉÄÜËğ»µµÄ¶«Î÷
+    //æ£€æµ‹å±‚çº§ä¸­å¯èƒ½æŸåçš„ä¸œè¥¿
     [SerializeField]
     private LayerMask whatIsDamageable;
         
     private bool gotInput, isAttacking, isFirstAttack;
 
-    //¹¥»÷
+    //æ”»å‡»
     public AttackDetails attackDetails;
 
     // public bool aa { get => isAttacking ? gotInput : isFirstAttack; set => isAttacking = value; }
@@ -37,9 +37,9 @@ public class PlayerCombatController : MonoBehaviour
         CheckCombatInput();
         CheckAttacks();
     }
-    //¼ÇÂ¼×îºóÒ»´Î¹¥»÷Ê±¼ä, NegativeInfinity¸ºÊıÎŞÇîĞ¡
+    //è®°å½•æœ€åä¸€æ¬¡æ”»å‡»æ—¶é—´, NegativeInfinityè´Ÿæ•°æ— ç©·å°
     private float lastInputTime = Mathf.NegativeInfinity;
-    //ÊäÈë¼ì²â
+    //è¾“å…¥æ£€æµ‹
     private void CheckCombatInput()
     {
         if(Input.GetMouseButtonDown(0))
@@ -48,20 +48,20 @@ public class PlayerCombatController : MonoBehaviour
             lastInputTime = Time.time;
         }
     }
-    //¼ì²â¹¥»÷ÎïÌå
+    //æ£€æµ‹æ”»å‡»ç‰©ä½“
     private void CheckAttacks()
     {
-        //ÓĞ¹¥»÷ÊäÈëÊ±
+        //æœ‰æ”»å‡»è¾“å…¥æ—¶
         if (gotInput)
         {
-            //Î´ÔÚ¹¥»÷
+            //æœªåœ¨æ”»å‡»
             if(!isAttacking)
             {
                 gotInput = false;
                 isAttacking = true;
                 isFirstAttack = !isFirstAttack;
 
-                //½ûÖ¹ÒÆ¶¯
+                //ç¦æ­¢ç§»åŠ¨
                 //PC.canMove = false;
 
                 anim.SetBool("Attack1", true);
@@ -69,16 +69,16 @@ public class PlayerCombatController : MonoBehaviour
                 anim.SetBool("IsAttacking", isAttacking);
             }
         }
-        //¹¥»÷ÀäÈ´
+        //æ”»å‡»å†·å´
         if(Time.time > lastInputTime + inputTimer)
         {
             gotInput = false;
         }
     }
-    //¼ì²â¹¥»÷¶ÔÏó
+    //æ£€æµ‹æ”»å‡»å¯¹è±¡
     private void CheckAttackHitBox()
     {
-        //É¨Ãè¶ÔÏó
+        //æ‰«æå¯¹è±¡
         Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attack1HitBoxPos.position, attack1Radius, whatIsDamageable);
 
         attackDetails.damageAmount = attack1Damage;
@@ -87,27 +87,27 @@ public class PlayerCombatController : MonoBehaviour
         foreach (Collider2D collider in detectedObjects)
         {
             collider.transform.parent.SendMessage("Damage", attackDetails);
-            //ÆôÓÃÁ£×Ó·´À¡ÉËº¦
+            //å¯ç”¨ç²’å­åé¦ˆä¼¤å®³
         }
     }
-    //½áÊø¹¥»÷×´Ì¬
+    //ç»“æŸæ”»å‡»çŠ¶æ€
     private void FinishAttack1()
     {
         isAttacking = false;
 
-        //PC.canMove = true;      //Ëø¶¨ÒÆ¶¯
+        //PC.canMove = true;      //é”å®šç§»åŠ¨
         anim.SetBool("IsAttacking", isAttacking);
         anim.SetBool("Attack1", false);
     }
 
-    //½ÓÊÕ±»»÷´òÏûÏ¢
+    //æ¥æ”¶è¢«å‡»æ‰“æ¶ˆæ¯
     void Damage(AttackDetails attackDetails)
     {
         
-        //Èç¹û²»ÔÚ³å´Ì×´Ì¬
+        //å¦‚æœä¸åœ¨å†²åˆºçŠ¶æ€
         if (!PC.GetDashStatus())
         {
-            //ÅĞ¶Ï»÷ÍË·½Ïò
+            //åˆ¤æ–­å‡»é€€æ–¹å‘
             int direction;
             if (attackDetails.position.x < transform.position.x)
             {
@@ -117,16 +117,16 @@ public class PlayerCombatController : MonoBehaviour
             {
                 direction = -1;
             }
-            PC.KnockBack(direction);      //½«·½Ïò·µ»Ø¸ø½ÇÉ«¿ØÖÆÆ÷
+            PC.KnockBack(direction);      //å°†æ–¹å‘è¿”å›ç»™è§’è‰²æ§åˆ¶å™¨
         }
 
-        //ËÀÍöºÍÖØÉú´ıĞ´Ê¹ÓÃattackDetalis[0]
+        //æ­»äº¡å’Œé‡ç”Ÿå¾…å†™ä½¿ç”¨attackDetalis[0]
     }
 
-    //»æÖÆÃüÖĞ¿ò
+    //ç»˜åˆ¶å‘½ä¸­æ¡†
     private void OnDrawGizmos()
     {
-        //Ïß¿òÇòÌå
+        //çº¿æ¡†çƒä½“
         Gizmos.DrawWireSphere(attack1HitBoxPos.position, attack1Radius);
     }
 }

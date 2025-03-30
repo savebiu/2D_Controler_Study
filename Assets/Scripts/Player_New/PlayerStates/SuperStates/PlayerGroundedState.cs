@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PlayerGroundedState : PlayerState
 {
-    protected Vector2 input;
+    protected int Xinput;
+    protected int Yinput;
+
+    public bool JumpInput;
     public PlayerGroundedState(Player player, PlayerStateMachine playerStateMachine, PlayerData playerData, string animBoolName) : base(player, playerStateMachine, playerData, animBoolName)
     {
         
@@ -29,7 +32,15 @@ public class PlayerGroundedState : PlayerState
     {
         base.LogicUpdate();
 
-        input = player.InputHandle.MovementInput;      //获取输入数据
+        Xinput = player.InputHandle.NormInputX;      //获取x输入数据
+        Yinput = player.InputHandle.NormInputY;      //获取y输入数据
+        JumpInput = player.InputHandle.JumpInput;        //获取跳跃输入数据
+
+        // 跳跃状态为真,则切换到跳跃状态
+        if (JumpInput)
+        {
+            playerStateMachine.ChangeState(player.JumpState);
+        }
     }
 
     public override void PhysicsUpdate()

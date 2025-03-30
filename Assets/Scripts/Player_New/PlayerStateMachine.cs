@@ -9,7 +9,7 @@ public class PlayerStateMachine
     public PlayerState previousState { get; private set; }      //上一个状态
 
     /*初始化状态机
-     * -- startingState: 初始化当前状态
+     * -- startingState: 初始化当前状态  
      * -- Enter(): 进入当前状态
      */
     public void Initialize(PlayerState startingState)

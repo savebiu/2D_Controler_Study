@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerAbilityState : PlayerState
 {
+    protected bool isAbilityDone;      //是否完成能力
     public PlayerAbilityState(Player player, PlayerStateMachine playerStateMachine, PlayerData playerData, string animBoolName) : base(player, playerStateMachine, playerData, animBoolName)
     {
     }
@@ -16,6 +17,7 @@ public class PlayerAbilityState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        isAbilityDone = false;
     }
 
     public override void Exit()

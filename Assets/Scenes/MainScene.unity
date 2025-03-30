@@ -2856,12 +2856,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1112935788}
   - component: {fileID: 1112935787}
-  - component: {fileID: 1112935789}
-  - component: {fileID: 1112935791}
   - component: {fileID: 1112935790}
   - component: {fileID: 1112935793}
   - component: {fileID: 1112935792}
   - component: {fileID: 1112935794}
+  - component: {fileID: 1112935789}
+  - component: {fileID: 1112935791}
   m_Layer: 0
   m_Name: PlayerNew
   m_TagString: Untagged
@@ -3030,6 +3030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19c854d658b64f541bd0552983fd086f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: c29e8f613007ebf489aaef454afcdf69, type: 2}
 --- !u!61 &1112935792
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3066,7 +3067,7 @@ Animator:
   m_GameObject: {fileID: 1112935786}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5f452fb5cc150b6498cbad796742d18e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9ee651dd7d60f814ab2270746365d951, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3876,6 +3877,10 @@ PrefabInstance:
     - target: {fileID: 8851266282453304761, guid: a1580fa714ef1814897aaccc8937b83b, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8851266282453304761, guid: a1580fa714ef1814897aaccc8937b83b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8851266282453304761, guid: a1580fa714ef1814897aaccc8937b83b, type: 3}
       propertyPath: m_TagString

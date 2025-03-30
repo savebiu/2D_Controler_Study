@@ -10,7 +10,7 @@ public class PlayerState
 
     protected float startTime;      //开始时间,用于记录在每个状态中的运行时间
 
-    protected string animBoolName;        //动画布尔值
+    private string animBoolName;        //动画布尔值
 
     // 构造函数
     public PlayerState(Player player, PlayerStateMachine playerStateMachine, PlayerData playerData, string animBoolName)
@@ -25,16 +25,20 @@ public class PlayerState
     public virtual void Enter()
     {
         DoChecks();
+        player.Anim.SetBool(animBoolName, true);
         startTime = Time.time;
     }
+
     public virtual void Exit()
     {
-
+        player.Anim.SetBool(animBoolName, false);
     }
+
     public virtual void LogicUpdate()
     {
 
     }
+
     public virtual void PhysicsUpdate()
     {
         DoChecks();

@@ -54,7 +54,7 @@ public class E2_MeleeAttackState : MeleeState
                 }
                 else if (!isDetectingLedge || isDetectingWall)
                 {
-                    stateMachine.ChangeState(enemy.moveState);
+                    stateMachine.ChangeState(enemy.MoveState);
                 }*/
     }
 

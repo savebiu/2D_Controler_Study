@@ -36,8 +36,8 @@ public class E1_PlayerDetectedState : PlayerDetectedState
         /*//如果玩家不在最大攻击范围内则转换到Idle状态
         if (!isPlayerInMaxAgroRange)
         {
-            enemy.idleState.SetFlipAfterImage(false);       //不希望翻转
-            stateMachine.ChangeState(enemy.idleState);
+            enemy.IdleState.SetFlipAfterImage(false);       //不希望翻转
+            stateMachine.ChangeState(enemy.IdleState);
         }*/
 
         //在近战范围内        

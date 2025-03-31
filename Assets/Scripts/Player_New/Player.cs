@@ -112,15 +112,15 @@ public class Player : MonoBehaviour
 
     // 检查是否在地面
     public bool CheckIfGrounded()
-    {
+    {        
         return isGround = Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);        // 地面检测,若在地面则返回true
     }
 
-    //// 墙壁检测
-    //public bool CheckWall()
-    //{
-    //    return isWall = Physics2D.Raycast(groundCheck.position, Vector2.right * FacingDerection, playerData.wallCheckDistance, playerData.whatIsGround);        // 墙壁检测,若在墙壁则返回true
-    //}
+    // 墙壁检测
+    public bool CheckWall()
+    {
+        return isWall = Physics2D.Raycast(groundCheck.position, Vector2.right * FacingDerection, playerData.wallCheckDistance, playerData.whatIsGround);        // 墙壁检测,若在墙壁则返回true
+    }
 
     // 悬崖检测
     public void CheckLedge()

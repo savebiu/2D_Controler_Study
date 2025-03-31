@@ -13,7 +13,7 @@ public class PlayerData : ScriptableObject
 
     [Header("µÿ√ÊºÏ≤‚")]
     public float groundCheckRadius = 0.3f;     //ºÏ≤‚µÿ√Ê∞Îæ∂
-    public float wallCheckDistance = 0.5f;     //ºÏ≤‚«Ω±⁄æ‡¿Î 
+    public float wallCheckDistance = 0.5f;     //ºÏ≤‚«Ω±⁄æ‡¿Î
     public LayerMask whatIsGround;       //ºÏ≤‚µÿ√Ê≤„º∂
 
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -27,7 +28,12 @@ public class Player : MonoBehaviour
     private PlayerData playerData;                                      //玩家数据
 
     private Vector2 workspace;                                          //工作空间
-    private Vector2 currentVelocity;                                    //当前速度
+    public Vector2 currentVelocity;                                    //当前速度
+
+    [Header("检测")]
+    public Transform groundCheck;       //检测地面 
+    private bool isGround;                                              //是否在地面
+    private bool isWall;                                        //触碰到墙
 
     #region Unity回调函数
     // 初始化状态机
@@ -104,6 +110,22 @@ public class Player : MonoBehaviour
         }
     }
 
+    // 检查是否在地面
+    public bool CheckIfGrounded()
+    {        
+        return isGround = Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);        // 地面检测,若在地面则返回true
+    }
 
+    // 墙壁检测
+    public bool CheckWall()
+    {
+        return isWall = Physics2D.Raycast(groundCheck.position, Vector2.right * FacingDerection, playerData.wallCheckDistance, playerData.whatIsGround);        // 墙壁检测,若在墙壁则返回true
+    }
+
+    // 悬崖检测
+    public void CheckLedge()
+    {
+
+    }
     #endregion
 }

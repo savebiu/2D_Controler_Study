@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,15 +32,26 @@ public class PlayerGroundedState : PlayerState
     {
         base.LogicUpdate();
 
-        Xinput = player.InputHandle.NormInputX;      //»ñÈ¡xÊäÈëÊı¾İ
-        Yinput = player.InputHandle.NormInputY;      //»ñÈ¡yÊäÈëÊı¾İ
-        JumpInput = player.InputHandle.JumpInput;        //»ñÈ¡ÌøÔ¾ÊäÈëÊı¾İ
+        Xinput = player.InputHandle.NormInputX;      //è·å–xè¾“å…¥æ•°æ®
+        Yinput = player.InputHandle.NormInputY;      //è·å–yè¾“å…¥æ•°æ®
+        JumpInput = player.InputHandle.JumpInput;        //è·å–è·³è·ƒè¾“å…¥æ•°æ®
 
-        // ÌøÔ¾×´Ì¬ÎªÕæ,ÔòÇĞ»»µ½ÌøÔ¾×´Ì¬
-        if (JumpInput)
+        // å¦‚æœxè¾“å…¥æ•°æ®ä¸ä¸º0, åˆ™åˆ‡æ¢åˆ°ç§»åŠ¨çŠ¶æ€
+        if (Xinput != 0)
+        {
+            playerStateMachine.ChangeState(player.MoveState);
+        }
+        // è·³è·ƒçŠ¶æ€ä¸ºçœŸ,åˆ™åˆ‡æ¢åˆ°è·³è·ƒçŠ¶æ€
+        else if (JumpInput)
         {
             playerStateMachine.ChangeState(player.JumpState);
         }
+
+        //else if ()
+        //{
+            
+        //}
+
     }
 
     public override void PhysicsUpdate()

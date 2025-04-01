@@ -9,7 +9,7 @@ public class PlayerData : ScriptableObject
     public float movementVelocity = 10f;        //移动速度
     [Header("跳跃条件")]
     public float jumpVelocity = 15f;            //跳跃速度
-    public int amountOfJump = 1;                //跳跃次数
+    public int amountOfJump = 2;                //跳跃次数
 
     [Header("地面检测")]
     public float groundCheckRadius = 0.3f;     //检测地面半径

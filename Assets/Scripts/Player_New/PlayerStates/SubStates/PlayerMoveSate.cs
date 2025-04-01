@@ -37,6 +37,12 @@ public class PlayerMoveSate : PlayerGroundedState
         {
             playerStateMachine.ChangeState(player.IdleState);
         }
+
+        // 转换为加速移动状态
+        //else if()
+        //{
+
+        //}
     }
 
     public override void PhysicsUpdate()

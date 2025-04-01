@@ -31,8 +31,6 @@ public class PlayerLanState : PlayerGroundedState
     {
         base.LogicUpdate();
 
-
-       
     }
 
     public override void PhysicsUpdate()

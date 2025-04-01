@@ -115,6 +115,7 @@ public class Player : MonoBehaviour
     {
         return isGround = Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);        // 地面检测,若在地面则返回true
     }
+    
 
     //// 墙壁检测
     //public bool CheckWall()

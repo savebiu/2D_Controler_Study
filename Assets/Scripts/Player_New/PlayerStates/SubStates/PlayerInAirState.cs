@@ -45,6 +45,11 @@ public class PlayerInAirState : PlayerState
         {
             player.CheckIfShouldFlip(Xinput);       //检查是否需要翻转
             player.SetVelocityX(playerData.movementVelocity * Xinput);      //设置x轴速度;
+
+            // 设置yVelocity速度
+            player.Anim.SetFloat("yVelocity", player.currentVelocity.y);
+            //设置xVelocity 由于x是0到1之间的值,所以取绝对值
+            player.Anim.SetFloat("xVelocity", Mathf.Abs(player.currentVelocity.x));
         }
     }
 

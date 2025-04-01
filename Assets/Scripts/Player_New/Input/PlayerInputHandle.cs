@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,59 +6,60 @@ using UnityEngine.InputSystem;
 public class PlayerInputHandle : MonoBehaviour
 {
 
-    public Vector2 MovementInput { get; private set; }      // »ñÈ¡Ô­Ê¼ÒÆ¶¯ÊäÈë
-    public bool JumpInput { get; private set; }              // »ñÈ¡ÌøÔ¾ÊäÈë
+    public Vector2 MovementInput { get; private set; }      // è·å–åŸå§‹ç§»åŠ¨è¾“å…¥
+    public bool JumpInput { get; private set; }              // è·å–è·³è·ƒè¾“å…¥
 
     /*
-     * ±ê×¼»¯ÊäÈëµÄ×÷ÓÃÊÇ½«ÊäÈëµÄÖµ×ª»»Îª-1, 0, 1
-     * ·ÀÖ¹Ê¹ÓÃ¿ØÖÆÆ÷¿ØÖÆÊ±³öÏÖËÙ¶È²»Ò»ÖÂµÄÇé¿ö
+     * æ ‡å‡†åŒ–è¾“å…¥çš„ä½œç”¨æ˜¯å°†è¾“å…¥çš„å€¼è½¬æ¢ä¸º-1, 0, 1
+     * é˜²æ­¢ä½¿ç”¨æ§åˆ¶å™¨æ§åˆ¶æ—¶å‡ºç°é€Ÿåº¦ä¸ä¸€è‡´çš„æƒ…å†µ
      */
-    public int NormInputX { get; private set; }      // ±ê×¼»¯XÖáÊäÈë
-    public int NormInputY { get; private set; }      // ±ê×¼»¯YÖáÊäÈë
+    public int NormInputX { get; private set; }      // æ ‡å‡†åŒ–Xè½´è¾“å…¥
+    public int NormInputY { get; private set; }      // æ ‡å‡†åŒ–Yè½´è¾“å…¥
 
 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
-        // »ñÈ¡contextÖµ
+        // è·å–contextå€¼
         MovementInput = context.ReadValue<Vector2>();
          
-        NormInputX = (int)(MovementInput * Vector2.right).normalized.x;     //¶ÔxÖµ½øĞĞ¹éÒ»»¯´¦Àí
-        NormInputY = (int)(MovementInput * Vector2.up).normalized.y;        //¶ÔyÖµ½øĞĞ¹éÒ»»¯´¦Àí
+        NormInputX = (int)(MovementInput * Vector2.right).normalized.x;     //å¯¹xå€¼è¿›è¡Œå½’ä¸€åŒ–å¤„ç†
+        NormInputY = (int)(MovementInput * Vector2.up).normalized.y;        //å¯¹yå€¼è¿›è¡Œå½’ä¸€åŒ–å¤„ç†
         // Debug.Log(MovementInput);
     }
 
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-        #region 1. »ñÈ¡contextÖµ
+        #region 1. è·å–contextå€¼
 
-        //// context.started: °´ÏÂ
+        //// context.started: æŒ‰ä¸‹
         //if (context.started)
         //{
         //    Debug.Log("Jump button pushed down now");
         //}
 
-        //// context.performed: °´×¡
+        //// context.performed: æŒ‰ä½
         //if (context.performed)
         //{
         //    Debug.Log("Jump button held now");
         //}
 
-        //// context.canceled: ËÉ¿ª
+        //// context.canceled: æ¾å¼€
         //if (context.canceled)
         //{
         //    Debug.Log("Jump button has been released");
         //}
 
         #endregion  
-        // ÊäÈëÖµÎªÕæ
+        // è¾“å…¥å€¼ä¸ºçœŸ
         if (context.started)
         {
-            CheckJumpInput();       // Ëø¶¨ÌøÔ¾×´Ì¬
-            JumpInput = true;
+            CheckJumpInput();       // é”å®šè·³è·ƒçŠ¶æ€
+            JumpInput = true;       // è®¾ç½®è·³è·ƒçŠ¶æ€ä¸ºçœŸ
+
         }
 
     }
 
-    // Ëø¶¨ÌøÔ¾,·ÀÖ¹°´ÏÂ°´Å¥Á¢¼´ËÉ¿ªºóÍ£Ö¹ÌøÔ¾
+    // é”å®šè·³è·ƒ,é˜²æ­¢æŒ‰ä¸‹æŒ‰é’®ç«‹å³æ¾å¼€ååœæ­¢è·³è·ƒ
     public void CheckJumpInput() => JumpInput = false;
 }

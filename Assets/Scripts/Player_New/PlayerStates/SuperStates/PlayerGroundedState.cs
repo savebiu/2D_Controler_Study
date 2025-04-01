@@ -35,18 +35,18 @@ public class PlayerGroundedState : PlayerState
         Xinput = player.InputHandle.NormInputX;      //获取x输入数据
         Yinput = player.InputHandle.NormInputY;      //获取y输入数据
         JumpInput = player.InputHandle.JumpInput;        //获取跳跃输入数据
-
+                       
+        // 跳跃状态为真,则切换到跳跃状态
+        if (JumpInput)
+        {
+            //Debug.Log("entro Jump");
+            player.InputHandle.CheckJumpInput();        // 检查跳跃输入，防止一直跳跃
+            playerStateMachine.ChangeState(player.JumpState);
+        }
         // 如果x输入数据不为0, 则切换到移动状态
-        if (Xinput != 0)
+        else if (Xinput != 0)
         {
             playerStateMachine.ChangeState(player.MoveState);
-        }
-        // 跳跃状态为真,则切换到跳跃状态
-        else if (JumpInput)
-        {
-            Debug.Log("entro Jump");
-            player.InputHandle.CheckJumpInput();
-            playerStateMachine.ChangeState(player.JumpState);
         }
 
     }

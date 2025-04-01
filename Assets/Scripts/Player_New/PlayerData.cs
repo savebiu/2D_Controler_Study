@@ -1,19 +1,19 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "newPlayerData", menuName = "Data/Player Data/Base Data")]
 public class PlayerData : ScriptableObject
 {
-    [Header("ËÙ¶ÈÌõ¼ş")]
-    public float movementVelocity = 10f;        //ÒÆ¶¯ËÙ¶È
-    [Header("ÌøÔ¾Ìõ¼ş")]
-    public float jumpVelocity = 15f;            //ÌøÔ¾ËÙ¶È
-    public int amountOfJump = 1;                //ÌøÔ¾´ÎÊı
+    [Header("é€Ÿåº¦æ¡ä»¶")]
+    public float movementVelocity = 10f;        //ç§»åŠ¨é€Ÿåº¦
+    [Header("è·³è·ƒæ¡ä»¶")]
+    public float jumpVelocity = 15f;            //è·³è·ƒé€Ÿåº¦
+    public int amountOfJump = 1;                //è·³è·ƒæ¬¡æ•°
 
-    [Header("µØÃæ¼ì²â")]
-    public float groundCheckRadius = 0.3f;     //¼ì²âµØÃæ°ë¾¶
-    public float wallCheckDistance = 0.5f;     //¼ì²âÇ½±Ú¾àÀë 
-    public LayerMask whatIsGround;       //¼ì²âµØÃæ²ã¼¶
+    [Header("åœ°é¢æ£€æµ‹")]
+    public float groundCheckRadius = 0.3f;     //æ£€æµ‹åœ°é¢åŠå¾„
+    public float wallCheckDistance = 0.5f;     //æ£€æµ‹å¢™å£è·ç¦» 
+    public LayerMask whatIsGround;       //æ£€æµ‹åœ°é¢å±‚çº§
 
 }

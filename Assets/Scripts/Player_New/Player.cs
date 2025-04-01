@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
         MoveState = new PlayerMoveSate(this, stateMachine, playerData, "move");     //初始化Move状态机
         JumpState = new PlayerJumpState(this, stateMachine, playerData, "jump");        //初始化Jump状态机
         InAirState = new PlayerInAirState(this, stateMachine, playerData, "inAir");     //初始化InAir状态机
-        LanState = new PlayerLanState(this, stateMachine, playerData, "lan");       //初始化Lan状态机
+        LanState = new PlayerLanState(this, stateMachine, playerData, "land");       //初始化Lan状态机
     }
 
     // 初始化状态
@@ -114,6 +114,12 @@ public class Player : MonoBehaviour
     public bool CheckIfGrounded()
     {
         return isGround = Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);        // 地面检测,若在地面则返回true
+        
+        ////在地面上
+        //if (isGround)
+        //{
+        //    playerData.amountOfJump = 2;
+        //}
     }
     
 
@@ -129,4 +135,8 @@ public class Player : MonoBehaviour
 
     }
     #endregion
+
+    private void AnimationTrigger() => stateMachine.CurrentState.AnimationTrigger();        //动画触发状态
+    private void AnimationFinishTrigger() => stateMachine.CurrentState.AnimationFinishTrigger();      //动画结束触发状态
+
 }

@@ -60,6 +60,7 @@ public class PlayerInputHandle : MonoBehaviour
 
     }
 
-    // 锁定跳跃,防止按下按钮立即松开后停止跳跃
+    // 锁定跳跃,，在进行一次跳跃后转换为false
+    // 防止按下按钮立即松开后停止跳跃
     public void CheckJumpInput() => JumpInput = false;
 }

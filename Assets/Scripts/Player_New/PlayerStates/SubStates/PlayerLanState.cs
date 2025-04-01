@@ -13,7 +13,7 @@ public class PlayerLanState : PlayerGroundedState
     {
         base.DoChecks();
 
-        isGrounded = player.CheckIfGrounded();      //检测是否在地面上
+        //isGrounded = player.CheckIfGrounded();      //检测是否在地面上
 
     }
 
@@ -31,6 +31,16 @@ public class PlayerLanState : PlayerGroundedState
     {
         base.LogicUpdate();
 
+        // 有移动值则移动
+        if(Xinput != 0)
+        {
+            playerStateMachine.ChangeState(player.MoveState);
+        }
+        //动画播放结束 切换到Idle状态
+        else if (isAnimationFinished)
+        {
+            playerStateMachine.ChangeState(player.IdleState);
+        }
     }
 
     public override void PhysicsUpdate()

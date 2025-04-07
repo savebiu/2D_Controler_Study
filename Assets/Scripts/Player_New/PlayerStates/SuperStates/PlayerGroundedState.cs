@@ -8,6 +8,8 @@ public class PlayerGroundedState : PlayerState
     protected int Yinput;
 
     public bool JumpInput;
+    public bool isGrounded;        //是否在地面上
+
     public PlayerGroundedState(Player player, PlayerStateMachine playerStateMachine, PlayerData playerData, string animBoolName) : base(player, playerStateMachine, playerData, animBoolName)
     {
         
@@ -21,6 +23,8 @@ public class PlayerGroundedState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        player.JumpState.ResetAmountofJump();        //重置跳跃次数
+        isGrounded = player.CheckIfGrounded();      //检测是否在地面上
     }
 
     public override void Exit()
@@ -36,17 +40,19 @@ public class PlayerGroundedState : PlayerState
         Yinput = player.InputHandle.NormInputY;      //获取y输入数据
         JumpInput = player.InputHandle.JumpInput;        //获取跳跃输入数据
                        
-        // 跳跃状态为真,则切换到跳跃状态
-        if (JumpInput)
+        // 跳跃状态为真 && 能够跳跃,则切换到跳跃状态
+        if (JumpInput && player.JumpState.CanJump())
         {
             //Debug.Log("entro Jump");
             player.InputHandle.CheckJumpInput();        // 检查跳跃输入，防止一直跳跃
             playerStateMachine.ChangeState(player.JumpState);
         }
-        // 如果x输入数据不为0, 则切换到移动状态
-        else if (Xinput != 0)
+
+        // 不在地面上,则切换到空中状态
+        else if (!isGrounded)
         {
-            playerStateMachine.ChangeState(player.MoveState);
+            player.InAirState.StartCoyoteTime();      //启动土狼时间
+            player.stateMachine.ChangeState(player.InAirState);
         }
 
     }

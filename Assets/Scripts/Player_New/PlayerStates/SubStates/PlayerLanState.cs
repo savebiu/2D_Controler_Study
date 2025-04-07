@@ -20,6 +20,7 @@ public class PlayerLanState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
+        player.JumpState.ResetAmountofJump();        //ÖØÖÃÌøÔ¾´ÎÊı
     }
 
     public override void Exit()

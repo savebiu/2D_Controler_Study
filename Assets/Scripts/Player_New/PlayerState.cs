@@ -29,7 +29,8 @@ public class PlayerState
         DoChecks();
         player.Anim.SetBool(animBoolName, true);        //设置动画布尔值
         startTime = Time.time;      //记录状态开始时间
-        Debug.Log(animBoolName);
+        
+        //Debug.Log(animBoolName);      // 状态测试
         isAnimationFinished = false;        //动画完成状态
     }
 

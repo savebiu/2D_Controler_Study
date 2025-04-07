@@ -8,6 +8,7 @@ public class PlayerInputHandle : MonoBehaviour
 
     public Vector2 MovementInput { get; private set; }      // 获取原始移动输入
     public bool JumpInput { get; private set; }              // 获取跳跃输入
+    public bool JumpInputStop { get; private set; }      // 获取跳跃输入停止时间 -- 实现可控跳跃高度
 
     // 使用保留输入时间的方式,能在超过这个时间以后不再接收输入信息
     [SerializeField]
@@ -61,12 +62,19 @@ public class PlayerInputHandle : MonoBehaviour
         //}
 
         #endregion  
-        // 输入值为真
+        // 按下输入键
         if (context.started)
         {
             //CheckJumpInput();       // 锁定跳跃状态
             JumpInput = true;       // 设置跳跃状态为真
+            JumpInputStop = false;      // 设置跳跃输入停止为假
             jumpInputStartTime = Time.time;     // 记录跳跃开始时间
+        }
+
+        // 松开输入键
+        if (context.canceled)
+        {
+            JumpInputStop = true;       
         }
     }
 

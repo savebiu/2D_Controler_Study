@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.U2D.Path;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
 
     [Header("检测")]
     public Transform groundCheck;       //检测地面 
+    // public LayerMask whatLayer;
     private bool isGround;                                              //是否在地面
     private bool isWall;                                        //触碰到墙
 
@@ -64,6 +66,7 @@ public class Player : MonoBehaviour
     {
         currentVelocity = RB.velocity;      //获取当前速度
         stateMachine.LogicUpdate();
+        // Debug.Log(whatLayer);     // 地面检测调试
     }
 
     private void FixedUpdate()
@@ -121,9 +124,9 @@ public class Player : MonoBehaviour
         //    playerData.amountOfJump = 2;
         //}
     }
-    
 
-    //// 墙壁检测
+
+    // 墙壁检测
     //public bool CheckWall()
     //{
     //    return isWall = Physics2D.Raycast(groundCheck.position, Vector2.right * FacingDerection, playerData.wallCheckDistance, playerData.whatIsGround);        // 墙壁检测,若在墙壁则返回true

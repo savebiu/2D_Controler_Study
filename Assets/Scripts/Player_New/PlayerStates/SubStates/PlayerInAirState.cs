@@ -63,18 +63,18 @@ public class PlayerInAirState : PlayerState
             player.InputHandle.CheckJumpInput();        // 检查跳跃输入，防止一直跳跃
             playerStateMachine.ChangeState(player.JumpState);
         }
-        // 转换到滑墙状态
-        else if(isTouchWall && Xinput == player.FacingDerection)
-        {
-            player.stateMachine.ChangeState(player.WallSlideState);      //切换到滑墙状态
-        }
-
         // 玩家按下抓取键,则切换到墙壁抓取状态        
         else if (isTouchWall && grabInput)
         {
             player.stateMachine.ChangeState(player.WallGrabState);
         }
 
+        // 转换到滑墙状态
+        else if(isTouchWall && Xinput == player.FacingDerection)
+        {
+            player.stateMachine.ChangeState(player.WallSlideState);      //切换到滑墙状态
+        }
+       
         //未落地,则继续在空移动
         else
         {

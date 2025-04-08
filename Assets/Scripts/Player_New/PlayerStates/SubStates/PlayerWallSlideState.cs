@@ -39,6 +39,11 @@ public class PlayerWallSlideState : PlayerTouchWallState
 
         // 速度下降(由于是下降，值为负)
         player.SetVelocityY(-playerData.wallSlideVelocity);
+
+        if(yInput == 0f && grabInput)
+        {
+            player.stateMachine.ChangeState(player.WallGrabState);       //如果有向下的输入并且有抓取输入，则切换到抓墙状态
+        }
     }
 
     public override void PhysicsUpdate()

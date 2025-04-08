@@ -33,7 +33,7 @@ public class PlayerMoveSate : PlayerGroundedState
         player.CheckIfShouldFlip(Xinput);       //检查是否需要翻转
 
         // 如果玩家水平输入为0,则切换到Idle状态
-        if (Xinput == 0)
+        if (Xinput == 0 && !isExitingState)
         {
             playerStateMachine.ChangeState(player.IdleState);
         }

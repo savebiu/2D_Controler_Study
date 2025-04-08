@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -35,9 +36,23 @@ public class PlayerInputHandle : MonoBehaviour
     {
         // 获取context值
         MovementInput = context.ReadValue<Vector2>();
-         
-        NormInputX = (int)(MovementInput * Vector2.right).normalized.x;     //对x值进行归一化处理
-        NormInputY = (int)(MovementInput * Vector2.up).normalized.y;        //对y值进行归一化处理
+        
+        if(Mathf.Abs(MovementInput.x) > 0.5f)
+        {
+            NormInputX = (int)(MovementInput * Vector2.right).normalized.x;     //对x值进行归一化处理
+        }
+        else
+        {
+            NormInputX = 0;       //如果x值小于0.5,则设置为0
+        }
+        if(Mathf.Abs(MovementInput.y) > 0.5f)
+        {
+            NormInputY = (int)(MovementInput * Vector2.up).normalized.y;        //对y值进行归一化处理
+        }
+        else
+        {
+            NormInputY = 0;       //如果y值小于0.5,则设置为0
+        }
         // Debug.Log(MovementInput);
     }
 

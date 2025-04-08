@@ -33,7 +33,7 @@ public class PlayerLanState : PlayerGroundedState
         base.LogicUpdate();
 
         // 有移动值则移动
-        if(Xinput != 0)
+        if(Xinput != 0 && !isExitingState)
         {
             playerStateMachine.ChangeState(player.MoveState);
         }

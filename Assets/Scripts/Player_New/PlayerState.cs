@@ -14,6 +14,8 @@ public class PlayerState
 
     protected bool isAnimationFinished;       //动画完成状态
 
+    protected bool isExitingState;        //是否退出状态
+
     // 构造函数
     public PlayerState(Player player, PlayerStateMachine playerStateMachine, PlayerData playerData, string animBoolName)
     {
@@ -32,11 +34,13 @@ public class PlayerState
         
         //Debug.Log(animBoolName);      // 状态测试
         isAnimationFinished = false;        //动画完成状态
+        isExitingState = false;        //是否退出状态
     }
 
     public virtual void Exit()
     {
         player.Anim.SetBool(animBoolName, false);
+        isExitingState = true;        //退出状态
     }
 
     public virtual void LogicUpdate()

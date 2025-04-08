@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.U2D.Path;
@@ -6,73 +6,75 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    #region ×é¼ş
-    public Rigidbody2D RB { get; private set; }                     //¸ÕÌå
-    public Animator Anim { get; private set; }                   //¶¯»­
-    public PlayerInputHandle InputHandle { get; private set; }      //ÊäÈë¿ØÖÆ
+    #region ç»„ä»¶
+    public Rigidbody2D RB { get; private set; }                     //åˆšä½“
+    public Animator Anim { get; private set; }                   //åŠ¨ç”»
+    public PlayerInputHandle InputHandle { get; private set; }      //è¾“å…¥æ§åˆ¶
     #endregion
 
-    #region ×´Ì¬»ú
-    public PlayerStateMachine stateMachine { get; private set; }       //×´Ì¬»ú
+    #region çŠ¶æ€æœº
+    public PlayerStateMachine stateMachine { get; private set; }       //çŠ¶æ€æœº
 
-    public PlayerIdleState IdleState { get; private set; }             //¿ÕÏĞ×´Ì¬
-    public PlayerMoveSate MoveState { get; private set; }              //ÒÆ¶¯×´Ì¬
-    public PlayerJumpState JumpState { get; private set; }             //ÌøÔ¾×´Ì¬
-    public PlayerInAirState InAirState { get; private set; }           //¿ÕÖĞ×´Ì¬
-    public PlayerLanState LanState { get; private set; }               //ÂäµØ×´Ì¬
-    public PlayerWallSlideState WallSlideState { get; private set; }   //Ç½±Ú»¬ĞĞ×´Ì¬
-    public PlayerWallClimbState WallClimbState { get; private set; }   //Ç½±ÚÅÊÅÀ×´Ì¬
-    public PlayerWallGrabState WallGrabState { get; private set; }     //Ç½±Ú×¥È¡×´Ì¬
+    public PlayerIdleState IdleState { get; private set; }             //ç©ºé—²çŠ¶æ€
+    public PlayerMoveSate MoveState { get; private set; }              //ç§»åŠ¨çŠ¶æ€
+    public PlayerJumpState JumpState { get; private set; }             //è·³è·ƒçŠ¶æ€
+    public PlayerInAirState InAirState { get; private set; }           //ç©ºä¸­çŠ¶æ€
+    public PlayerLanState LanState { get; private set; }               //è½åœ°çŠ¶æ€
+    public PlayerWallSlideState WallSlideState { get; private set; }   //å¢™å£æ»‘è¡ŒçŠ¶æ€
+    public PlayerWallClimbState WallClimbState { get; private set; }   //å¢™å£æ”€çˆ¬çŠ¶æ€
+    public PlayerWallGrabState WallGrabState { get; private set; }     //å¢™å£æŠ“å–çŠ¶æ€
+    public PlayerWallJumpState WallJumpState { get; private set; }         //å¢™å£è·³è·ƒçŠ¶æ€
 
     #endregion
 
-    public int FacingDerection { get; private set; }                   //·½Ïò 
+    public int FacingDerection { get; private set; }                   //æ–¹å‘ 
 
     [SerializeField]
-    private PlayerData playerData;                                      //Íæ¼ÒÊı¾İ
+    private PlayerData playerData;                                      //ç©å®¶æ•°æ®
 
-    private Vector2 workspace;                                          //¹¤×÷¿Õ¼ä
-    public Vector2 currentVelocity;                                    //µ±Ç°ËÙ¶È
+    private Vector2 workspace;                                          //å·¥ä½œç©ºé—´
+    public Vector2 currentVelocity;                                    //å½“å‰é€Ÿåº¦
 
-    [Header("¼ì²â")]
-    public Transform groundCheck;       //¼ì²âµØÃæ 
+    [Header("æ£€æµ‹")]
+    public Transform groundCheck;       //æ£€æµ‹åœ°é¢ 
     // public LayerMask whatLayer;
-    private bool isGround;                                              //ÊÇ·ñÔÚµØÃæ
-    private bool isWall;                                        //´¥Åöµ½Ç½
+    private bool isGround;                                              //æ˜¯å¦åœ¨åœ°é¢
+    private bool isWall;                                        //è§¦ç¢°åˆ°å¢™
 
-    #region Unity»Øµ÷º¯Êı
-    // ³õÊ¼»¯×´Ì¬»ú
+    #region Unityå›è°ƒå‡½æ•°
+    // åˆå§‹åŒ–çŠ¶æ€æœº
     private void Awake()
     {
         stateMachine = new PlayerStateMachine();
 
-        IdleState = new PlayerIdleState(this, stateMachine, playerData, "idle");        //³õÊ¼»¯Idle×´Ì¬»ú
-        MoveState = new PlayerMoveSate(this, stateMachine, playerData, "move");     //³õÊ¼»¯Move×´Ì¬»ú
-        JumpState = new PlayerJumpState(this, stateMachine, playerData, "jump");        //³õÊ¼»¯Jump×´Ì¬»ú
-        InAirState = new PlayerInAirState(this, stateMachine, playerData, "inAir");     //³õÊ¼»¯InAir×´Ì¬»ú
-        LanState = new PlayerLanState(this, stateMachine, playerData, "land");       //³õÊ¼»¯Lan×´Ì¬»ú
-        WallSlideState = new PlayerWallSlideState(this, stateMachine, playerData, "wallSlide");     //³õÊ¼»¯WallSlide×´Ì¬»ú
-        WallClimbState = new PlayerWallClimbState(this, stateMachine, playerData, "wallClimb");     //³õÊ¼»¯WallClimb×´Ì¬»ú
-        WallGrabState = new PlayerWallGrabState(this, stateMachine, playerData, "wallGrab");     //³õÊ¼»¯WallGrab×´Ì¬»ú
+        IdleState = new PlayerIdleState(this, stateMachine, playerData, "idle");        //åˆå§‹åŒ–IdleçŠ¶æ€æœº
+        MoveState = new PlayerMoveSate(this, stateMachine, playerData, "move");     //åˆå§‹åŒ–MoveçŠ¶æ€æœº
+        JumpState = new PlayerJumpState(this, stateMachine, playerData, "jump");        //åˆå§‹åŒ–JumpçŠ¶æ€æœº
+        InAirState = new PlayerInAirState(this, stateMachine, playerData, "inAir");     //åˆå§‹åŒ–InAirçŠ¶æ€æœº
+        LanState = new PlayerLanState(this, stateMachine, playerData, "land");       //åˆå§‹åŒ–LançŠ¶æ€æœº
+        WallSlideState = new PlayerWallSlideState(this, stateMachine, playerData, "wallSlide");     //åˆå§‹åŒ–WallSlideçŠ¶æ€æœº
+        WallClimbState = new PlayerWallClimbState(this, stateMachine, playerData, "wallClimb");     //åˆå§‹åŒ–WallClimbçŠ¶æ€æœº
+        WallGrabState = new PlayerWallGrabState(this, stateMachine, playerData, "wallGrab");     //åˆå§‹åŒ–WallGrabçŠ¶æ€æœº
+        WallJumpState = new PlayerWallJumpState(this, stateMachine, playerData, "inAir");     //åˆå§‹åŒ–WallJumpçŠ¶æ€æœº
     }
 
-    // ³õÊ¼»¯×´Ì¬
+    // åˆå§‹åŒ–çŠ¶æ€
     private void Start()
     {
-        RB = GetComponent<Rigidbody2D>();    //»ñÈ¡¸ÕÌå
-        Anim = GetComponent<Animator>();   //»ñÈ¡¶¯»­
-        InputHandle = GetComponent<PlayerInputHandle>();   //»ñÈ¡ÊäÈë¿ØÖÆ
-        FacingDerection = 1;    //ÉèÖÃ·½ÏòÎªÕı
+        RB = GetComponent<Rigidbody2D>();    //è·å–åˆšä½“
+        Anim = GetComponent<Animator>();   //è·å–åŠ¨ç”»
+        InputHandle = GetComponent<PlayerInputHandle>();   //è·å–è¾“å…¥æ§åˆ¶
+        FacingDerection = 1;    //è®¾ç½®æ–¹å‘ä¸ºæ­£
 
-        stateMachine.Initialize(IdleState); //³õÊ¼»¯×´Ì¬»úÎªIdle×´Ì¬
+        stateMachine.Initialize(IdleState); //åˆå§‹åŒ–çŠ¶æ€æœºä¸ºIdleçŠ¶æ€
 
     }
 
     private void Update()
     {
-        currentVelocity = RB.velocity;      //»ñÈ¡µ±Ç°ËÙ¶È
+        currentVelocity = RB.velocity;      //è·å–å½“å‰é€Ÿåº¦
         stateMachine.LogicUpdate();
-        // Debug.Log(whatLayer);     // µØÃæ¼ì²âµ÷ÊÔ
+        // Debug.Log(whatLayer);     // åœ°é¢æ£€æµ‹è°ƒè¯•
     }
 
     private void FixedUpdate()
@@ -81,36 +83,46 @@ public class Player : MonoBehaviour
     }
     #endregion
 
-    #region ËÙ¶Èº¯Êı
-    // Ë®Æ½ËÙ¶Èº¯Êı(ÒÆ¶¯)
+    #region é€Ÿåº¦å‡½æ•°
+    // æœ‰æ–¹å‘è§’åº¦çš„é€Ÿåº¦
+    public void SetVelocity(float velocity, Vector2 angle, int direction)
+    {
+        angle.Normalize();        //å½’ä¸€åŒ–è§’åº¦
+        workspace.Set(angle.x * velocity * direction, angle.y * velocity);        //è®¾ç½®é€Ÿåº¦
+        RB.velocity = workspace;        //è®¾ç½®åˆšä½“é€Ÿåº¦
+        currentVelocity = workspace;    //è®¾ç½®å½“å‰é€Ÿåº¦ä¸ºå·¥ä½œç©ºé—´ä¸­çš„å€¼
+    }
+
+
+    // æ°´å¹³é€Ÿåº¦å‡½æ•°(ç§»åŠ¨)
     public void SetVelocityX(float veloicity)
     {
-        workspace.Set(veloicity, currentVelocity.y);        // ÉèÖÃËÙ¶È
-        RB.velocity = workspace;        //ÉèÖÃ¸ÕÌåËÙ¶È
-        currentVelocity = workspace;    //ÉèÖÃµ±Ç°ËÙ¶ÈÎª¹¤×÷¿Õ¼äÖĞµÄÖµ
+        workspace.Set(veloicity, currentVelocity.y);        // è®¾ç½®é€Ÿåº¦
+        RB.velocity = workspace;        //è®¾ç½®åˆšä½“é€Ÿåº¦
+        currentVelocity = workspace;    //è®¾ç½®å½“å‰é€Ÿåº¦ä¸ºå·¥ä½œç©ºé—´ä¸­çš„å€¼
         
     }
-    //ÊúÖ±ËÙ¶Èº¯Êı(ÌøÔ¾)
+    //ç«–ç›´é€Ÿåº¦å‡½æ•°(è·³è·ƒ)
     public void SetVelocityY(float velocity)
     {
-        workspace.Set(currentVelocity.x, velocity);        // ÉèÖÃËÙ¶È
-        RB.velocity = workspace;        //ÉèÖÃ¸ÕÌåËÙ¶È
-        currentVelocity = workspace;    //ÉèÖÃµ±Ç°ËÙ¶ÈÎª¹¤×÷¿Õ¼äÖĞµÄÖµ
+        workspace.Set(currentVelocity.x, velocity);        // è®¾ç½®é€Ÿåº¦
+        RB.velocity = workspace;        //è®¾ç½®åˆšä½“é€Ÿåº¦
+        currentVelocity = workspace;    //è®¾ç½®å½“å‰é€Ÿåº¦ä¸ºå·¥ä½œç©ºé—´ä¸­çš„å€¼
     }
 
     #endregion
 
-    #region ·­×ªº¯Êı
-    // ·­×ªº¯Êı
+    #region ç¿»è½¬å‡½æ•°
+    // ç¿»è½¬å‡½æ•°
     public void Flip()
     {
-        FacingDerection *= -1;      //¸Ä±ä·½Ïò
-        transform.Rotate(0.0f, 180.0f, 0.0f);      //Ğı×ª
+        FacingDerection *= -1;      //æ”¹å˜æ–¹å‘
+        transform.Rotate(0.0f, 180.0f, 0.0f);      //æ—‹è½¬
     }
     #endregion
 
-    #region ¼ì²éº¯Êı
-    // ·­×ª¼ì²â
+    #region æ£€æŸ¥å‡½æ•°
+    // ç¿»è½¬æ£€æµ‹
     public void CheckIfShouldFlip(int xInput)
     {
         if(xInput !=0 && xInput != FacingDerection)
@@ -119,12 +131,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    // ¼ì²éÊÇ·ñÔÚµØÃæ
+    // æ£€æŸ¥æ˜¯å¦åœ¨åœ°é¢
     public bool CheckIfGrounded()
     {
-        return isGround = Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);        // µØÃæ¼ì²â,ÈôÔÚµØÃæÔò·µ»Øtrue
+        return isGround = Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);        // åœ°é¢æ£€æµ‹,è‹¥åœ¨åœ°é¢åˆ™è¿”å›true
         
-        ////ÔÚµØÃæÉÏ
+        ////åœ¨åœ°é¢ä¸Š
         //if (isGround)
         //{
         //    playerData.amountOfJump = 2;
@@ -132,20 +144,25 @@ public class Player : MonoBehaviour
     }
 
 
-    //Ç½±Ú¼ì²â
+    //å¢™å£æ£€æµ‹
     public bool CheckIfTouchingWall()
     {
-        return isWall = Physics2D.Raycast(groundCheck.position, Vector2.right * FacingDerection, playerData.wallCheckDistance, playerData.whatIsGround);        // Ç½±Ú¼ì²â,ÈôÔÚÇ½±ÚÔò·µ»Øtrue
+        return isWall = Physics2D.Raycast(groundCheck.position, Vector2.right * FacingDerection, playerData.wallCheckDistance, playerData.whatIsGround);        // å¢™å£æ£€æµ‹,è‹¥åœ¨å¢™å£åˆ™è¿”å›true
+    }
+    //èƒŒåå¢™å£æ£€æµ‹
+    public bool CheckIfTouchingWallBack()
+    {
+        return isWall = Physics2D.Raycast(groundCheck.position, Vector2.right * -FacingDerection, playerData.wallCheckDistance, playerData.whatIsGround);        // èƒŒåå¢™å£æ£€æµ‹,è‹¥åœ¨å¢™å£åˆ™è¿”å›true        
     }
 
-    // ĞüÑÂ¼ì²â
+    // æ‚¬å´–æ£€æµ‹
     public void CheckLedge()
     {
 
     }
     #endregion
 
-    private void AnimationTrigger() => stateMachine.CurrentState.AnimationTrigger();        //¶¯»­´¥·¢×´Ì¬
-    private void AnimationFinishTrigger() => stateMachine.CurrentState.AnimationFinishTrigger();      //¶¯»­½áÊø´¥·¢×´Ì¬
+    private void AnimationTrigger() => stateMachine.CurrentState.AnimationTrigger();        //åŠ¨ç”»è§¦å‘çŠ¶æ€
+    private void AnimationFinishTrigger() => stateMachine.CurrentState.AnimationFinishTrigger();      //åŠ¨ç”»ç»“æŸè§¦å‘çŠ¶æ€
 
 }

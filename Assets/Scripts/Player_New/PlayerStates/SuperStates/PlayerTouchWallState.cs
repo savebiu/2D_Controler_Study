@@ -6,6 +6,7 @@ public class PlayerTouchWallState : PlayerState
 {
     protected bool isGrounded;
     protected bool isTouchingWall;
+
     protected int xInput;
     protected int yInput;
     protected bool grabInput;        //抓取输入
@@ -29,6 +30,7 @@ public class PlayerTouchWallState : PlayerState
         base.DoChecks();
         isTouchingWall = player.CheckIfTouchingWall();
         isGrounded = player.CheckIfGrounded();
+        //isJumping = player.InAirState.();       //获取跳跃状态
     }
 
     public override void Enter()

@@ -30,7 +30,7 @@ public class PlayerIdleState : PlayerGroundedState
         base.LogicUpdate();
 
         // 如果玩家按下了移动键,则切换到移动状态
-        if (Xinput != 0)
+        if (Xinput != 0 && !isExitingState)
         {
             playerStateMachine.ChangeState(player.MoveState);
         }

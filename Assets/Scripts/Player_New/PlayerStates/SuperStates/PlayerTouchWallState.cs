@@ -49,7 +49,7 @@ public class PlayerTouchWallState : PlayerState
         yInput = player.InputHandle.NormInputY;      //获取控制器y输入数据
         grabInput = player.InputHandle.GrabInput;        //获取控制器抓取输入数据
 
-        if (isGrounded)
+        if (isGrounded && !grabInput)
         {
             player.stateMachine.ChangeState(player.IdleState);
         }

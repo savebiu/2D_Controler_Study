@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Crush",
+                    "name": "Grab",
                     "type": "Button",
                     "id": "63df947b-19cb-49cd-b4d6-7d2166c6b52a",
                     "expectedControlType": "Button",
@@ -137,8 +137,19 @@
                     "path": "<Keyboard>/ctrl",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Crush",
+                    "groups": "KeyBoard",
+                    "action": "Grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5e5a1986-798b-4704-bd1c-410c2b555d6a",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepd",
+                    "action": "Grab",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

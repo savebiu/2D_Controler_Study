@@ -20,7 +20,8 @@ public class PlayerData : ScriptableObject
 
     [Header("墙壁状态")]
     public float wallCheckDistance = 0.5f;     //检测墙壁距离 
-    public float movementVelocityWall = 3f;        //墙壁移动速度
+    public float wallSlideVelocity = 3f;        //滑墙速度
+    public float wallClimbVelocity = 3f;        //攀爬速度
 
 }
  

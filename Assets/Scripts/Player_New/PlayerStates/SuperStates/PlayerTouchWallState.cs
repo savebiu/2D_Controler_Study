@@ -6,7 +6,9 @@ public class PlayerTouchWallState : PlayerState
 {
     protected bool isGrounded;
     protected bool isTouchingWall;
-    protected int Xinput;
+    protected int xInput;
+    protected int yInput;
+    protected bool grabInput;        //抓取输入
 
     public PlayerTouchWallState(Player player, PlayerStateMachine playerStateMachine, PlayerData playerData, string animBoolName) : base(player, playerStateMachine, playerData, animBoolName)
     {
@@ -43,14 +45,16 @@ public class PlayerTouchWallState : PlayerState
     {
         base.LogicUpdate();
 
-        Xinput = player.InputHandle.NormInputX;      //获取控制器x输入数据
+        xInput = player.InputHandle.NormInputX;      //获取控制器x输入数据
+        yInput = player.InputHandle.NormInputY;      //获取控制器y输入数据
+        grabInput = player.InputHandle.GrabInput;        //获取控制器抓取输入数据
 
         if (isGrounded)
         {
             player.stateMachine.ChangeState(player.IdleState);
         }
 
-        else if (Xinput == 0 && !isTouchingWall)
+        else if (xInput == 0 && !isTouchingWall)
         {
             player.stateMachine.ChangeState(player.InAirState);
         }

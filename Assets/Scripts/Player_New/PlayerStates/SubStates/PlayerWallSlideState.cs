@@ -38,7 +38,7 @@ public class PlayerWallSlideState : PlayerTouchWallState
         base.LogicUpdate();
 
         // 速度下降(由于是下降，值为负)
-        player.SetVelocityY(-playerData.movementVelocityWall);
+        player.SetVelocityY(-playerData.wallSlideVelocity);
     }
 
     public override void PhysicsUpdate()

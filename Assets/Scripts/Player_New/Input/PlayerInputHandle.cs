@@ -10,6 +10,8 @@ public class PlayerInputHandle : MonoBehaviour
     public bool JumpInput { get; private set; }              // 获取跳跃输入
     public bool JumpInputStop { get; private set; }      // 获取跳跃输入停止时间 -- 实现可控跳跃高度
 
+    public bool GrabInput { get; private set; }              // 获取抓取输入
+
     // 使用保留输入时间的方式,能在超过这个时间以后不再接收输入信息
     [SerializeField]
     private float inputHoldTime = 0.2f;       // 输入保持时间
@@ -88,6 +90,19 @@ public class PlayerInputHandle : MonoBehaviour
         if(Time.time >= jumpInputStartTime + inputHoldTime)
         {
             JumpInput = false;
+        }
+    }
+
+    public void OnGrabInput(InputAction.CallbackContext context)
+    {
+        // 获取context值
+        if (context.started)
+        {
+            GrabInput = true;       // 设置抓取状态为真
+        }
+        if (context.canceled)
+        {
+            GrabInput = false;      // 设置抓取状态为假
         }
     }
 }

@@ -6,6 +6,7 @@ public class PlayerInAirState : PlayerState
 {
     private bool isGrounded;        //是否在地面上
     private int Xinput;     //x输入
+    private bool grabInput;        //抓取输入
 
     private bool JumpInput;     // 跳跃输入
     private bool isJumping;     //是否跳跃
@@ -45,6 +46,7 @@ public class PlayerInAirState : PlayerState
         Xinput = player.InputHandle.NormInputX;      //获取控制器x输入数据
         JumpInput = player.InputHandle.JumpInput;        //获取控制器跳跃输入数据
         JumpInputStop = player.InputHandle.JumpInputStop;        //获取控制器跳跃输入停止数据
+        grabInput = player.InputHandle.GrabInput;        //获取控制器抓取输入数据
 
 
         CheckJunpMultiplier();
@@ -65,6 +67,12 @@ public class PlayerInAirState : PlayerState
         else if(isTouchWall && Xinput == player.FacingDerection)
         {
             player.stateMachine.ChangeState(player.WallSlideState);      //切换到滑墙状态
+        }
+
+        // 玩家按下抓取键,则切换到墙壁抓取状态        
+        else if (isTouchWall && grabInput)
+        {
+            player.stateMachine.ChangeState(player.WallGrabState);
         }
 
         //未落地,则继续在空移动

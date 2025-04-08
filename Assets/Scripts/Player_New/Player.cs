@@ -20,6 +20,9 @@ public class Player : MonoBehaviour
     public PlayerJumpState JumpState { get; private set; }             //ÌøÔ¾×´Ì¬
     public PlayerInAirState InAirState { get; private set; }           //¿ÕÖÐ×´Ì¬
     public PlayerLanState LanState { get; private set; }               //ÂäµØ×´Ì¬
+    public PlayerWallSlideState WallSlideState { get; private set; }   //Ç½±Ú»¬ÐÐ×´Ì¬
+    public PlayerWallClimbState WallClimbState { get; private set; }   //Ç½±ÚÅÊÅÀ×´Ì¬
+    public PlayerWallGrabState WallGrabState { get; private set; }     //Ç½±Ú×¥È¡×´Ì¬
 
     #endregion
 
@@ -48,6 +51,9 @@ public class Player : MonoBehaviour
         JumpState = new PlayerJumpState(this, stateMachine, playerData, "jump");        //³õÊ¼»¯Jump×´Ì¬»ú
         InAirState = new PlayerInAirState(this, stateMachine, playerData, "inAir");     //³õÊ¼»¯InAir×´Ì¬»ú
         LanState = new PlayerLanState(this, stateMachine, playerData, "land");       //³õÊ¼»¯Lan×´Ì¬»ú
+        WallSlideState = new PlayerWallSlideState(this, stateMachine, playerData, "wallSlide");     //³õÊ¼»¯WallSlide×´Ì¬»ú
+        WallClimbState = new PlayerWallClimbState(this, stateMachine, playerData, "wallClimb");     //³õÊ¼»¯WallClimb×´Ì¬»ú
+        WallGrabState = new PlayerWallGrabState(this, stateMachine, playerData, "wallGrab");     //³õÊ¼»¯WallGrab×´Ì¬»ú
     }
 
     // ³õÊ¼»¯×´Ì¬
@@ -126,11 +132,11 @@ public class Player : MonoBehaviour
     }
 
 
-    // Ç½±Ú¼ì²â
-    //public bool CheckWall()
-    //{
-    //    return isWall = Physics2D.Raycast(groundCheck.position, Vector2.right * FacingDerection, playerData.wallCheckDistance, playerData.whatIsGround);        // Ç½±Ú¼ì²â,ÈôÔÚÇ½±ÚÔò·µ»Øtrue
-    //}
+    //Ç½±Ú¼ì²â
+    public bool CheckIfTouchingWall()
+    {
+        return isWall = Physics2D.Raycast(groundCheck.position, Vector2.right * FacingDerection, playerData.wallCheckDistance, playerData.whatIsGround);        // Ç½±Ú¼ì²â,ÈôÔÚÇ½±ÚÔò·µ»Øtrue
+    }
 
     // ÐüÑÂ¼ì²â
     public void CheckLedge()

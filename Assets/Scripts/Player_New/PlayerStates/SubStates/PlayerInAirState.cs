@@ -6,11 +6,13 @@ public class PlayerInAirState : PlayerState
 {
     private bool isGrounded;        //是否在地面上
     private int Xinput;     //x输入
+
     private bool JumpInput;     // 跳跃输入
     private bool isJumping;     //是否跳跃
     private bool JumpInputStop;      //跳跃输入停止时间
-
     private bool isCoyoteTime;      //土狼时间 -- 玩家刚离开地面的时候仍然可以进行跳跃
+    private bool isTouchWall;      //是否碰到墙壁
+
     public PlayerInAirState(Player player, PlayerStateMachine playerStateMachine, PlayerData playerData, string animBoolName) : base(player, playerStateMachine, playerData, animBoolName)
     {
 
@@ -20,6 +22,7 @@ public class PlayerInAirState : PlayerState
     {
         base.DoChecks();
         isGrounded = player.CheckIfGrounded();      //检测是否在地面上
+        isTouchWall = player.CheckIfTouchingWall();     //检测是否碰到墙壁
     }
 
     public override void Enter()
@@ -57,6 +60,11 @@ public class PlayerInAirState : PlayerState
         {
             player.InputHandle.CheckJumpInput();        // 检查跳跃输入，防止一直跳跃
             playerStateMachine.ChangeState(player.JumpState);
+        }
+        // 转换到滑墙状态
+        else if(isTouchWall && Xinput == player.FacingDerection)
+        {
+            player.stateMachine.ChangeState(player.WallSlideState);      //切换到滑墙状态
         }
 
         //未落地,则继续在空移动

@@ -13,6 +13,7 @@ public class PlayerWallJumpState : PlayerAbilityState
     {
         base.Enter();
         Debug.Log("WallJump");
+        player.InputHandle.CheckJumpInput();
         player.JumpState.ResetAmountofJump();       //重置跳跃次数
         player.SetVelocity(playerData.wallJumpVelocity, playerData.wallJumpAngle, wallJumpDirection);       //设置跳跃速度,角度，方向
         player.CheckIfShouldFlip(wallJumpDirection);       //翻转角色面向跳跃方向

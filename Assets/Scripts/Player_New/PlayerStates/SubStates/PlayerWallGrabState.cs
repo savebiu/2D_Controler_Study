@@ -25,9 +25,9 @@ public class PlayerWallGrabState : PlayerTouchWallState
     {
         base.LogicUpdate();
 
-        HoldPosition();
         if (!isExitingState)
         {
+            HoldPosition();     //抓取
             if (yInput > 0)
             {
                 player.stateMachine.ChangeState(player.WallClimbState);       //如果有向上的输入，则切换到爬墙状态

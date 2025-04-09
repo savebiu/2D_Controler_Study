@@ -47,8 +47,6 @@ public class PlayerGroundedState : PlayerState
         // 跳跃状态为真 && 能够跳跃,则切换到跳跃状态
         if (JumpInput && player.JumpState.CanJump())
         {
-            //Debug.Log("entro Jump");
-            player.InputHandle.CheckJumpInput();        // 检查跳跃输入，防止一直跳跃
             playerStateMachine.ChangeState(player.JumpState);
         }
 

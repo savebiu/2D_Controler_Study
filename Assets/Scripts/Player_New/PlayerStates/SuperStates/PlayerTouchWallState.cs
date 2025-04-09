@@ -10,6 +10,7 @@ public class PlayerTouchWallState : PlayerState
     protected int xInput;
     protected int yInput;
     protected bool grabInput;        //抓取输入
+    protected bool jumpInput;        //跳跃输入
 
     public PlayerTouchWallState(Player player, PlayerStateMachine playerStateMachine, PlayerData playerData, string animBoolName) : base(player, playerStateMachine, playerData, animBoolName)
     {
@@ -30,7 +31,6 @@ public class PlayerTouchWallState : PlayerState
         base.DoChecks();
         isTouchingWall = player.CheckIfTouchingWall();
         isGrounded = player.CheckIfGrounded();
-        //isJumping = player.InAirState.();       //获取跳跃状态
     }
 
     public override void Enter()
@@ -49,9 +49,17 @@ public class PlayerTouchWallState : PlayerState
 
         xInput = player.InputHandle.NormInputX;      //获取控制器x输入数据
         yInput = player.InputHandle.NormInputY;      //获取控制器y输入数据
-        grabInput = player.InputHandle.GrabInput;        //获取控制器抓取输入数据
+        grabInput = player.InputHandle.GrabInput;        //获取控制器抓取输入数据 
+        jumpInput = player.InputHandle.JumpInput;        //获取控制器跳跃输入数据
 
-        if (isGrounded && !grabInput)
+        // 墙壁跳跃
+        if (jumpInput)
+        {
+            player.WallJumpState.DetermineWallJumpDirection(isTouchingWall);
+            player.stateMachine.ChangeState(player.WallJumpState);
+        }
+
+        else if (isGrounded && !grabInput)
         {
             player.stateMachine.ChangeState(player.IdleState);
         }

@@ -35,11 +35,6 @@ public class PlayerIdleState : PlayerGroundedState
             playerStateMachine.ChangeState(player.MoveState);
         }
 
-        // 如果玩家按下了跳跃键,则切换到跳跃状态
-        //else if (player.InputHandle.JumpInput)
-        //{
-        //    playerStateMachine.ChangeState(player.JumpState);
-        //}
     }
 
     public override void PhysicsUpdate()

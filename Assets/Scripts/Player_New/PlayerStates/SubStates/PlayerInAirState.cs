@@ -59,6 +59,8 @@ public class PlayerInAirState : PlayerState
 
         oldIsTouchingWall = false;
         oldIsTouchingWallBack = false;
+        isTouchingWall = false;
+        isTouchingWallBack = false;
     }
 
     public override void LogicUpdate()

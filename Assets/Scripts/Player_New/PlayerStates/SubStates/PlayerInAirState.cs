@@ -61,6 +61,7 @@ public class PlayerInAirState : PlayerState
         {
             playerStateMachine.ChangeState(player.LanState);
         }
+
         // ÓĞÌøÔ¾ÊäÈë£¬ÇÒ´¥Åöµ½Ç½±Ú -- WallJumpState
         else if (JumpInput && (isTouchingWall || isTouchingWallBack))
         //else if (JumpInput && isTouchingWall)

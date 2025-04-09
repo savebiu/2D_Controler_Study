@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerTouchWallState : PlayerState
 {
-    protected bool isGrounded;
+    protected bool isGrounded;    
     protected bool isTouchingWall;
 
     protected int xInput;

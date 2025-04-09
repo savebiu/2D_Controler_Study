@@ -1,10 +1,10 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerWallGrabState : PlayerTouchWallState
 {
-    private Vector2 holdPosition;       //±£³ÖÎ»ÖÃ
+    private Vector2 holdPosition;       //ä¿æŒä½ç½®
 
     public PlayerWallGrabState(Player player, PlayerStateMachine playerStateMachine, PlayerData playerData, string animBoolName) : base(player, playerStateMachine, playerData, animBoolName)
     {
@@ -12,8 +12,8 @@ public class PlayerWallGrabState : PlayerTouchWallState
     public override void Enter()
     {
         base.Enter();
-        holdPosition = player.transform.position;       //»ñÈ¡µ±Ç°±£³ÖÎ»ÖÃ
-        HoldPosition();       //±£³ÖÎ»ÖÃ
+        holdPosition = player.transform.position;       //è·å–å½“å‰ä¿æŒä½ç½®
+        HoldPosition();       //ä¿æŒä½ç½®
     }
 
     public override void Exit()
@@ -30,12 +30,12 @@ public class PlayerWallGrabState : PlayerTouchWallState
         {
             if (yInput > 0)
             {
-                player.stateMachine.ChangeState(player.WallClimbState);       //Èç¹ûÓĞÏòÉÏµÄÊäÈë£¬ÔòÇĞ»»µ½ÅÀÇ½×´Ì¬
+                player.stateMachine.ChangeState(player.WallClimbState);       //å¦‚æœæœ‰å‘ä¸Šçš„è¾“å…¥ï¼Œåˆ™åˆ‡æ¢åˆ°çˆ¬å¢™çŠ¶æ€
             }
 
             else if (yInput < 0f || !grabInput)
             {
-                player.stateMachine.ChangeState(player.WallSlideState);       //Èç¹ûÓĞÏòÏÂµÄÊäÈë²¢ÇÒÃ»ÓĞ×¥È¡ÊäÈë£¬ÔòÇĞ»»µ½»¬Ç½×´Ì¬
+                player.stateMachine.ChangeState(player.WallSlideState);       //å¦‚æœæœ‰å‘ä¸‹çš„è¾“å…¥å¹¶ä¸”æ²¡æœ‰æŠ“å–è¾“å…¥ï¼Œåˆ™åˆ‡æ¢åˆ°æ»‘å¢™çŠ¶æ€
             }
         }
         
@@ -43,10 +43,10 @@ public class PlayerWallGrabState : PlayerTouchWallState
 
     public void HoldPosition()
     {
-        player.transform.position = holdPosition;       //±£³Öµ±Ç°Î»ÖÃ
-        // ÉèÖÃËÙ¶È
-        player.SetVelocityX(0f);       //ÉèÖÃË®Æ½ËÙ¶ÈÎª0
-        player.SetVelocityY(0f);       //ÉèÖÃ´¹Ö±ËÙ¶ÈÎª0
+        player.transform.position = holdPosition;       //ä¿æŒå½“å‰ä½ç½®
+        // è®¾ç½®é€Ÿåº¦
+        player.SetVelocityX(0f);       //è®¾ç½®æ°´å¹³é€Ÿåº¦ä¸º0
+        player.SetVelocityY(0f);       //è®¾ç½®å‚ç›´é€Ÿåº¦ä¸º0
     }
 
     

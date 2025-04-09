@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerGroundedState : PlayerState
 {
-    protected int Xinput;
+    protected int xInput;
     protected int Yinput;
 
     public bool JumpInput;
@@ -39,7 +39,7 @@ public class PlayerGroundedState : PlayerState
     {
         base.LogicUpdate();
 
-        Xinput = player.InputHandle.NormInputX;      //获取x输入数据
+        xInput = player.InputHandle.NormInputX;      //获取x输入数据
         Yinput = player.InputHandle.NormInputY;      //获取y输入数据
         JumpInput = player.InputHandle.JumpInput;        //获取跳跃输入数据
         GrabInput = player.InputHandle.GrabInput;        //获取抓取输入数据

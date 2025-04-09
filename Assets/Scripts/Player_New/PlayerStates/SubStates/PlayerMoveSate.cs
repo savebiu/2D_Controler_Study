@@ -28,12 +28,12 @@ public class PlayerMoveSate : PlayerGroundedState
         base.LogicUpdate();
 
         // 设置水平速度
-        player.SetVelocityX(playerData.movementVelocity * Xinput);
+        player.SetVelocityX(playerData.movementVelocity * xInput);
 
-        player.CheckIfShouldFlip(Xinput);       //检查是否需要翻转
+        player.CheckIfShouldFlip(xInput);       //检查是否需要翻转
 
         // 如果玩家水平输入为0,则切换到Idle状态
-        if (Xinput == 0 && !isExitingState)
+        if (xInput == 0 && !isExitingState)
         {
             playerStateMachine.ChangeState(player.IdleState);
         }

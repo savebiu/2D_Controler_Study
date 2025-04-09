@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    public int FacingDerection { get; private set; }                   //方向 
+    public int FacingDirection { get; private set; }                   //方向 
 
     [SerializeField]
     private PlayerData playerData;                                      //玩家数据
@@ -40,6 +40,10 @@ public class Player : MonoBehaviour
     // public LayerMask whatLayer;
     private bool isGround;                                              //是否在地面
     private bool isWall;                                        //触碰到墙
+    private bool isWallBack;       //触碰到背后墙壁
+
+    [SerializeField]
+    private bool isTouchingWall;       //是否触碰到墙壁
 
     #region Unity回调函数
     // 初始化状态机
@@ -64,9 +68,11 @@ public class Player : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();    //获取刚体
         Anim = GetComponent<Animator>();   //获取动画
         InputHandle = GetComponent<PlayerInputHandle>();   //获取输入控制
-        FacingDerection = 1;    //设置方向为正
+        FacingDirection = 1;    //设置方向为正
 
         stateMachine.Initialize(IdleState); //初始化状态机为Idle状态
+
+        
 
     }
 
@@ -75,6 +81,7 @@ public class Player : MonoBehaviour
         currentVelocity = RB.velocity;      //获取当前速度
         stateMachine.LogicUpdate();
         // Debug.Log(whatLayer);     // 地面检测调试
+        isTouchingWall = CheckIfTouchingWall();
     }
 
     private void FixedUpdate()
@@ -116,7 +123,7 @@ public class Player : MonoBehaviour
     // 翻转函数
     public void Flip()
     {
-        FacingDerection *= -1;      //改变方向
+        FacingDirection *= -1;      //改变方向
         transform.Rotate(0.0f, 180.0f, 0.0f);      //旋转
     }
     #endregion
@@ -125,7 +132,7 @@ public class Player : MonoBehaviour
     // 翻转检测
     public void CheckIfShouldFlip(int xInput)
     {
-        if(xInput !=0 && xInput != FacingDerection)
+        if(xInput !=0 && xInput != FacingDirection)
         {
             Flip();
         }
@@ -134,32 +141,25 @@ public class Player : MonoBehaviour
     // 检查是否在地面
     public bool CheckIfGrounded()
     {
-        return isGround = Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);        // 地面检测,若在地面则返回true
-        
-        ////在地面上
-        //if (isGround)
-        //{
-        //    playerData.amountOfJump = 2;
-        //}
+        return isGround = Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);        // 地面检测,若在地面则返回true       
     }
-
 
     //墙壁检测
     public bool CheckIfTouchingWall()
     {
-        return isWall = Physics2D.Raycast(groundCheck.position, Vector2.right * FacingDerection, playerData.wallCheckDistance, playerData.whatIsGround);        // 墙壁检测,若在墙壁则返回true
+        return isWall = Physics2D.Raycast(groundCheck.position, Vector2.right * FacingDirection, playerData.wallCheckDistance, playerData.whatIsGround);        // 墙壁检测,若在墙壁则返回true
     }
     //背后墙壁检测
     public bool CheckIfTouchingWallBack()
     {
-        return isWall = Physics2D.Raycast(groundCheck.position, Vector2.right * -FacingDerection, playerData.wallCheckDistance, playerData.whatIsGround);        // 背后墙壁检测,若在墙壁则返回true        
+        return isWallBack = Physics2D.Raycast(groundCheck.position, Vector2.right * -FacingDirection, playerData.wallCheckDistance, playerData.whatIsGround);        // 背后墙壁检测,若在墙壁则返回true        
     }
 
-    // 悬崖检测
-    public void CheckLedge()
-    {
+    //// 悬崖检测
+    //public void CheckLedge()
+    //{
 
-    }
+    //}
     #endregion
 
     private void AnimationTrigger() => stateMachine.CurrentState.AnimationTrigger();        //动画触发状态

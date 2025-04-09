@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerInAirState : PlayerState
 {
     private bool isGrounded;        //是否在地面上
-    private int Xinput;     //x输入
+    private int xInput;     //x输入
     private bool grabInput;        //抓取输入
     private bool JumpInput;     // 跳跃输入
     private bool isJumping;     //是否跳跃
@@ -25,14 +25,14 @@ public class PlayerInAirState : PlayerState
         base.DoChecks();
         isGrounded = player.CheckIfGrounded();      //检测是否在地面上
         isTouchingWall = player.CheckIfTouchingWall();     //检测是否碰到墙壁
-        Debug.Log(isTouchingWall);
+        // Debug.Log(isTouchingWall);
         isTouchingWallBack = player.CheckIfTouchingWallBack();      //检测是否碰到背后墙壁
     }
 
     public override void Enter()
     {
         base.Enter();
-        Debug.Log(isTouchingWall);
+        
 
     }
 
@@ -47,7 +47,7 @@ public class PlayerInAirState : PlayerState
 
         CheckCoyoteTime();      //检查土狼时间
 
-        Xinput = player.InputHandle.NormInputX;      //获取控制器x输入数据
+        xInput = player.InputHandle.NormInputX;      //获取控制器x输入数据
         JumpInput = player.InputHandle.JumpInput;        //获取控制器跳跃输入数据
         JumpInputStop = player.InputHandle.JumpInputStop;        //获取控制器跳跃输入停止数据
         grabInput = player.InputHandle.GrabInput;        //获取控制器抓取输入数据
@@ -55,12 +55,12 @@ public class PlayerInAirState : PlayerState
 
         CheckJunpMultiplier();
 
+        Debug.Log($"JumpInput: " + JumpInput);
         // 玩家落地,则切换到 地面状态 -- LanState
         if (isGrounded && player.currentVelocity.y < 0.01f)
         {
             playerStateMachine.ChangeState(player.LanState);
         }
-
         // 有跳跃输入，且触碰到墙壁 -- WallJumpState
         else if (JumpInput && (isTouchingWall || isTouchingWallBack))
         //else if (JumpInput && isTouchingWall)
@@ -83,7 +83,7 @@ public class PlayerInAirState : PlayerState
         }
 
         // 转换到滑墙状态
-        else if(isTouchingWall && Xinput == player.FacingDerection)
+        else if(isTouchingWall && xInput == player.FacingDirection)
         {
             player.stateMachine.ChangeState(player.WallSlideState);      //切换到滑墙状态
         }
@@ -91,8 +91,8 @@ public class PlayerInAirState : PlayerState
         //未落地,则继续在空移动
         else
         {
-            player.CheckIfShouldFlip(Xinput);       //检查是否需要翻转
-            player.SetVelocityX(playerData.movementVelocity * Xinput);      //设置x轴速度;
+            player.CheckIfShouldFlip(xInput);       //检查是否需要翻转
+            player.SetVelocityX(playerData.movementVelocity * xInput);      //设置x轴速度;
 
             // 设置yVelocity速度
             player.Anim.SetFloat("yVelocity", player.currentVelocity.y);
@@ -139,7 +139,11 @@ public class PlayerInAirState : PlayerState
     }
 
     // 启动土狼时间
-    public void StartCoyoteTime() => isCoyoteTime = true;       //设置土狼时间
+    public void StartCoyoteTime()
+    {
+        isCoyoteTime = true;
+        startTime = Time.time;  // 记录当前时间
+    }
 
 
 }

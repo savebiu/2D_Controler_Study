@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerWallJumpState : PlayerAbilityState
 {
-    private int wallJumpDerection;       //墙壁跳跃方向
+    private int wallJumpDirection;       //墙壁跳跃方向
     public PlayerWallJumpState(Player player, PlayerStateMachine playerStateMachine, PlayerData playerData, string animBoolName) : base(player, playerStateMachine, playerData, animBoolName)
     {
     }
@@ -14,8 +14,8 @@ public class PlayerWallJumpState : PlayerAbilityState
         base.Enter();
         Debug.Log("WallJump");
         player.JumpState.ResetAmountofJump();       //重置跳跃次数
-        player.SetVelocity(playerData.wallJumpVelocity, playerData.wallJumpAngle, wallJumpDerection);       //设置跳跃速度
-        player.CheckIfShouldFlip(wallJumpDerection);       //翻转角色面向跳跃方向
+        player.SetVelocity(playerData.wallJumpVelocity, playerData.wallJumpAngle, wallJumpDirection);       //设置跳跃速度,角度，方向
+        player.CheckIfShouldFlip(wallJumpDirection);       //翻转角色面向跳跃方向
         player.JumpState.DecreaseAmountofJump();       //减少跳跃次数
     }
 
@@ -41,14 +41,15 @@ public class PlayerWallJumpState : PlayerAbilityState
 
     public void DetermineWallJumpDirection(bool isTouchingWall)
     {
-        if (isTouchingWall)
-        {
-            wallJumpDerection = -player.FacingDerection;       //设置面朝方向的反方向
-        }
-        else
-        {
-            wallJumpDerection = player.FacingDerection;        //设置面朝方向
-        }
+        //if (isTouchingWall)
+        //{
+        //    wallJumpDirection = -player.FacingDirection;       //设置面朝方向的反方向
+        //}
+        //else
+        //{
+        //    wallJumpDirection = player.FacingDirection;        //设置面朝方向
+        //}
+        wallJumpDirection = isTouchingWall ? -player.FacingDirection : player.FacingDirection;
 
     }
 }

@@ -13,9 +13,12 @@ public class PlayerWallClimbState : PlayerTouchWallState
         base.LogicUpdate();
 
         // 设置速度
-        player.SetVelocityY(playerData.wallClimbVelocity);       //设置垂直速度
+        if (isTouchingWall)
+        {
+            player.SetVelocityY(playerData.wallClimbVelocity);       //设置垂直速度
+        }
 
-        if(yInput != 1 && !isExitingState)
+        if (yInput != 1 && !isExitingState)
         {
             player.stateMachine.ChangeState(player.WallGrabState);       //如果没有向上的输入，则切换到抓墙状态
         }

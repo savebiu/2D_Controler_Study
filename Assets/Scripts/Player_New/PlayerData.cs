@@ -27,5 +27,8 @@ public class PlayerData : ScriptableObject
     public float wallSlideVelocity = 3f;        //滑墙速度
     public float wallClimbVelocity = 3f;        //攀爬速度
 
+    [Header("边缘攀爬状态")]
+    public Vector2 startOffset;        //起始偏移量
+    public Vector2 stopOffset;          //结束偏移量
+
 }
- 

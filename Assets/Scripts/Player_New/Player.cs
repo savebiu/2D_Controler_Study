@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     public PlayerWallClimbState WallClimbState { get; private set; }   //墙壁攀爬状态
     public PlayerWallGrabState WallGrabState { get; private set; }     //墙壁抓取状态
     public PlayerWallJumpState WallJumpState { get; private set; }         //墙壁跳跃状态
+    public PlayerLedgeClimbState LedgeClimbState { get; private set; }     //悬崖攀爬状态
 
     #endregion
 
@@ -36,14 +37,18 @@ public class Player : MonoBehaviour
     public Vector2 currentVelocity;                                    //当前速度
 
     [Header("检测")]
-    public Transform groundCheck;       //检测地面 
-    // public LayerMask whatLayer;
-    private bool isGround;                                              //是否在地面
-    private bool isWall;                                        //触碰到墙
-    private bool isWallBack;       //触碰到背后墙壁
-
     [SerializeField]
-    private bool isTouchingWall;       //是否触碰到墙壁
+    public Transform groundCheck;       //检测地面 
+    [SerializeField]
+    public Transform wallCheck;         //检测墙壁
+    [SerializeField]
+    public Transform ledgeCheck;        //悬崖检测
+
+    private bool isGround;                                              //是否在地面
+    private bool isTouchingWall;                                        //触碰到墙
+    private bool isTouchingWallBack;       //触碰到背后墙壁
+    private bool isTouchingLedge;       //是否在悬崖
+
 
     #region Unity回调函数
     // 初始化状态机
@@ -60,6 +65,7 @@ public class Player : MonoBehaviour
         WallClimbState = new PlayerWallClimbState(this, stateMachine, playerData, "wallClimb");     //初始化WallClimb状态机
         WallGrabState = new PlayerWallGrabState(this, stateMachine, playerData, "wallGrab");     //初始化WallGrab状态机
         WallJumpState = new PlayerWallJumpState(this, stateMachine, playerData, "inAir");     //初始化WallJump状态机
+        LedgeClimbState = new PlayerLedgeClimbState(this, stateMachine, playerData, "ledgeClimb");     //初始化LedgeClimb状态机
     }
 
     // 初始化状态
@@ -71,9 +77,7 @@ public class Player : MonoBehaviour
         FacingDirection = 1;    //设置方向为正
 
         stateMachine.Initialize(IdleState); //初始化状态机为Idle状态
-
-        
-
+       
     }
 
     private void Update()
@@ -91,6 +95,13 @@ public class Player : MonoBehaviour
     #endregion
 
     #region 速度函数
+    // 设置为0的速度函数
+    public void SetVelocityZero()
+    {
+        RB.velocity = Vector2.zero;        //设置刚体速度为0
+        currentVelocity = Vector2.zero;    //设置当前速度0
+    }
+
     // 有方向角度的速度
     public void SetVelocity(float velocity, Vector2 angle, int direction)
     {
@@ -147,19 +158,31 @@ public class Player : MonoBehaviour
     //墙壁检测
     public bool CheckIfTouchingWall()
     {
-        return isWall = Physics2D.Raycast(groundCheck.position, Vector2.right * FacingDirection, playerData.wallCheckDistance, playerData.whatIsGround);        // 墙壁检测,若在墙壁则返回true
+        return isTouchingWall = Physics2D.Raycast(wallCheck.position, Vector2.right * FacingDirection, playerData.wallCheckDistance, playerData.whatIsGround);        // 墙壁检测,若在墙壁则返回true
     }
     //背后墙壁检测
     public bool CheckIfTouchingWallBack()
     {
-        return isWallBack = Physics2D.Raycast(groundCheck.position, Vector2.right * -FacingDirection, playerData.wallCheckDistance, playerData.whatIsGround);        // 背后墙壁检测,若在墙壁则返回true        
+        return isTouchingWallBack = Physics2D.Raycast(wallCheck.position, Vector2.right * -FacingDirection, playerData.wallCheckDistance, playerData.whatIsGround);        // 背后墙壁检测,若在墙壁则返回true        
     }
 
-    //// 悬崖检测
-    //public void CheckLedge()
-    //{
+    // 悬崖检测
+    public bool CheckIfTouchingLedge()
+    {
+        return isTouchingLedge = Physics2D.Raycast(ledgeCheck.position, Vector2.right * FacingDirection, playerData.wallCheckDistance, playerData.whatIsGround);        // 悬崖检测,若在悬崖则返回true
+    }
 
-    //}
+    // 悬崖角落检测
+    public Vector2 DeterminCornerPosition()
+    {
+        RaycastHit2D xHit = Physics2D.Raycast(wallCheck.position, Vector2.right * FacingDirection, playerData.wallCheckDistance, playerData.whatIsGround);        // 检测墙壁
+        float xDist = xHit.distance;        // 获取墙壁距离
+        RaycastHit2D vHit = Physics2D.Raycast(ledgeCheck.position + (Vector3)(workspace), Vector2.down, ledgeCheck.position.y - ledgeCheck.position.y, playerData.whatIsGround);        
+        float yDist = vHit.distance;        // 获取悬崖距离
+
+        workspace.Set(wallCheck.position.x + (xDist * FacingDirection), ledgeCheck.position.y - yDist);        // 设置工作空间
+        return workspace;        // 返回工作空间
+    }
     #endregion
 
     private void AnimationTrigger() => stateMachine.CurrentState.AnimationTrigger();        //动画触发状态

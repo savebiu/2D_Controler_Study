@@ -10,19 +10,21 @@ public class PlayerInAirState : PlayerState
     private int xInput;     //x输入
     private bool grabInput;        //抓取输入
     private bool JumpInput;     // 跳跃输入
-    private bool isJumping;     //是否跳跃
     private bool JumpInputStop;      //跳跃输入停止时间
+
+    //状态检测
+    private bool isJumping;     //是否跳跃
     private bool isCoyoteTime;      //土狼时间 -- 玩家刚离开地面的时候仍然可以进行跳跃
-
-    // 墙壁跳跃土狼时间
-    private float startWallJumpCoyoTime;      //墙壁跳跃土狼时间
-    private bool wallJumpCoyoteTime;      //墙壁跳跃土狼时间
-
-    //前后墙壁检测
     private bool isTouchingWall;      //是否碰到墙壁
     private bool isTouchingWallBack;     //是否碰到背后墙壁
     private bool oldIsTouchingWall;
     private bool oldIsTouchingWallBack;
+    private bool isTouchingLedge;      //是否碰到悬崖
+
+    // 墙壁跳跃土狼时间
+    private float startWallJumpCoyoTime;      //墙壁跳跃土狼时间
+    private bool wallJumpCoyoteTime;      //墙壁跳跃土狼时间
+   
 
     public PlayerInAirState(Player player, PlayerStateMachine playerStateMachine, PlayerData playerData, string animBoolName) : base(player, playerStateMachine, playerData, animBoolName)
     {
@@ -38,11 +40,18 @@ public class PlayerInAirState : PlayerState
         isGrounded = player.CheckIfGrounded();      //检测是否在地面上
         isTouchingWall = player.CheckIfTouchingWall();     //检测是否碰到墙壁
         isTouchingWallBack = player.CheckIfTouchingWallBack();      //检测是否碰到背后墙壁
+        isTouchingLedge = player.CheckIfTouchingLedge();      //检测是否碰到悬崖
 
         // 使用缓冲时间
-        if(!wallJumpCoyoteTime && !isTouchingWall&& !isTouchingWallBack &&(oldIsTouchingWall || oldIsTouchingWallBack))
+        if (!wallJumpCoyoteTime && !isTouchingWall&& !isTouchingWallBack &&(oldIsTouchingWall || oldIsTouchingWallBack))
         {
             StartWallJumCoyoteTime();
+        }
+
+        // 传递位置
+        if(isTouchingWall && !isTouchingLedge)
+        {
+            player.LedgeClimbState.SetDetectedPos(player.transform.position);      //传递玩家位置
         }
     }
 
@@ -82,6 +91,12 @@ public class PlayerInAirState : PlayerState
         if (isGrounded && player.currentVelocity.y < 0.01f)
         {
             playerStateMachine.ChangeState(player.LanState);
+        }
+
+        // 墙壁检测为正,悬崖检测为假
+        else if(isTouchingWall && !isTouchingLedge)
+        {
+            playerStateMachine.ChangeState(player.LedgeClimbState);      //切换到悬崖状态
         }
 
         // 有跳跃输入，且触碰到墙壁 -- WallJumpState

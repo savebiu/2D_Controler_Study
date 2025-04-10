@@ -12,7 +12,7 @@ public class PlayerWallJumpState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("WallJump");
+        //Debug.Log("WallJump");
         player.InputHandle.CheckJumpInput();
         player.JumpState.ResetAmountofJump();       //重置跳跃次数
         player.SetVelocity(playerData.wallJumpVelocity, playerData.wallJumpAngle, wallJumpDirection);       //设置跳跃速度,角度，方向

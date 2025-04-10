@@ -297,7 +297,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 159633778}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.37, y: 0.466, z: 0}
+  m_LocalPosition: {x: 0.311, y: -0.706, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3107,6 +3107,8 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: c29e8f613007ebf489aaef454afcdf69, type: 2}
   currentVelocity: {x: 0, y: 0}
   groundCheck: {fileID: 1478960884}
+  wallCheck: {fileID: 159633779}
+  ledgeCheck: {fileID: 1857070485}
 --- !u!61 &1112935792
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -19824,7 +19826,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1857070484}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3, y: -0.88, z: 0}
+  m_LocalPosition: {x: 0.248, y: 0.504, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
